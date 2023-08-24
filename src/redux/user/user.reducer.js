@@ -19,6 +19,20 @@ const userReducer = (state = initialState, action) => {
 
    switch (type) {
       case USER_ACTION_TYPES.SET_LOGIN:
+         return {
+            ...state,
+            isLoggedIn: true,
+            name: payload.name,
+            user: {
+               name: payload.name,
+               email: payload.email,
+               phone: payload.phone,
+               bio: payload.bio,
+               photo: payload.photo,
+            },
+         }
+
+      case USER_ACTION_TYPES.SET_LOGIN_STATUS:
          return { ...state, isLoggedIn: payload }
 
       case USER_ACTION_TYPES.SET_NAME:
