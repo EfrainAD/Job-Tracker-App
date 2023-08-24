@@ -1,8 +1,8 @@
 import { combineReducers } from 'redux'
-import { userReducer } from './user/user.reducer'
+import { persistUserReduce } from './user/user.reducer'
 import { apiSlice } from '../api/apiSlice'
 
 export const rootReducer = combineReducers({
-   user: userReducer,
+   user: persistUserReduce,
    [apiSlice.reducerPath]: apiSlice.reducer,
 })
