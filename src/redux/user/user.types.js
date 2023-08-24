@@ -3,4 +3,5 @@ export const USER_ACTION_TYPES = {
    SET_NAME: 'SET_NAME',
    SET_USER: 'SET_USER',
    SET_LOGIN: 'SET_LOGIN',
+   SET_LOGOUT: 'SET_LOGOUT',
 }

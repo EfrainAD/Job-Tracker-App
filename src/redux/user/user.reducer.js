@@ -32,6 +32,20 @@ const userReducer = (state = initialState, action) => {
             },
          }
 
+      case USER_ACTION_TYPES.SET_LOGOUT:
+         return {
+            ...state,
+            isLoggedIn: false,
+            name: '',
+            user: {
+               name: '',
+               email: '',
+               phone: '',
+               bio: '',
+               photo: '',
+            },
+         }
+
       case USER_ACTION_TYPES.SET_LOGIN_STATUS:
          return { ...state, isLoggedIn: payload }
 

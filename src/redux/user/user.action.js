@@ -8,3 +8,4 @@ export const setUserName = (userName) =>
 export const setUser = (user) => createAction(USER_ACTION_TYPES.SET_USER, user)
 export const setLogin = (user) =>
    createAction(USER_ACTION_TYPES.SET_LOGIN, user)
+export const setLogout = () => createAction(USER_ACTION_TYPES.SET_LOGOUT)
