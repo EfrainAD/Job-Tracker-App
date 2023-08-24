@@ -1,23 +1,16 @@
-// import accountReducer from "../features/account/accountSlice";
 import { apiSlice } from '../api/apiSlice'
 import { configureStore } from '@reduxjs/toolkit'
-// import { loginReducer } from "../features/login/loginSlice";
-// import navReducer from "../features/nav/navSlice";
-// import surveyorReducer from "../features/surveyor/surveyorSlice";
-// import { breadcrumbsReducer } from "../features/breadcrumb/breadcrumbSlice";
+import { rootReducer } from './root-reduceer'
 
 export const createStore = (options) =>
    configureStore({
-      reducer: {
-         [apiSlice.reducerPath]: apiSlice.reducer,
-      },
-      // adding the api middleware enables caching, invalidation, polling and other features of `rtk-query`
+      reducer: rootReducer,
+
       middleware: (getDefaultMiddleware) =>
          getDefaultMiddleware().concat(apiSlice.middleware),
       ...options,
    })
 
-// Assign the Redux store to a global property 'window.store'
 window.store = createStore()
 
 export const store = createStore()
