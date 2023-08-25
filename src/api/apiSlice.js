@@ -6,6 +6,7 @@ export const apiSlice = createApi({
    reducerPath: 'apiSlice',
    baseQuery: fetchBaseQuery({
       baseUrl,
+      credentials: 'include',
    }),
 
    endpoints: (builder) => ({
@@ -18,7 +19,13 @@ export const apiSlice = createApi({
          }),
          invalidatesTags: [''],
       }),
+      getJobs: builder.query({
+         query: () => ({
+            url: '/jobs',
+         }),
+         validatesTags: ['Jobs'],
+      }),
    }),
 })
 
-export const { useLoginUserMutation } = apiSlice
+export const { useLoginUserMutation, useGetJobsQuery } = apiSlice
