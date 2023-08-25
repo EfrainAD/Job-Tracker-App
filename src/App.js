@@ -1,17 +1,6 @@
-import { BrowserRouter, Route, Routes } from 'react-router-dom'
+import PageRouter from './router/pageRouter'
 import './App.css'
-import Home from './pages/home'
-import Login from './pages/auth/login'
 
-function App() {
-   return (
-      <BrowserRouter>
-         <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/signin" element={<Login />} />
-         </Routes>
-      </BrowserRouter>
-   )
-}
+const App = () => <PageRouter />
 
 export default App
