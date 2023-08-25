@@ -3,7 +3,7 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import Layout from '../components/layout/layout'
 
 import Home from '../pages/home'
-
+import Dashboard from '../pages/dashboard/dashboard'
 import Login from '../pages/auth/login'
 import ProtectedPage from './protectedPage'
 
@@ -18,6 +18,16 @@ const PageRouter = () => {
                   <ProtectedPage>
                      <Layout>
                         <Home />
+                     </Layout>
+                  </ProtectedPage>
+               }
+            />
+            <Route
+               path="/dashboard"
+               element={
+                  <ProtectedPage>
+                     <Layout>
+                        <Dashboard />
                      </Layout>
                   </ProtectedPage>
                }

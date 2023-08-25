@@ -37,7 +37,7 @@ const Login = () => {
       const { data: user } = await logIn(formData)
       if (user) {
          dispatch(setLogin(user))
-         navigate('/')
+         navigate('/dashboard')
       } else {
          dispatch(setLogout())
       }
