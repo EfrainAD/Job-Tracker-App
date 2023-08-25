@@ -1,21 +1,13 @@
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
-import { selectIsLoggedIn, selectName } from '../../redux/user/user.selector'
+import { selectName } from '../../redux/user/user.selector'
 import { setLogout } from '../../redux/user/user.action'
 import Cookies from 'js-cookie'
-import { useEffect } from 'react'
 
 const Header = () => {
    const dispatch = useDispatch()
    const navigate = useNavigate()
    const name = useSelector(selectName)
-   const isLoggedIn = useSelector(selectIsLoggedIn)
-
-   useEffect(() => {
-      if (!isLoggedIn) {
-         navigate('/login')
-      }
-   }, [isLoggedIn, navigate])
 
    const handleSignOut = async () => {
       Cookies.remove('token')
