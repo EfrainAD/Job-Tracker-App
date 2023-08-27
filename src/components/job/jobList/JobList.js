@@ -7,6 +7,7 @@ import ReactPaginate from 'react-paginate'
 import { useNavigate } from 'react-router-dom'
 import { SpinningImg } from '../../loader/loader'
 import Search from '../../search/search'
+import { filterJobs } from '../utils/job.utils'
 
 const JobList = ({ jobs, isLoadding }) => {
    const navigate = useNavigate()
@@ -22,16 +23,11 @@ const JobList = ({ jobs, isLoadding }) => {
          : 0
 
    useEffect(() => {
-      const searchLowerCase = search.toLowerCase()
-      const newFilteredjobs = jobs?.filter(
-         (job) =>
-            job.jobTitle.toLowerCase().includes(searchLowerCase) ||
-            job.companyName.toLowerCase().includes(searchLowerCase) ||
-            job.remote.toLowerCase().includes(searchLowerCase)
-      )
+      const newFilteredjobs = filterJobs(jobs, search)
 
-      if (search) setCurrentPage(0)
       setFilteredJobs(newFilteredjobs)
+      setCurrentPage(0)
+      setItemOffset(0)
    }, [search, jobs, setFilteredJobs, setCurrentPage])
 
    // Pagination - Changes Value when itemOffset value changes.
@@ -53,11 +49,6 @@ const JobList = ({ jobs, isLoadding }) => {
    const handleViewJob = (id) => navigate(`/dashboard/job-detail/${id}`)
    const handleEditJob = (id) => navigate(`/dashboard/edit-job/${id}`)
 
-   // Edit displayed Info
-   const shortenText = (text, n) => {
-      return text?.length > n ? text.substring(0, n).concat('...') : text
-   }
-
    return (
       <div className="job-list">
          <hr />
@@ -74,7 +65,7 @@ const JobList = ({ jobs, isLoadding }) => {
             {isLoadding && <SpinningImg />}
 
             {jobs?.length === 0 ? (
-               <p>{jobs?.length}-- No job found, please add a job...</p>
+               <p>{jobs?.length} -- No job found, please add a job...</p>
             ) : (
                <table>
                   <thead>
@@ -100,26 +91,19 @@ const JobList = ({ jobs, isLoadding }) => {
                            remote,
                            dateApplied,
                            rejectionDate,
-                           firstInterviewDate,
-                           secondInterviewDate,
-                           technicalChallengeInterview,
+                           hadInterview,
                         } = job
-
-                        const hadInterview =
-                           firstInterviewDate ||
-                           secondInterviewDate ||
-                           technicalChallengeInterview
 
                         return (
                            <tr key={_id}>
                               <td>{index + 1}</td>
-                              <td>{shortenText(jobTitle, 18)}</td>
+                              <td>{jobTitle}</td>
                               <td>{companyName}</td>
                               <td>{recruiter?.length > 0 ? 'Yes' : 'No'}</td>
                               <td>{remote}</td>
                               <td>{dateApplied}</td>
                               <td>{rejectionDate ? rejectionDate : 'none'}</td>
-                              <td>{hadInterview ? 'Yes' : 'none'}</td>
+                              <td>{hadInterview ? 'Yes' : 'No'}</td>
                               {/* Icons */}
                               <td className="icons">
                                  <span>

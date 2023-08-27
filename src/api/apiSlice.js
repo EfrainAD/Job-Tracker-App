@@ -1,4 +1,5 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
+import { formatDate } from '../utils/general.utils'
 
 const baseUrl = process.env.API_URL || 'http://localhost:8000/api'
 
@@ -24,6 +25,22 @@ export const apiSlice = createApi({
             url: '/jobs',
          }),
          validatesTags: ['Jobs'],
+         transformResponse: (response, meta, arg) => {
+            return response.map((item) => ({
+               ...item,
+               dateApplied: item.dateApplied
+                  ? formatDate(item.dateApplied)
+                  : null,
+               rejectionDate: item.rejectionDate
+                  ? formatDate(item.rejectionDate)
+                  : null,
+               hadInterview: !!(
+                  item.firstInterviewDate ||
+                  item.secondInterviewDate ||
+                  item.technicalChallengeInterviewDate
+               ),
+            }))
+         },
       }),
    }),
 })
