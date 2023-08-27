@@ -10,7 +10,7 @@ import { setLogin, setLogout } from '../../redux/user/user.action'
 import { toast } from 'react-toastify'
 
 const initialState = {
-   email: 'me@me.me',
+   email: 'efrainadavila@gmail.com',
    password: 'password',
 }
 
