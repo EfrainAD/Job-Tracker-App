@@ -1,0 +1,15 @@
+.container {
+   display: flex;
+   justify-content: center;
+   align-items: center;
+
+   div {
+      width: 75%;
+      margin-top: 20%;
+      text-align: center;
+
+      h2 {
+         font-size: 2rem;
+      }
+   }
+}

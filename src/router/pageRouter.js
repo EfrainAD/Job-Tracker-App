@@ -6,12 +6,17 @@ import Home from '../pages/home'
 import Dashboard from '../pages/dashboard/dashboard'
 import Login from '../pages/auth/login'
 import ProtectedPage from './protectedPage'
+import PageNotFound from '../pages/pageNotFound/PageNotFound'
+import Header from '../components/header/header'
 
 const PageRouter = () => {
    return (
       <BrowserRouter>
          <Routes>
+            {/* Login */}
             <Route path="/login" element={<Login />} />
+
+            {/* Test Home that need be removed */}
             <Route
                path="/"
                element={
@@ -22,6 +27,8 @@ const PageRouter = () => {
                   </ProtectedPage>
                }
             />
+
+            {/* Dashboard */}
             <Route
                path="/dashboard"
                element={
@@ -30,6 +37,17 @@ const PageRouter = () => {
                         <Dashboard />
                      </Layout>
                   </ProtectedPage>
+               }
+            />
+
+            {/* Page Not Found */}
+            <Route
+               path="/*"
+               element={
+                  <>
+                     <Header />
+                     <PageNotFound />
+                  </>
                }
             />
          </Routes>
