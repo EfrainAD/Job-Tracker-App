@@ -8,14 +8,15 @@ import { useNavigate } from 'react-router-dom'
 import { SpinningImg } from '../../loader/loader'
 import Search from '../../search/search'
 import { filterJobs } from '../utils/job.utils'
+import MessageBox from '../../messageBox/MessageBox'
 
-const JobList = ({ jobs, isLoadding }) => {
+const JobList = ({ jobs, isJobError, isLoadding }) => {
    const navigate = useNavigate()
    const [search, setSearch] = useState('')
    const [filteredJobs, setFilteredJobs] = useState(jobs)
    //Pagination - variables
    const itemsPerPage = 15
-   const [currentPage, setCurrentPage] = useState(null)
+   const [currentPage, setCurrentPage] = useState(1)
    const [itemOffset, setItemOffset] = useState(0)
    const pageCount =
       filteredJobs?.length > 0
@@ -65,7 +66,11 @@ const JobList = ({ jobs, isLoadding }) => {
             {isLoadding && <SpinningImg />}
 
             {jobs?.length === 0 ? (
-               <p>{jobs?.length} -- No job found, please add a job...</p>
+               <p>No job found, please apply to some job...</p>
+            ) : isJobError ? (
+               <MessageBox
+                  message={`There was an ${isJobError.status} error when fetching the jobs, with message that says "${isJobError.data.message}"`}
+               />
             ) : (
                <table>
                   <thead>

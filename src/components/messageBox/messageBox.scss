@@ -1,11 +1,7 @@
 .container {
-   display: flex;
-   justify-content: center;
-   align-items: center;
-   padding: 1rem;
-
    .message-box {
-      font-size: 3rem;
+      margin-top: 0;
+      font-size: 2rem;
       text-align: center;
       width: 70%;
    }

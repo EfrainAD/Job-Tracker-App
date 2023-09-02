@@ -3,9 +3,9 @@ export const filterJobs = (jobs = [], search = '') => {
 
    return jobs?.filter(
       (job) =>
-         job.jobTitle.toLowerCase().includes(searchLowerCase) ||
-         job.companyName.toLowerCase().includes(searchLowerCase) ||
-         job.remote.toLowerCase().includes(searchLowerCase) ||
-         job.dateApplied.includes(searchLowerCase)
+         job.jobTitle?.toLowerCase().includes(searchLowerCase) ||
+         job.companyName?.toLowerCase().includes(searchLowerCase) ||
+         job.remote?.toLowerCase().includes(searchLowerCase) ||
+         job.dateApplied?.includes(searchLowerCase)
    )
 }
