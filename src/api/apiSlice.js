@@ -20,6 +20,19 @@ export const apiSlice = createApi({
          }),
          invalidatesTags: [''],
       }),
+      logoutUser: builder.mutation({
+         query: () => ({
+            url: '/users/signout',
+            method: 'DELETE',
+         }),
+         invalidatesTags: [''],
+      }),
+      isLoggedin: builder.query({
+         query: () => ({
+            url: '/users/isLoggedIn',
+         }),
+         // invalidatesTags: [''],
+      }),
       getJobs: builder.query({
          query: () => ({
             url: '/jobs',
@@ -45,4 +58,9 @@ export const apiSlice = createApi({
    }),
 })
 
-export const { useLoginUserMutation, useGetJobsQuery } = apiSlice
+export const {
+   useLoginUserMutation,
+   useLogoutUserMutation,
+   useIsLoggedinQuery,
+   useGetJobsQuery,
+} = apiSlice
