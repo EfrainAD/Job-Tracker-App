@@ -8,6 +8,7 @@ import Login from '../pages/auth/login'
 import ProtectedPage from './protectedPage'
 import PageNotFound from '../pages/pageNotFound/PageNotFound'
 import Header from '../components/header/header'
+import EditJob from '../pages/job/editJob/EditJob'
 
 const PageRouter = () => {
    return (
@@ -35,6 +36,18 @@ const PageRouter = () => {
                   <ProtectedPage>
                      <Layout>
                         <Dashboard />
+                     </Layout>
+                  </ProtectedPage>
+               }
+            />
+
+            {/* Job Routes */}
+            <Route
+               path="/dashboard/edit-job/:id"
+               element={
+                  <ProtectedPage>
+                     <Layout>
+                        <EditJob />
                      </Layout>
                   </ProtectedPage>
                }

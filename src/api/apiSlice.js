@@ -33,6 +33,7 @@ export const apiSlice = createApi({
          }),
          // invalidatesTags: [''],
       }),
+      /* Job Endpoints */
       getJobs: builder.query({
          query: () => ({
             url: '/jobs',
@@ -55,6 +56,41 @@ export const apiSlice = createApi({
             }))
          },
       }),
+      getJob: builder.query({
+         query: (id) => ({
+            url: `/jobs/${id}`,
+         }),
+         transformResponse: (res, meta, arg) => {
+            return {
+               ...res,
+               dateApplied: res.dateApplied
+                  ? formatDate(res.dateApplied)
+                  : null,
+               rejectionDate: res.rejectionDate
+                  ? formatDate(res.rejectionDate)
+                  : null,
+               firstInterviewDate: res.firstInterviewDate
+                  ? formatDate(res.firstInterviewDate)
+                  : null,
+               technicalChallengeInterviewDate:
+                  res.technicalChallengeInterviewDate
+                     ? formatDate(res.technicalChallengeInterviewDate)
+                     : null,
+               secondInterviewDate: res.secondInterviewDate
+                  ? formatDate(res.secondInterviewDate)
+                  : null,
+            }
+         },
+         validatesTags: ['Jobs'],
+      }),
+      updateJob: builder.mutation({
+         query: ({ id, body }) => ({
+            url: `/jobs/${id}`,
+            method: 'PATCH',
+            body,
+         }),
+         invalidatesTags: ['Jobs'],
+      }),
    }),
 })
 
@@ -63,4 +99,6 @@ export const {
    useLogoutUserMutation,
    useIsLoggedinQuery,
    useGetJobsQuery,
+   useGetJobQuery,
+   useUpdateJobMutation,
 } = apiSlice
