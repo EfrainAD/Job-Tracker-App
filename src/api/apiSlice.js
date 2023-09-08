@@ -18,27 +18,25 @@ export const apiSlice = createApi({
             method: 'POST',
             body: { email, password },
          }),
-         invalidatesTags: [''],
+         invalidatesTags: ['Jobs'],
       }),
       logoutUser: builder.mutation({
          query: () => ({
             url: '/users/signout',
             method: 'DELETE',
          }),
-         invalidatesTags: [''],
       }),
       isLoggedin: builder.query({
          query: () => ({
             url: '/users/isLoggedIn',
          }),
-         // invalidatesTags: [''],
       }),
+
       /* Job Endpoints */
       getJobs: builder.query({
          query: () => ({
             url: '/jobs',
          }),
-         validatesTags: ['Jobs'],
          transformResponse: (response, meta, arg) => {
             return response.map((item) => ({
                ...item,
@@ -55,6 +53,10 @@ export const apiSlice = createApi({
                ),
             }))
          },
+         providesTags: (result = [], error, arg) => [
+            'Jobs',
+            ...result.map(({ id }) => ({ type: 'Jobs', id })),
+         ],
       }),
       getJob: builder.query({
          query: (id) => ({
@@ -81,7 +83,7 @@ export const apiSlice = createApi({
                   : null,
             }
          },
-         validatesTags: ['Jobs'],
+         providesTags: (result, error, arg) => [{ type: 'Jobs', id: arg }],
       }),
       updateJob: builder.mutation({
          query: ({ id, body }) => ({
@@ -89,7 +91,10 @@ export const apiSlice = createApi({
             method: 'PATCH',
             body,
          }),
-         invalidatesTags: ['Jobs'],
+         providesTags: (result, error, arg) => [{ type: 'Jobs', idTags: arg }],
+         invalidatesTags: (result, error, arg) => [
+            { type: 'Jobs', id: arg.id },
+         ],
       }),
       saveJob: builder.mutation({
          query: ({ body }) => ({
@@ -110,4 +115,5 @@ export const {
    useGetJobQuery,
    useUpdateJobMutation,
    useSaveJobMutation,
+   useRemoveJobMutation,
 } = apiSlice
