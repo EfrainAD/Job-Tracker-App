@@ -1,0 +1,9 @@
+.job-detail {
+   margin-bottom: 5rem;
+   width: 100%;
+   .detail {
+      & > * {
+         margin-bottom: 1rem;
+      }
+   }
+}
