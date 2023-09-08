@@ -10,15 +10,15 @@ import Search from '../../search/search'
 import { filterJobs } from '../utils/job.utils'
 import MessageBox from '../../messageBox/MessageBox'
 import { useRemoveJobMutation } from '../../../api/apiSlice'
+import { confirmAlert } from 'react-confirm-alert'
+import 'react-confirm-alert/src/react-confirm-alert.css'
 import { toast } from 'react-toastify'
 
 const JobList = ({ jobs, isJobError, isLoadding }) => {
    const navigate = useNavigate()
    const [search, setSearch] = useState('')
    const [filteredJobs, setFilteredJobs] = useState(jobs)
-   const [removeJob, { isError, error, isSuccess }] = useRemoveJobMutation({
-      invalidatesTags: ['Jobs'],
-   })
+   const [removeJob, { isError, error, isSuccess }] = useRemoveJobMutation()
    //Pagination - variables
    const itemsPerPage = 15
    const [currentPage, setCurrentPage] = useState(1)
@@ -66,9 +66,21 @@ const JobList = ({ jobs, isJobError, isLoadding }) => {
    }
 
    //    Action Buttons
-   const handleDeleteJob = (id) => {
-      removeJob(id)
-   }
+   const handleDeleteJob = (id) =>
+      confirmAlert({
+         title: 'Delete Job',
+         message: 'Are you sure to do this?',
+         buttons: [
+            {
+               label: 'Cancel',
+            },
+            {
+               label: 'Delete',
+               onClick: () => removeJob(id),
+            },
+         ],
+      })
+
    const handleViewJob = (id) => navigate(`/dashboard/job-detail/${id}`)
    const handleEditJob = (id) => navigate(`/dashboard/edit-job/${id}`)
 
