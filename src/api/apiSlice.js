@@ -91,6 +91,14 @@ export const apiSlice = createApi({
          }),
          invalidatesTags: ['Jobs'],
       }),
+      saveJob: builder.mutation({
+         query: ({ body }) => ({
+            url: `/jobs`,
+            method: 'Post',
+            body,
+         }),
+         invalidatesTags: ['Jobs'],
+      }),
    }),
 })
 
@@ -101,4 +109,5 @@ export const {
    useGetJobsQuery,
    useGetJobQuery,
    useUpdateJobMutation,
+   useSaveJobMutation,
 } = apiSlice
