@@ -104,6 +104,13 @@ export const apiSlice = createApi({
          }),
          invalidatesTags: ['Jobs'],
       }),
+      removeJob: builder.mutation({
+         query: (id) => ({
+            url: `/jobs/${id}`,
+            method: 'Delete',
+         }),
+         invalidatesTags: ['Jobs'],
+      }),
    }),
 })
 

@@ -9,11 +9,16 @@ import { SpinningImg } from '../../loader/loader'
 import Search from '../../search/search'
 import { filterJobs } from '../utils/job.utils'
 import MessageBox from '../../messageBox/MessageBox'
+import { useRemoveJobMutation } from '../../../api/apiSlice'
+import { toast } from 'react-toastify'
 
 const JobList = ({ jobs, isJobError, isLoadding }) => {
    const navigate = useNavigate()
    const [search, setSearch] = useState('')
    const [filteredJobs, setFilteredJobs] = useState(jobs)
+   const [removeJob, { isError, error, isSuccess }] = useRemoveJobMutation({
+      invalidatesTags: ['Jobs'],
+   })
    //Pagination - variables
    const itemsPerPage = 15
    const [currentPage, setCurrentPage] = useState(1)
@@ -23,6 +28,23 @@ const JobList = ({ jobs, isJobError, isLoadding }) => {
          ? Math.ceil(filteredJobs?.length / itemsPerPage)
          : 0
 
+   // API useEffect
+   useEffect(() => {
+      if (isError) {
+         const msg = `${error.status}: ${error.data.message}`
+
+         console.log(msg)
+         toast.error(msg)
+      }
+   }, [isError, error])
+
+   useEffect(() => {
+      if (isSuccess) {
+         toast.success('Removed Successfully')
+      }
+   }, [isSuccess])
+
+   // Pagination
    useEffect(() => {
       const newFilteredjobs = filterJobs(jobs, search)
 
@@ -45,7 +67,7 @@ const JobList = ({ jobs, isJobError, isLoadding }) => {
 
    //    Action Buttons
    const handleDeleteJob = (id) => {
-      console.log('delete job:', id)
+      removeJob(id)
    }
    const handleViewJob = (id) => navigate(`/dashboard/job-detail/${id}`)
    const handleEditJob = (id) => navigate(`/dashboard/edit-job/${id}`)
