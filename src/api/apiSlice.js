@@ -11,7 +11,7 @@ export const apiSlice = createApi({
    }),
 
    endpoints: (builder) => ({
-      /* User Uath Endpoints */
+      /* User Endpoints */
       loginUser: builder.mutation({
          query: ({ email, password }) => ({
             url: '/users/signin',
@@ -30,6 +30,12 @@ export const apiSlice = createApi({
          query: () => ({
             url: '/users/isLoggedIn',
          }),
+      }),
+      getUser: builder.query({
+         query: () => ({
+            url: '/users/getuser',
+         }),
+         staleTime: null,
       }),
 
       /* Job Endpoints */
@@ -118,6 +124,7 @@ export const {
    useLoginUserMutation,
    useLogoutUserMutation,
    useIsLoggedinQuery,
+   useGetUserQuery,
    useGetJobsQuery,
    useGetJobQuery,
    useUpdateJobMutation,

@@ -11,6 +11,7 @@ import Header from '../components/header/header'
 import EditJob from '../pages/job/editJob/EditJob'
 import AddJob from '../pages/job/addJob/AddJob'
 import JobDetail from '../pages/job/jobDetail/jobDetail'
+import Profile from '../pages/profile/Profile'
 
 const PageRouter = () => {
    return (
@@ -70,6 +71,18 @@ const PageRouter = () => {
                   <ProtectedPage>
                      <Layout>
                         <JobDetail />
+                     </Layout>
+                  </ProtectedPage>
+               }
+            />
+
+            {/* User Routes */}
+            <Route
+               path="/dashboard/profile"
+               element={
+                  <ProtectedPage>
+                     <Layout>
+                        <Profile />
                      </Layout>
                   </ProtectedPage>
                }
