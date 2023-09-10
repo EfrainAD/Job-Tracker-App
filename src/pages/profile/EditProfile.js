@@ -10,6 +10,8 @@ import {
    useUploadToCloudinaryMutation,
 } from '../../api/apiSlice'
 import { createCloudinaryImg } from '../../utils/cloudinary.utils'
+import InputField from '../../components/form/inputField/InputField'
+import './profile.scss'
 
 const EditProfile = () => {
    // APISlice
@@ -91,54 +93,43 @@ const EditProfile = () => {
             </span>
             <form className="--form-control --m" onSubmit={handleSubmit}>
                <span className="profile-data">
-                  <p>
-                     <label>Name:</label>
-                     <input
-                        type="text"
-                        name="name"
-                        value={userForm?.name}
-                        onChange={handleInputChange}
-                        data-lpignore="true"
-                     />
-                  </p>
-                  <p>
-                     <label>Email:</label>
-                     <input
-                        type="text"
-                        name="email"
-                        value={userForm?.email}
-                        disabled
-                     />
-                     <br />
-                     <code>Email cannot be changed.</code>
-                  </p>
-                  <p>
-                     <label>Phone:</label>
-                     <input
-                        type="text"
-                        name="phone"
-                        value={userForm?.phone}
-                        onChange={handleInputChange}
-                     />
-                  </p>
-                  <p>
-                     <label>Bio:</label>
-                     <textarea
-                        name="bio"
-                        value={userForm?.bio}
-                        onChange={handleInputChange}
-                        cols="30"
-                        rows="10"
-                     ></textarea>
-                  </p>
-                  <p>
-                     <label>Photo:</label>
-                     <input
-                        type="file"
-                        name="image"
-                        onChange={handleImageChange}
-                     />
-                  </p>
+                  <InputField
+                     label="Name"
+                     type="text"
+                     name="name"
+                     value={userForm?.name}
+                     onChange={handleInputChange}
+                     data-lpignore="true"
+                  />
+                  <InputField
+                     label="Email"
+                     type="text"
+                     name="email"
+                     value={userForm?.email}
+                     disabled={true}
+                  />
+                  <InputField
+                     label="Phone"
+                     type="text"
+                     name="phone"
+                     value={userForm?.phone}
+                     onChange={handleInputChange}
+                  />
+                  <InputField
+                     label="Bio"
+                     type="textArea"
+                     name="bio"
+                     value={userForm?.bio}
+                     onChange={handleInputChange}
+                     cols="30"
+                     rows="10"
+                  ></InputField>
+                  <InputField
+                     label="Photo"
+                     type="file"
+                     name="image"
+                     onChange={handleImageChange}
+                  />
                   <div>
                      <button className="--btn --btn-primary">
                         Edit Profile
