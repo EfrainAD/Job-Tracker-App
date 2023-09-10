@@ -12,6 +12,7 @@ import EditJob from '../pages/job/editJob/EditJob'
 import AddJob from '../pages/job/addJob/AddJob'
 import JobDetail from '../pages/job/jobDetail/jobDetail'
 import Profile from '../pages/profile/Profile'
+import EditProfile from '../pages/profile/EditProfile'
 
 const PageRouter = () => {
    return (
@@ -83,6 +84,16 @@ const PageRouter = () => {
                   <ProtectedPage>
                      <Layout>
                         <Profile />
+                     </Layout>
+                  </ProtectedPage>
+               }
+            />
+            <Route
+               path="/dashboard/profile-update"
+               element={
+                  <ProtectedPage>
+                     <Layout>
+                        <EditProfile />
                      </Layout>
                   </ProtectedPage>
                }

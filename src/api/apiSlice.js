@@ -35,7 +35,34 @@ export const apiSlice = createApi({
          query: () => ({
             url: '/users/getuser',
          }),
-         staleTime: null,
+         providesTags: (result, error, arg) => [{ type: 'userData', id: arg }],
+         // staleTime: null,
+      }),
+      updateUser: builder.mutation({
+         // query: ({ body, photo }) => ({
+         query: (body) => ({
+            url: '/users/updateuser',
+            method: 'PATCH',
+            body,
+         }),
+         invalidatesTags: ['userData'],
+         // invalidatesTags: [''], Need set up
+      }),
+
+      /* Cloudinary Endpoints */
+      getCloudinarySignature: builder.mutation({
+         query: () => ({
+            url: '/users/imagecredentials',
+            method: 'GET',
+         }),
+      }),
+      uploadToCloudinary: builder.mutation({
+         query: (body) => ({
+            url: 'https://api.cloudinary.com/v1_1/dnzmydq91/image/upload',
+            method: 'POST',
+            body,
+            credentials: 'omit',
+         }),
       }),
 
       /* Job Endpoints */
@@ -125,6 +152,9 @@ export const {
    useLogoutUserMutation,
    useIsLoggedinQuery,
    useGetUserQuery,
+   useUpdateUserMutation,
+   useGetCloudinarySignatureMutation,
+   useUploadToCloudinaryMutation,
    useGetJobsQuery,
    useGetJobQuery,
    useUpdateJobMutation,
