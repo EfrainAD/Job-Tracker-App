@@ -9,6 +9,7 @@ import {
    useUpdateUserMutation,
    useUploadToCloudinaryMutation,
 } from '../../api/apiSlice'
+import { createCloudinaryImg } from '../../utils/cloudinary.utils'
 
 const EditProfile = () => {
    // APISlice
@@ -25,6 +26,7 @@ const EditProfile = () => {
    useEffect(() => {
       setUserForm(user)
    }, [user])
+
    useEffect(() => {
       setIsLoading(isUserLoading)
    }, [isUserLoading])
@@ -52,55 +54,22 @@ const EditProfile = () => {
    const handleImageChange = (e) => {
       setUserPhoto(e.target.files[0])
    }
-   // Submit Profile Update
+
    const handleSubmit = async (e) => {
       e.preventDefault()
-      // Upload image to cloudinary
+
       setIsLoading(true)
       let imageURL = null
+
       if (userPhoto) {
-         if (
-            userPhoto &&
-            (userPhoto.type === 'image/jpeg' ||
-               userPhoto.type === 'image/jpg' ||
-               userPhoto.type === 'image/png')
-         ) {
-            try {
-               // Get needed auth/signature for Cludinary.
-               const { data: signatureObt, error: getSignatureError } =
-                  await getCloudinarySignature()
+         const uploadedImg = await createCloudinaryImg({
+            image: userPhoto,
+            fetchCredentials: getCloudinarySignature,
+            postImage: uploadImage,
+            imageName: userForm._id,
+         })
 
-               if (getSignatureError) {
-                  throw new Error(getSignatureError.data.message)
-               }
-
-               const { timestamp, signature, api_key, folder } = signatureObt
-
-               // Set up Form Data for the image and auth
-               const formData = new FormData()
-               formData.append('file', userPhoto)
-               formData.append('api_key', api_key)
-               formData.append('signature', signature)
-               formData.append('timestamp', timestamp)
-               formData.append('folder', folder)
-               formData.append('public_id', userForm._id)
-
-               // Post to Cloudinary
-               const { data: cloudinaryImg, error: uploadImgError } =
-                  await uploadImage(formData)
-               if (uploadImgError) {
-                  throw new Error(uploadImgError.data.error.message)
-               }
-
-               // Get URL for the new image uploaded to Cloudinary
-               imageURL = cloudinaryImg.url
-            } catch (error) {
-               console.log('error:', error)
-               toast.error('Something went wrong with uploading the image')
-            }
-         } else {
-            toast.error('Wrong image type')
-         }
+         imageURL = uploadedImg.url
       } else {
          imageURL = userForm.photo
       }
