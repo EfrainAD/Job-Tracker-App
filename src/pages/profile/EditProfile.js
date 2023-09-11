@@ -12,6 +12,7 @@ import {
 import { createCloudinaryImg } from '../../utils/cloudinary.utils'
 import InputField from '../../components/form/inputField/InputField'
 import './profile.scss'
+import ChangePassword from '../../components/changePassword/ChangePassword'
 
 const EditProfile = () => {
    // APISlice
@@ -139,7 +140,7 @@ const EditProfile = () => {
             </form>
          </Card>
          <br />
-         {/* <ChangePassword /> */}
+         <ChangePassword />
       </div>
    )
 }

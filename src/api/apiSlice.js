@@ -54,6 +54,13 @@ export const apiSlice = createApi({
          }),
          invalidatesTags: ['userData'],
       }),
+      updatePassword: builder.mutation({
+         query: (body) => ({
+            url: '/users/changepassword',
+            method: 'PATCH',
+            body,
+         }),
+      }),
 
       /* Cloudinary Endpoints */
       getCloudinarySignature: builder.mutation({
@@ -161,6 +168,7 @@ export const {
    useGetUserQuery,
    useUpdateUserMutation,
    useCreateUserMutation,
+   useUpdatePasswordMutation,
    /* Image Storage */
    useGetCloudinarySignatureMutation,
    useUploadToCloudinaryMutation,
