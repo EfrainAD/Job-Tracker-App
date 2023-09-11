@@ -39,14 +39,20 @@ export const apiSlice = createApi({
          // staleTime: null,
       }),
       updateUser: builder.mutation({
-         // query: ({ body, photo }) => ({
          query: (body) => ({
             url: '/users/updateuser',
             method: 'PATCH',
             body,
          }),
          invalidatesTags: ['userData'],
-         // invalidatesTags: [''], Need set up
+      }),
+      createUser: builder.mutation({
+         query: (body) => ({
+            url: '/users/register',
+            method: 'POST',
+            body,
+         }),
+         invalidatesTags: ['userData'],
       }),
 
       /* Cloudinary Endpoints */
@@ -148,13 +154,17 @@ export const apiSlice = createApi({
 })
 
 export const {
+   /* Users */
    useLoginUserMutation,
    useLogoutUserMutation,
    useIsLoggedinQuery,
    useGetUserQuery,
    useUpdateUserMutation,
+   useCreateUserMutation,
+   /* Image Storage */
    useGetCloudinarySignatureMutation,
    useUploadToCloudinaryMutation,
+   /* Job */
    useGetJobsQuery,
    useGetJobQuery,
    useUpdateJobMutation,

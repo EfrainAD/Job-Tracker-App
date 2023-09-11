@@ -13,6 +13,7 @@ import AddJob from '../pages/job/addJob/AddJob'
 import JobDetail from '../pages/job/jobDetail/jobDetail'
 import Profile from '../pages/profile/Profile'
 import EditProfile from '../pages/profile/EditProfile'
+import Register from '../pages/auth/Register'
 
 const PageRouter = () => {
    return (
@@ -20,6 +21,8 @@ const PageRouter = () => {
          <Routes>
             {/* Login */}
             <Route path="/login" element={<Login />} />
+
+            <Route path="/register" element={<Register />} />
 
             {/* Test Home that need be removed */}
             <Route
