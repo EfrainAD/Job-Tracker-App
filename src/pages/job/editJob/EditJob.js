@@ -12,7 +12,7 @@ const EditJob = () => {
    const { data: jobFetched, isLoading } = useGetJobQuery(id)
    const [updateJob] = useUpdateJobMutation()
 
-   const [job, setJob] = useState(null)
+   const [job, setJob] = useState({})
 
    useEffect(() => {
       if (jobFetched) {

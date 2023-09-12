@@ -6,16 +6,18 @@ const JobDetailField = ({ label, value }) => {
    }
 
    return (
-      <p>
-         <b>&rarr; {label}: </b>{' '}
+      <div className="job-detail-field">
+         <b>
+            <span className="badge">&rarr;</span> {label}:{' '}
+         </b>{' '}
          {value.slice(0, 4) !== 'http' ? (
             value
          ) : (
             <a href={value} target="_blank" rel="noopener noreferrer">
-               {value.slice(0, 60) + '...'}
+               {value.slice(0, 90) + '...'}
             </a>
          )}
-      </p>
+      </div>
    )
 }
 

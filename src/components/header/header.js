@@ -1,12 +1,10 @@
 import { useDispatch, useSelector } from 'react-redux'
-import { useNavigate } from 'react-router-dom'
 import { selectName } from '../../redux/user/user.selector'
 import { setLogout } from '../../redux/user/user.action'
 import { useLogoutUserMutation } from '../../api/apiSlice'
 
 const Header = () => {
    const dispatch = useDispatch()
-   const navigate = useNavigate()
    const name = useSelector(selectName)
 
    const [logoutUser] = useLogoutUserMutation()

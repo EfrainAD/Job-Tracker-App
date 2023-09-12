@@ -26,25 +26,27 @@ const Profile = () => {
                <span className="profile-photo">
                   <img src={profile?.photo} alt="profilepic" />
                </span>
-               <span className="profile-data">
-                  <p>
-                     <b>Name: </b> {profile?.name}
-                  </p>
-                  <p>
-                     <b>Email: </b> {profile?.email}
-                  </p>
-                  <p>
-                     <b>Phone: </b> {profile?.phone}
-                  </p>
-                  <p>
-                     <b>Bio: </b> {profile?.bio}
-                  </p>
-                  <div>
+               <div className="profile-card-body">
+                  <span className="profile-data">
+                     <p>
+                        <b>Name: </b> {profile?.name}
+                     </p>
+                     <p>
+                        <b>Email: </b> {profile?.email}
+                     </p>
+                     <p>
+                        <b>Phone: </b> {profile?.phone}
+                     </p>
+                     <p>
+                        <b>Bio: </b> {profile?.bio}
+                     </p>
+                  </span>
+                  <div className="btn-container">
                      <button className="--btn --btn-primary">
                         <Link to="/dashboard/profile-update">Edit Profile</Link>
                      </button>
                   </div>
-               </span>
+               </div>
             </Card>
          )}
       </div>

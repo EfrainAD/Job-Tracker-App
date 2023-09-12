@@ -1,18 +1,10 @@
-const InputForm = ({
-   type,
-   placeholder,
-   name,
-   value,
-   onChange,
-   ...inputArg
-}) => {
+const InputForm = ({ type, placeholder, name, value, onChange }) => {
    switch (type) {
       case 'text':
       case 'date':
       case 'url':
       case 'number':
       case 'file':
-         if (type === 'checkbox') console.log('hihihi', value)
          return (
             <input
                type={type}
@@ -20,7 +12,6 @@ const InputForm = ({
                name={name}
                value={value}
                onChange={onChange}
-               {...inputArg}
             />
          )
       case 'checkbox':

@@ -59,6 +59,7 @@ const ChangePassword = () => {
                   <form onSubmit={handleSubmit} className="--form-control">
                      <input
                         type="password"
+                        autoComplete="current-password"
                         placeholder="Old Password"
                         required
                         name="old_password"
@@ -67,6 +68,7 @@ const ChangePassword = () => {
                      />
                      <input
                         type="password"
+                        autoComplete="new-password"
                         placeholder="New Password"
                         required
                         name="new_password"
@@ -75,6 +77,7 @@ const ChangePassword = () => {
                      />
                      <input
                         type="password"
+                        autoComplete="new-password"
                         placeholder="Confirm New Password"
                         required
                         name="comferm_password"

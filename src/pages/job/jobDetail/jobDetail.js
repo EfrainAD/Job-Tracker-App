@@ -1,16 +1,15 @@
-import React, { useEffect } from 'react'
-import { useParams } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import './jobDetail.scss'
 import { SpinningImg } from '../../../components/loader/loader'
 import { useGetJobQuery } from '../../../api/apiSlice'
 import Card from '../../../components/card/card'
 import JobDetailField from '../../../components/JobDetailField/JobDetailField'
 // import DOMPurify from 'dompurify'
-// import { moneyFormat } from '../../../service/jobService'
 
 const JobDetail = () => {
    const { id } = useParams()
    const { data: job, isLoading } = useGetJobQuery(id)
+   const navigate = useNavigate()
 
    return (
       <div className="job-detail">
@@ -24,22 +23,12 @@ const JobDetail = () => {
                      <JobDetailField
                         label={'Company Name'}
                         value={job.companyName}
-                     />
-                  )}
-                  {/* Company Size */}
-                  {job.companySize && (
-                     <JobDetailField
-                        label={'Company Size'}
-                        value={job.companySize}
+                        className="job-detail-field"
                      />
                   )}
                   {/* Job Title */}
                   {job.jobTitle && (
                      <JobDetailField label={'Job Title'} value={job.jobTitle} />
-                  )}
-                  {/* Job URL */}
-                  {job.jobURL && (
-                     <JobDetailField label={'Job URL'} value={job.jobURL} />
                   )}
                   {/* Job Source */}
                   {job.jobSource && (
@@ -48,8 +37,12 @@ const JobDetail = () => {
                         value={job.jobSource}
                      />
                   )}
+                  {/* Job URL */}
+                  {job.jobURL && (
+                     <JobDetailField label={'Job URL'} value={job.jobURL} />
+                  )}
                   {/* Easy Apply */}
-                  {job.easyApply === 'Yes' && (
+                  {job.easyApply === true && (
                      <JobDetailField label={'Easy Apply'} value={'Yes'} />
                   )}
                   {/* Remote */}
@@ -63,18 +56,26 @@ const JobDetail = () => {
                         value={job.jobLocation}
                      />
                   )}
-                  {/* Jobalytics Rating */}
-                  {job.jobalyticsRating !== undefined && (
-                     <JobDetailField
-                        label={'Jobalytics Rating'}
-                        value={job.jobalyticsRating}
-                     />
-                  )}
                   {/* Required Experience */}
                   {job.requiredExperience && (
                      <JobDetailField
                         label={'Required Experience'}
                         value={job.requiredExperience}
+                     />
+                  )}
+                  {/* Jobalytics Rating */}
+                  {job.jobalyticsRating && (
+                     <JobDetailField
+                        label={'Jobalytics Rating'}
+                        value={job.jobalyticsRating}
+                     />
+                  )}
+                  {/* Company Size */}
+                  {job.companySize && (
+                     <JobDetailField
+                        label={'Company Size'}
+                        value={job.companySize}
+                        className="job-detail-field-ele"
                      />
                   )}
                   {/* Resume */}
@@ -141,14 +142,27 @@ const JobDetail = () => {
                         value={job.secondInterviewDate.toLocaleString('en-US')}
                      />
                   )}
-                  <hr />
-                  <code className="--color-dark">
-                     Created on: {job.createdAt.toLocaleString('en-US')}
-                  </code>
-                  <br />
-                  <code className="--color-dark">
-                     Last Updated: {job.updatedAt.toLocaleString('en-US')}
-                  </code>
+                  <div className="job-detail-footer">
+                     <hr />
+                     <code className="--color-dark">
+                        Created on: {job.createdAt.toLocaleString('en-US')}
+                     </code>
+                     <br />
+                     <code className="--color-dark">
+                        Last Updated: {job.updatedAt.toLocaleString('en-US')}
+                     </code>
+                  </div>
+                  <div className="btn-container --my">
+                     <button
+                        onClick={() =>
+                           navigate(`/dashboard/edit-job/${job._id}`)
+                        }
+                        type="button"
+                        className="--btn --btn-primary"
+                     >
+                        Edit Job
+                     </button>
+                  </div>
                </div>
             )}
          </Card>

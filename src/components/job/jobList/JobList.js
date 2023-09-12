@@ -21,7 +21,7 @@ const JobList = ({ jobs, isJobError, isLoadding }) => {
    const [removeJob, { isError, error, isSuccess }] = useRemoveJobMutation()
    //Pagination - variables
    const itemsPerPage = 15
-   const [currentPage, setCurrentPage] = useState(1)
+   const [currentPage, setCurrentPage] = useState(-1)
    const [itemOffset, setItemOffset] = useState(0)
    const pageCount =
       filteredJobs?.length > 0
@@ -49,7 +49,7 @@ const JobList = ({ jobs, isJobError, isLoadding }) => {
       const newFilteredjobs = filterJobs(jobs, search)
 
       setFilteredJobs(newFilteredjobs)
-      setCurrentPage(0)
+      setCurrentPage(-1)
       setItemOffset(0)
    }, [search, jobs, setFilteredJobs, setCurrentPage])
 

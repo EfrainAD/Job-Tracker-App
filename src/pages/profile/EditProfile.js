@@ -14,6 +14,13 @@ import InputField from '../../components/form/inputField/InputField'
 import './profile.scss'
 import ChangePassword from '../../components/changePassword/ChangePassword'
 
+const initialState = {
+   name: '',
+   email: '',
+   phone: '',
+   bio: '',
+}
+
 const EditProfile = () => {
    // APISlice
    const { data: user, isLoading: isUserLoading } = useGetUserQuery()
@@ -22,12 +29,14 @@ const EditProfile = () => {
    const [uploadImage] = useUploadToCloudinaryMutation()
 
    const navigate = useNavigate()
-   const [userForm, setUserForm] = useState(user)
-   const [userPhoto, setUserPhoto] = useState(null)
+   const [userForm, setUserForm] = useState(initialState)
+   const [userPhoto, setUserPhoto] = useState({})
    const [isLoading, setIsLoading] = useState(false)
 
    useEffect(() => {
-      setUserForm(user)
+      if (user) {
+         setUserForm(user)
+      }
    }, [user])
 
    useEffect(() => {
@@ -93,50 +102,52 @@ const EditProfile = () => {
                <img src={userForm?.photo} alt="profile pic" />
             </span>
             <form className="--form-control --m" onSubmit={handleSubmit}>
-               <span className="profile-data">
-                  <InputField
-                     label="Name"
-                     type="text"
-                     name="name"
-                     value={userForm?.name}
-                     onChange={handleInputChange}
-                     data-lpignore="true"
-                  />
-                  <InputField
-                     label="Email"
-                     type="text"
-                     name="email"
-                     value={userForm?.email}
-                     disabled={true}
-                  />
-                  <InputField
-                     label="Phone"
-                     type="text"
-                     name="phone"
-                     value={userForm?.phone}
-                     onChange={handleInputChange}
-                  />
-                  <InputField
-                     label="Bio"
-                     type="textArea"
-                     name="bio"
-                     value={userForm?.bio}
-                     onChange={handleInputChange}
-                     cols="30"
-                     rows="10"
-                  ></InputField>
-                  <InputField
-                     label="Photo"
-                     type="file"
-                     name="image"
-                     onChange={handleImageChange}
-                  />
-                  <div>
+               <div className="profile-card-body">
+                  <span className="profile-data">
+                     <InputField
+                        label="Name"
+                        type="text"
+                        name="name"
+                        value={userForm?.name ? userForm?.name : ''}
+                        onChange={handleInputChange}
+                        data-lpignore="true"
+                     />
+                     <InputField
+                        label="Email"
+                        type="text"
+                        name="email"
+                        value={userForm?.email}
+                        disabled={true}
+                     />
+                     <InputField
+                        label="Phone"
+                        type="text"
+                        name="phone"
+                        value={userForm?.phone}
+                        onChange={handleInputChange}
+                     />
+                     <InputField
+                        label="Bio"
+                        type="textArea"
+                        name="bio"
+                        value={userForm?.bio}
+                        onChange={handleInputChange}
+                        cols="30"
+                        rows="10"
+                     />
+                     <InputField
+                        label="Photo"
+                        type="file"
+                        name="image"
+                        onChange={handleImageChange}
+                     />
+                  </span>
+                  <div className="btn-conainer">
                      <button className="--btn --btn-primary">
                         Edit Profile
                      </button>
                   </div>
-               </span>
+               </div>
             </form>
          </Card>
          <br />

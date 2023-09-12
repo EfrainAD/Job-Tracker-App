@@ -26,7 +26,7 @@ const JobForm = ({
       { value: 'Jobalytics Rating', type: 'number' },
       { value: 'Company Size', type: 'text' },
       { value: 'Resume', type: 'url' },
-      { value: 'Cover Letter', type: 'url' },
+      { value: 'Cover Letter', type: 'textArea' },
       { value: 'Rejection Date', type: 'date' },
       { value: 'Rejection Reason', type: 'textArea' },
       { value: 'First Interview Date', type: 'date' },
@@ -38,7 +38,7 @@ const JobForm = ({
       const name = label.value
          .replaceAll(' ', '')
          .replace(/^./, (firstLetter) => firstLetter.toLowerCase())
-      const jobOjbValue = job ? job[name] : null
+      const jobOjbValue = job[name] ? job[name] : ''
 
       return (
          <div className="form-field" key={index}>

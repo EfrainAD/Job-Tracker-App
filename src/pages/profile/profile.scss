@@ -14,11 +14,17 @@
       [data-lastpass-icon-root] {
          display: none !important;
       }
+      input[type='file'] {
+         border: none;
+      }
       img {
          width: 100%;
          max-width: 350px;
          padding-right: 1rem;
          padding-left: 1rem;
+      }
+      label {
+         display: block;
       }
       textarea {
          max-width: 32rem;
@@ -29,6 +35,20 @@
       span.profile-data > * {
          border-top: 1px solid #ccc;
          padding: 5px 0;
+         &:last-child {
+            border-bottom: 1px solid #ccc;
+         }
+      }
+      .profile-card-body {
+         position: relative;
+      }
+      .btn-container {
+         position: absolute;
+         bottom: 0;
+         right: 0;
+         border-top: none;
+         display: flex;
+         justify-content: flex-end;
       }
    }
 }

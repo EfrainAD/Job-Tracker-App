@@ -1,9 +1,14 @@
 .job-detail {
    margin-bottom: 5rem;
    width: 100%;
+   max-width: 500px;
    .detail {
       & > * {
-         margin-bottom: 1rem;
+         margin: 2rem;
+      }
+      .btn-container {
+         display: flex;
+         justify-content: flex-end;
       }
    }
 }

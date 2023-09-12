@@ -56,6 +56,7 @@ const Login = () => {
                <form onSubmit={handdleSignInUser}>
                   <input
                      type="email"
+                     autoComplete="current-password"
                      required
                      placeholder="Email"
                      name="email"
@@ -64,6 +65,7 @@ const Login = () => {
                   />
                   <input
                      type="password"
+                     autoComplete="current-password"
                      required
                      placeholder="Password"
                      name="password"
@@ -81,6 +83,7 @@ const Login = () => {
                <Link to="/forgot">Forgot Password</Link>
 
                <span className={styles.register}>
+                  <Link to="/">Home</Link>
                   <p> &nbsp; Don't have an account? &nbsp;</p>
                   <Link to="/register">Register</Link>
                </span>
