@@ -1,6 +1,7 @@
-const InputForm = ({ type, placeholder, name, value, onChange }) => {
+const InputForm = ({ type, placeholder, name, value, onChange, ...arg }) => {
    switch (type) {
       case 'text':
+      case 'email':
       case 'date':
       case 'url':
       case 'number':
@@ -12,6 +13,7 @@ const InputForm = ({ type, placeholder, name, value, onChange }) => {
                name={name}
                value={value}
                onChange={onChange}
+               {...arg}
             />
          )
       case 'checkbox':
@@ -22,11 +24,12 @@ const InputForm = ({ type, placeholder, name, value, onChange }) => {
                name={name}
                checked={value}
                onChange={onChange}
+               {...arg}
             />
          )
       case 'enum':
          return (
-            <select name={name} value={value} onChange={onChange}>
+            <select name={name} value={value} onChange={onChange} {...arg}>
                <option value="null">SELECT</option>
                <option value="remote">Remote</option>
                <option value="on-site">On-site</option>
@@ -41,6 +44,7 @@ const InputForm = ({ type, placeholder, name, value, onChange }) => {
                rows="4"
                cols="50"
                onChange={onChange}
+               {...arg}
             ></textarea>
          )
       default:

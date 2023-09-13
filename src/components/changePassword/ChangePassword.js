@@ -11,7 +11,7 @@ const initialState = {
    comferm_password: '',
 }
 
-const ChangePassword = () => {
+const ChangePassword = ({ username }) => {
    const [updatePassword, { isLoading, isSuccess, error }] =
       useUpdatePasswordMutation()
 
@@ -57,6 +57,13 @@ const ChangePassword = () => {
                <>
                   <h3>Change Password</h3>
                   <form onSubmit={handleSubmit} className="--form-control">
+                     <input
+                        type="hidden"
+                        autoComplete="username"
+                        readOnly
+                        value={username}
+                     />
+
                      <input
                         type="password"
                         autoComplete="current-password"

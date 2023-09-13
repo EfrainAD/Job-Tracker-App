@@ -114,7 +114,7 @@ const EditProfile = () => {
                      />
                      <InputField
                         label="Email"
-                        type="text"
+                        type="email"
                         name="email"
                         value={userForm?.email}
                         disabled={true}
@@ -151,7 +151,7 @@ const EditProfile = () => {
             </form>
          </Card>
          <br />
-         <ChangePassword />
+         <ChangePassword username={userForm?.email} />
       </div>
    )
 }
