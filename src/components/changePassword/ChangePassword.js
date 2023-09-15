@@ -12,22 +12,7 @@ const initialState = {
 }
 
 const ChangePassword = ({ username }) => {
-   const [updatePassword, { isLoading, isSuccess, error }] =
-      useUpdatePasswordMutation()
-
-   useEffect(() => {
-      if (isSuccess) {
-         toast.success('Changed Password successful')
-         setFormData(initialState)
-      }
-   }, [isSuccess])
-   useEffect(() => {
-      if (error) {
-         toast.error(error.data.message)
-         console.log('Error:', error.data.message)
-         setFormData(initialState)
-      }
-   }, [error])
+   const [updatePassword, { isLoading }] = useUpdatePasswordMutation()
 
    const [formData, setFormData] = useState(initialState)
    const { old_password, new_password, comferm_password } = formData
@@ -46,7 +31,8 @@ const ChangePassword = ({ username }) => {
          return
       }
 
-      updatePassword(formData)
+      await updatePassword(formData)
+      setFormData(initialState)
    }
    return (
       <div className="change-password">

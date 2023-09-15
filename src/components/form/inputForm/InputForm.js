@@ -41,6 +41,7 @@ const InputForm = ({ type, placeholder, name, value, onChange, ...arg }) => {
             <textarea
                placeholder={placeholder}
                name={name}
+               value={value}
                rows="4"
                cols="50"
                onChange={onChange}

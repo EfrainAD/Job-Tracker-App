@@ -1,4 +1,3 @@
-import React, { useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import Card from '../../components/card/card'
 import { SpinningImg } from '../../components/loader/loader'
@@ -6,15 +5,7 @@ import { useGetUserQuery } from '../../api/apiSlice'
 import './profile.scss'
 
 const Profile = () => {
-   const { data: profile, isLoading, isError, error } = useGetUserQuery()
-
-   useEffect(() => {
-      if (isError) {
-         console.log(
-            `Error when getting the user data: return error message: ${error.data.message}`
-         )
-      }
-   }, [isError, error])
+   const { data: profile, isLoading } = useGetUserQuery()
 
    return (
       <div className="profile --my2">

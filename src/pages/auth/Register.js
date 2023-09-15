@@ -23,16 +23,11 @@ const Register = () => {
 
    useEffect(() => {
       if (isSuccess) {
-         toast.error('New account made successfully')
          navigate('/login')
       }
    }, [isSuccess, navigate])
    useEffect(() => {
       if (error) {
-         toast.error(
-            `Sorry, there was an error while creating your account. It's possible that you already have an account.`
-         )
-         console.log(error.data.message)
          setFormData({ ...formData, password: '', comfirm_password: '' })
       }
    }, [error, setFormData, formData])

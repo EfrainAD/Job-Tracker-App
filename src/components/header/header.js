@@ -1,17 +1,14 @@
-import { useDispatch, useSelector } from 'react-redux'
+import { useSelector } from 'react-redux'
 import { selectName } from '../../redux/user/user.selector'
-import { setLogout } from '../../redux/user/user.action'
 import { useLogoutUserMutation } from '../../api/apiSlice'
 
 const Header = () => {
-   const dispatch = useDispatch()
    const name = useSelector(selectName)
 
    const [logoutUser] = useLogoutUserMutation()
 
    const handleSignOut = async () => {
       logoutUser()
-      dispatch(setLogout())
    }
 
    return (

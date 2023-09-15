@@ -30,7 +30,7 @@ const EditProfile = () => {
 
    const navigate = useNavigate()
    const [userForm, setUserForm] = useState(initialState)
-   const [userPhoto, setUserPhoto] = useState({})
+   const [userPhoto, setUserPhoto] = useState(null)
    const [isLoading, setIsLoading] = useState(false)
 
    useEffect(() => {
@@ -46,14 +46,11 @@ const EditProfile = () => {
    // useEffects for update users
    useEffect(() => {
       if (isSuccess) {
-         toast.success('Update Successful')
          navigate('/dashboard/profile')
       }
    }, [isSuccess, navigate])
    useEffect(() => {
       if (error) {
-         toast.error('Error while Updating your profile')
-         console.log(`Error Message: ${error.data.message}`)
          setIsLoading(false)
          navigate('/dashboard/profile')
       }

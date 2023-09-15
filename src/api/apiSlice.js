@@ -1,5 +1,7 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 import { formatDate } from '../utils/general.utils'
+import { setLogin, setLogout } from '../redux/user/user.action'
+import { toast } from 'react-toastify'
 
 const baseUrl = process.env.API_URL || 'http://localhost:8000/api'
 
@@ -18,6 +20,18 @@ export const apiSlice = createApi({
             method: 'POST',
             body: { email, password },
          }),
+         async onQueryStarted(id, { dispatch, queryFulfilled }) {
+            try {
+               const { data: user } = await queryFulfilled
+
+               dispatch(setLogin(user))
+            } catch (err) {
+               dispatch(setLogout())
+
+               toast.error(err.error.data.message)
+               console.log('error message', err.error.data.message)
+            }
+         },
          invalidatesTags: ['Jobs'],
       }),
       logoutUser: builder.mutation({
@@ -25,6 +39,15 @@ export const apiSlice = createApi({
             url: '/users/signout',
             method: 'DELETE',
          }),
+         async onQueryStarted(id, { dispatch, queryFulfilled }) {
+            try {
+               await queryFulfilled
+               dispatch(setLogout())
+            } catch (err) {
+               toast.error(err.error.data.message)
+               console.log('error message', err.error.data.message)
+            }
+         },
       }),
       isLoggedin: builder.query({
          query: () => ({
@@ -35,6 +58,16 @@ export const apiSlice = createApi({
          query: () => ({
             url: '/users/getuser',
          }),
+         async onQueryStarted(id, { dispatch, queryFulfilled }) {
+            try {
+               await queryFulfilled
+            } catch (err) {
+               const message = `Error when getting the user data. Returned error message: ${err.error.data.message}`
+
+               toast.error(message)
+               console.log(message)
+            }
+         },
          providesTags: (result, error, arg) => [{ type: 'userData', id: arg }],
          // staleTime: null,
       }),
@@ -44,6 +77,15 @@ export const apiSlice = createApi({
             method: 'PATCH',
             body,
          }),
+         async onQueryStarted(id, { queryFulfilled }) {
+            try {
+               await queryFulfilled
+               toast.success('Update Successful')
+            } catch (err) {
+               toast.error('Error while Updating your profile')
+               console.log(`Error Message: ${err.error.data.message}`)
+            }
+         },
          invalidatesTags: ['userData'],
       }),
       createUser: builder.mutation({
@@ -52,6 +94,17 @@ export const apiSlice = createApi({
             method: 'POST',
             body,
          }),
+         async onQueryStarted(id, { queryFulfilled }) {
+            try {
+               await queryFulfilled
+               toast.success('New account made successfully')
+            } catch (err) {
+               toast.error(
+                  `Sorry, there was an error while creating your account. It's possible that you already have an account.`
+               )
+               console.log(err.error.data.message)
+            }
+         },
          invalidatesTags: ['userData'],
       }),
       updatePassword: builder.mutation({
@@ -60,6 +113,15 @@ export const apiSlice = createApi({
             method: 'PATCH',
             body,
          }),
+         async onQueryStarted(id, { queryFulfilled }) {
+            try {
+               await queryFulfilled
+               toast.success('Changed Password successful')
+            } catch (err) {
+               toast.error(err.error.data.message)
+               console.log('Error:', err.error.data.err.message)
+            }
+         },
       }),
 
       /* Cloudinary Endpoints */

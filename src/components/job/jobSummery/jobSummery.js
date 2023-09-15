@@ -6,8 +6,6 @@ import MessageBox from '../../messageBox/MessageBox'
 const categoryIcon = <BiCategory size="40" color="#fff" />
 
 const JobSummery = ({ jobs }) => {
-   console.log('Job Summery to display', jobs)
-
    if (!jobs || jobs.length < 1)
       return <MessageBox message="No Data to Display" />
 

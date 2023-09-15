@@ -5,9 +5,6 @@ import Card from '../../components/card/card'
 import Loader from '../../components/loader/loader'
 import styles from './auth.module.scss'
 import { useLoginUserMutation } from '../../api/apiSlice'
-import { useDispatch } from 'react-redux'
-import { setLogin, setLogout } from '../../redux/user/user.action'
-import { toast } from 'react-toastify'
 
 const initialState = {
    email: 'efrainadavila@gmail.com',
@@ -15,14 +12,9 @@ const initialState = {
 }
 
 const Login = () => {
-   const dispatch = useDispatch()
    const navigate = useNavigate()
 
-   const [logIn, { isLoading: isLoginLoading, error: isLoginError }] =
-      useLoginUserMutation()
-   if (isLoginError) {
-      toast.error(isLoginError.data.message)
-   }
+   const [logIn, { isLoading }] = useLoginUserMutation()
 
    const [formData, setFormData] = useState(initialState)
    const { email, password } = formData
@@ -36,16 +28,13 @@ const Login = () => {
 
       const { data: user } = await logIn(formData)
       if (user) {
-         dispatch(setLogin(user))
          navigate('/dashboard')
-      } else {
-         dispatch(setLogout())
       }
    }
 
    return (
       <div className={`container ${styles.auth}`}>
-         {isLoginLoading && <Loader />}
+         {isLoading && <Loader />}
          <Card>
             <div className={styles.form}>
                <div className="--flex-center">
