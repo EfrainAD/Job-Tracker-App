@@ -1,57 +1,47 @@
-import persistReducer from 'redux-persist/es/persistReducer'
-import storage from 'redux-persist/lib/storage'
+import {
+   createSetUserObj,
+   getLocalStrage,
+   removeLocalStrage,
+   setLocalStorage,
+} from '../utils/reducer.utils'
 import { USER_ACTION_TYPES } from './user.types'
 
-const initialState = {
+const initialState = getLocalStrage() || {
    name: '',
    isLoggedIn: '',
-   user: {
-      name: '',
-      email: '',
-      phone: '',
-      bio: '',
-      photo: '',
-   },
 }
 
-const userReducer = (state = initialState, action) => {
+export const userReducer = (state = initialState, action) => {
    const { type, payload } = action
 
    switch (type) {
       case USER_ACTION_TYPES.SET_LOGIN:
+         const setUserObj = createSetUserObj(payload)
+
+         setLocalStorage(setUserObj)
+
          return {
             ...state,
-            isLoggedIn: true,
-            name: payload.name,
-            user: {
-               name: payload.name,
-               email: payload.email,
-               phone: payload.phone,
-               bio: payload.bio,
-               photo: payload.photo,
-            },
+            ...setUserObj,
          }
 
       case USER_ACTION_TYPES.SET_LOGOUT:
+         removeLocalStrage()
          return {
             ...state,
             isLoggedIn: false,
             name: '',
-            user: {
-               name: '',
-               email: '',
-               phone: '',
-               bio: '',
-               photo: '',
-            },
          }
 
+      // Set to be Removed
       case USER_ACTION_TYPES.SET_LOGIN_STATUS:
          return { ...state, isLoggedIn: payload }
 
+      // Set to be Removed
       case USER_ACTION_TYPES.SET_NAME:
          return { ...state, name: payload }
 
+      // Set to be Removed
       case USER_ACTION_TYPES.SET_USER:
          return {
             ...state,
@@ -68,10 +58,3 @@ const userReducer = (state = initialState, action) => {
          return state
    }
 }
-
-const userPersistConfig = {
-   key: 'user',
-   storage,
-}
-
-export const persistUserReduce = persistReducer(userPersistConfig, userReducer)

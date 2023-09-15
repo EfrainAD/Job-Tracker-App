@@ -1,7 +1,6 @@
 import { apiSlice } from '../api/apiSlice'
 import { configureStore } from '@reduxjs/toolkit'
 import { rootReducer } from './root-reducer'
-import { persistStore } from 'redux-persist'
 
 export const createStore = (options) =>
    configureStore({
@@ -12,6 +11,5 @@ export const createStore = (options) =>
    })
 
 const store = createStore()
-const persistor = persistStore(store)
 
-export { store, persistor }
+export { store }
