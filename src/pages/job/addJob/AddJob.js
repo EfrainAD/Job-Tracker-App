@@ -4,13 +4,20 @@ import { useSaveJobMutation } from '../../../api/apiSlice'
 import { SpinningImg } from '../../../components/loader/loader'
 import { toast } from 'react-toastify'
 import { useNavigate } from 'react-router-dom'
+import { getTodaysDate } from '../../../utils/general.utils'
+
+// Usage
+// const timestamp = Date.now()
+// const date = new Date(timestamp)
+// const formattedDate = formatDate(date)
+// console.log(formattedDate)
 
 const AddJob = () => {
    const [job, setJob] = useState({
       // companyName: 'hi2',
       // companySize: '234',
       // coverLetter: 'http://localhost:3000/dashboard/add-job',
-      // dateApplied: '2023-09-07',
+      dateApplied: getTodaysDate(),
       // easyApply: true,
       // firstInterviewDate: '2023-09-21',
       // jobLocation: 'myadct',
@@ -27,6 +34,7 @@ const AddJob = () => {
       // secondInterviewDate: '2023-10-06',
       // technicalChallengeInterviewDate: '2023-09-28',
    })
+
    const [postJob, { isLoading, isError, error, isSuccess, data }] =
       useSaveJobMutation()
    const navigate = useNavigate()
