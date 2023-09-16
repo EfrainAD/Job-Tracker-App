@@ -12,6 +12,7 @@ import MessageBox from '../../messageBox/MessageBox'
 import { useRemoveJobMutation } from '../../../api/apiSlice'
 import { confirmAlert } from 'react-confirm-alert'
 import 'react-confirm-alert/src/react-confirm-alert.css'
+import { comfirmAndDelete } from '../../../utils/general.utils'
 
 const JobList = ({ jobs, isJobError, isLoadding }) => {
    const navigate = useNavigate()
@@ -50,19 +51,7 @@ const JobList = ({ jobs, isJobError, isLoadding }) => {
 
    //    Action Buttons
    const handleDeleteJob = (id) =>
-      confirmAlert({
-         title: 'Delete Job',
-         message: 'Are you sure to do this?',
-         buttons: [
-            {
-               label: 'Cancel',
-            },
-            {
-               label: 'Delete',
-               onClick: () => removeJob(id),
-            },
-         ],
-      })
+      comfirmAndDelete({ title: 'Delete Job', deleteFunc: removeJob, id })
 
    const handleViewJob = (id) => navigate(`/dashboard/job-detail/${id}`)
    const handleEditJob = (id) => navigate(`/dashboard/edit-job/${id}`)

@@ -9,6 +9,7 @@ import JobForm from '../../../components/job/jobForm/JobForm'
 import { SpinningImg } from '../../../components/loader/loader'
 import { toast } from 'react-toastify'
 import { confirmAlert } from 'react-confirm-alert'
+import { comfirmAndDelete } from '../../../utils/general.utils'
 
 const EditJob = () => {
    const navigate = useNavigate()
@@ -60,20 +61,8 @@ const EditJob = () => {
 
    const handleDeleteJob = async (e) => {
       e.preventDefault()
-      console.log('yo')
-      confirmAlert({
-         title: 'Delete Job',
-         message: 'Are you sure to do this?',
-         buttons: [
-            {
-               label: 'Cancel',
-            },
-            {
-               label: 'Delete',
-               onClick: () => deleteJob(id),
-            },
-         ],
-      })
+
+      comfirmAndDelete({ title: 'Delete Job', deleteFunc: deleteJob, id })
    }
 
    return (
