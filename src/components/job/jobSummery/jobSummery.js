@@ -2,12 +2,15 @@ import './jobSummary.scss'
 import { BiCategory } from 'react-icons/bi'
 import InfoBox from '../../infoBox/InfoBox'
 import MessageBox from '../../messageBox/MessageBox'
+import { countJobsAppliedThisWeek } from '../utils/job.utils'
 
 const categoryIcon = <BiCategory size="40" color="#fff" />
 
 const JobSummery = ({ jobs }) => {
    if (!jobs || jobs.length < 1)
       return <MessageBox message="No Data to Display" />
+
+   const jobsThisWeek = countJobsAppliedThisWeek(jobs)
 
    return (
       <div className="job-summary">
@@ -21,6 +24,12 @@ const JobSummery = ({ jobs }) => {
                //  bgColor="card2"
                //  bgColor="card3"
                //  bgColor="card4"
+            />
+            <InfoBox
+               icon={categoryIcon}
+               title="Applied This Week"
+               count={jobsThisWeek}
+               bgColor="card2"
             />
          </div>
       </div>
