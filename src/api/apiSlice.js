@@ -217,6 +217,19 @@ export const apiSlice = createApi({
             url: `/jobs/${id}`,
             method: 'Delete',
          }),
+         async onQueryStarted(id, { dispatch, queryFulfilled }) {
+            try {
+               await queryFulfilled
+               toast.success('Delete Successful')
+            } catch (err) {
+               if (err.error.status === 401) {
+                  dispatch(setLogout())
+               }
+
+               toast.error(err.error.data.message)
+               console.log('error message', err.error.data.message)
+            }
+         },
          invalidatesTags: ['Jobs'],
       }),
    }),

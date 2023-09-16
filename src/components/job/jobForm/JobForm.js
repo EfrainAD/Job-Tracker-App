@@ -8,6 +8,8 @@ const JobForm = ({
    handleInputChange,
    onSubmit,
    submitLabelBtn,
+   secondSubmit,
+   secondSubmitLabelBtn,
 }) => {
    const handleSubmit = (e) => onSubmit(e)
    const handleOnChange = (e) => handleInputChange(e)
@@ -63,6 +65,15 @@ const JobForm = ({
                {allTextInputs}
                {/* Submit Button */}
                <div className="btn-container --my">
+                  {secondSubmit && (
+                     <button
+                        type="button"
+                        className="--btn --btn-danger"
+                        onClick={secondSubmit}
+                     >
+                        {secondSubmitLabelBtn}
+                     </button>
+                  )}
                   <button type="submit" className="--btn --btn-primary">
                      {submitLabelBtn}
                   </button>

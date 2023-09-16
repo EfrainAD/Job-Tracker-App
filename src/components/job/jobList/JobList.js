@@ -12,13 +12,12 @@ import MessageBox from '../../messageBox/MessageBox'
 import { useRemoveJobMutation } from '../../../api/apiSlice'
 import { confirmAlert } from 'react-confirm-alert'
 import 'react-confirm-alert/src/react-confirm-alert.css'
-import { toast } from 'react-toastify'
 
 const JobList = ({ jobs, isJobError, isLoadding }) => {
    const navigate = useNavigate()
    const [search, setSearch] = useState('')
    const [filteredJobs, setFilteredJobs] = useState(jobs)
-   const [removeJob, { isError, error, isSuccess }] = useRemoveJobMutation()
+   const [removeJob] = useRemoveJobMutation()
    //Pagination - variables
    const itemsPerPage = 15
    const [currentPage, setCurrentPage] = useState(-1)
@@ -27,22 +26,6 @@ const JobList = ({ jobs, isJobError, isLoadding }) => {
       filteredJobs?.length > 0
          ? Math.ceil(filteredJobs?.length / itemsPerPage)
          : 0
-
-   // API useEffect
-   useEffect(() => {
-      if (isError) {
-         const msg = `${error.status}: ${error.data.message}`
-
-         console.log(msg)
-         toast.error(msg)
-      }
-   }, [isError, error])
-
-   useEffect(() => {
-      if (isSuccess) {
-         toast.success('Removed Successfully')
-      }
-   }, [isSuccess])
 
    // Pagination
    useEffect(() => {
