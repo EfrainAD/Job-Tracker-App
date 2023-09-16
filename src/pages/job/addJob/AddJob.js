@@ -6,12 +6,6 @@ import { toast } from 'react-toastify'
 import { useNavigate } from 'react-router-dom'
 import { getTodaysDate } from '../../../utils/general.utils'
 
-// Usage
-// const timestamp = Date.now()
-// const date = new Date(timestamp)
-// const formattedDate = formatDate(date)
-// console.log(formattedDate)
-
 const AddJob = () => {
    const [job, setJob] = useState({
       // companyName: 'hi2',
@@ -58,16 +52,6 @@ const AddJob = () => {
       }
    }, [isSuccess, data, navigate])
 
-   const handleInputChange = (e) => {
-      const { name, value, type, checked } = e.target
-
-      if (type === 'checkbox') {
-         setJob({ ...job, [name]: checked })
-      } else {
-         setJob({ ...job, [name]: value })
-      }
-   }
-
    const saveJob = async (e) => {
       e.preventDefault()
 
@@ -79,7 +63,7 @@ const AddJob = () => {
          <JobForm
             title={'Add Job Entry'}
             job={job}
-            handleInputChange={handleInputChange}
+            setJob={setJob}
             onSubmit={saveJob}
             submitLabelBtn={'Add job'}
          />

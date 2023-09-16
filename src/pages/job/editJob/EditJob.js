@@ -8,7 +8,6 @@ import {
 import JobForm from '../../../components/job/jobForm/JobForm'
 import { SpinningImg } from '../../../components/loader/loader'
 import { toast } from 'react-toastify'
-import { confirmAlert } from 'react-confirm-alert'
 import { comfirmAndDelete } from '../../../utils/general.utils'
 
 const EditJob = () => {
@@ -32,16 +31,6 @@ const EditJob = () => {
          navigate('/dashboard/')
       }
    }, [isDeleteSuccessful, navigate])
-
-   const handleInputChange = (e) => {
-      const { name, value, type, checked } = e.target
-
-      if (type === 'checkbox') {
-         setJob({ ...job, [name]: checked })
-      } else {
-         setJob({ ...job, [name]: value })
-      }
-   }
 
    const handleUpdateJob = async (e) => {
       e.preventDefault()
@@ -73,7 +62,7 @@ const EditJob = () => {
             <JobForm
                title={'Edit Job Entry'}
                job={job}
-               handleInputChange={handleInputChange}
+               setJob={setJob}
                onSubmit={handleUpdateJob}
                submitLabelBtn={'Save Changes'}
                secondSubmit={handleDeleteJob}

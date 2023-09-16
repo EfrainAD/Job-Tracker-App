@@ -1,18 +1,30 @@
 import './jobForm.scss'
 import Card from '../../card/card'
 import InputForm from '../../form/inputForm/InputForm'
+import { getUrlHost } from '../../../utils/general.utils'
 
 const JobForm = ({
    title,
    job,
-   handleInputChange,
+   setJob,
    onSubmit,
    submitLabelBtn,
    secondSubmit,
    secondSubmitLabelBtn,
 }) => {
    const handleSubmit = (e) => onSubmit(e)
-   const handleOnChange = (e) => handleInputChange(e)
+   const handleOnChange = (e) => {
+      const { name, value, type, checked } = e.target
+
+      if (type === 'checkbox') {
+         setJob({ ...job, [name]: checked })
+      } else if (name === 'jobURL') {
+         const host = getUrlHost(value)
+         setJob({ ...job, [name]: value, jobSource: host })
+      } else {
+         setJob({ ...job, [name]: value })
+      }
+   }
 
    const formLabels = [
       { value: 'Job Title', type: 'text' },

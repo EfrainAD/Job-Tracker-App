@@ -10,7 +10,6 @@ import Search from '../../search/search'
 import { filterJobs } from '../utils/job.utils'
 import MessageBox from '../../messageBox/MessageBox'
 import { useRemoveJobMutation } from '../../../api/apiSlice'
-import { confirmAlert } from 'react-confirm-alert'
 import 'react-confirm-alert/src/react-confirm-alert.css'
 import { comfirmAndDelete } from '../../../utils/general.utils'
 

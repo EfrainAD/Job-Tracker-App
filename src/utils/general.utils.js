@@ -28,3 +28,13 @@ export const comfirmAndDelete = ({ title, deleteFunc, id }) => {
       ],
    })
 }
+
+export const getUrlHost = (urlStr) => {
+   try {
+      const url = new URL(urlStr).hostname
+      const parts = url.split('.')
+      const domain = parts[parts.length - 2]
+      return domain
+   } catch (_) {}
+   // NOTE: exmaple.com/co will return bad data, web browser should hide those when people copy form there broswer
+}
