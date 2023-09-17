@@ -232,6 +232,29 @@ export const apiSlice = createApi({
          },
          invalidatesTags: ['Jobs'],
       }),
+
+      /* Recruiter Endpoints */
+      saveRecruiter: builder.mutation({
+         query: ({ body }) => ({
+            url: `/recruiters`,
+            method: 'Post',
+            body,
+         }),
+         async onQueryStarted(id, { dispatch, queryFulfilled }) {
+            try {
+               await queryFulfilled
+               toast.success('Added Successfully')
+            } catch (err) {
+               if (err.error.status === 401) {
+                  dispatch(setLogout())
+               }
+
+               toast.error(err.error.data.message)
+               console.log('error message', err.error.data.message)
+            }
+         },
+         invalidatesTags: ['recruiters'],
+      }),
    }),
 })
 
@@ -253,4 +276,6 @@ export const {
    useUpdateJobMutation,
    useSaveJobMutation,
    useRemoveJobMutation,
+   /* Recruiters */
+   useSaveRecruiterMutation,
 } = apiSlice
