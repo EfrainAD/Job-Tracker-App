@@ -1,8 +1,7 @@
 import { useEffect, useState } from 'react'
 import JobForm from '../../../components/job/jobForm/JobForm'
-import { useSaveJobMutation } from '../../../api/apiSlice'
+import { useCreateJobMutation } from '../../../api/apiSlice'
 import { SpinningImg } from '../../../components/loader/loader'
-import { toast } from 'react-toastify'
 import { useNavigate } from 'react-router-dom'
 import { getTodaysDate } from '../../../utils/general.utils'
 
@@ -29,23 +28,11 @@ const AddJob = () => {
       // technicalChallengeInterviewDate: '2023-09-28',
    })
 
-   const [postJob, { isLoading, isError, error, isSuccess, data }] =
-      useSaveJobMutation()
+   const [postJob, { isLoading, isSuccess, data }] = useCreateJobMutation()
    const navigate = useNavigate()
 
    useEffect(() => {
-      if (isError) {
-         const msg = `${error.status}: ${error.data.message}`
-
-         console.log(msg)
-         toast.error(msg)
-      }
-   }, [isError, error])
-
-   useEffect(() => {
       if (isSuccess) {
-         toast.success('Added Successful')
-
          const { _id } = data
 
          navigate('/dashboard/job-detail/' + _id)

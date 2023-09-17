@@ -35,16 +35,8 @@ const EditJob = () => {
    const handleUpdateJob = async (e) => {
       e.preventDefault()
 
-      const { error } = await updateJob({ id, body: job })
+      await updateJob({ id, body: job })
 
-      if (error) {
-         const msg = `${error.status}: ${error.data.message}`
-
-         toast.error(msg)
-         console.log(msg)
-      } else {
-         toast.success('Update Successful')
-      }
       navigate('/dashboard/job-detail/' + id)
    }
 

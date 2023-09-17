@@ -44,6 +44,8 @@ export const apiSlice = createApi({
                await queryFulfilled
                dispatch(setLogout())
             } catch (err) {
+               dispatch(setLogout())
+
                toast.error(err.error.data.message)
                console.log('error message', err.error.data.message)
             }
@@ -62,14 +64,19 @@ export const apiSlice = createApi({
             try {
                await queryFulfilled
             } catch (err) {
-               const message = `Error when getting the user data. Returned error message: ${err.error.data.message}`
+               if (err.error.status === 401) {
+                  dispatch(setLogout())
 
-               toast.error(message)
-               console.log(message)
+                  toast.error("You're not logged in.")
+               } else {
+                  const message = `Error when getting the user data. Returned error message: ${err.error.data.message}`
+
+                  toast.error(message)
+                  console.log(message)
+               }
             }
          },
          providesTags: (result, error, arg) => [{ type: 'userData', id: arg }],
-         // staleTime: null,
       }),
       updateUser: builder.mutation({
          query: (body) => ({
@@ -77,13 +84,19 @@ export const apiSlice = createApi({
             method: 'PATCH',
             body,
          }),
-         async onQueryStarted(id, { queryFulfilled }) {
+         async onQueryStarted(id, { dispatch, queryFulfilled }) {
             try {
                await queryFulfilled
                toast.success('Update Successful')
             } catch (err) {
-               toast.error('Error while Updating your profile')
-               console.log(`Error Message: ${err.error.data.message}`)
+               if (err.error.status === 401) {
+                  dispatch(setLogout())
+
+                  toast.error("You're not logged in.")
+               } else {
+                  toast.error('Error while Updating your profile')
+                  console.log(`Error Message: ${err.error.data.message}`)
+               }
             }
          },
          invalidatesTags: ['userData'],
@@ -113,13 +126,19 @@ export const apiSlice = createApi({
             method: 'PATCH',
             body,
          }),
-         async onQueryStarted(id, { queryFulfilled }) {
+         async onQueryStarted(id, { dispatch, queryFulfilled }) {
             try {
                await queryFulfilled
                toast.success('Changed Password successful')
             } catch (err) {
-               toast.error(err.error.data.message)
-               console.log('Error:', err.error.data.err.message)
+               if (err.error.status === 401) {
+                  dispatch(setLogout())
+
+                  toast.error("You're not logged in.")
+               } else {
+                  toast.error(err.error.data.message)
+                  console.log('Error:', err.error.data.err.message)
+               }
             }
          },
       }),
@@ -161,6 +180,22 @@ export const apiSlice = createApi({
                ),
             }))
          },
+         async onQueryStarted(id, { dispatch, queryFulfilled }) {
+            try {
+               await queryFulfilled
+            } catch (err) {
+               if (err.error.status === 401) {
+                  dispatch(setLogout())
+
+                  toast.error("You're not logged in.")
+               } else {
+                  const message = `Error when getting the user data. Returned error message: ${err.error.data.message}`
+
+                  toast.error(message)
+                  console.log(message)
+               }
+            }
+         },
          providesTags: (result = [], error, arg) => [
             'Jobs',
             ...result.map(({ id }) => ({ type: 'Jobs', id })),
@@ -191,6 +226,22 @@ export const apiSlice = createApi({
                   : null,
             }
          },
+         async onQueryStarted(id, { dispatch, queryFulfilled }) {
+            try {
+               await queryFulfilled
+            } catch (err) {
+               if (err.error.status === 401) {
+                  dispatch(setLogout())
+
+                  toast.error("You're not logged in.")
+               } else {
+                  const message = `Error when getting the the job's data. Returned error message: ${err.error.data.message}`
+
+                  toast.error(message)
+                  console.log(message)
+               }
+            }
+         },
          providesTags: (result, error, arg) => [{ type: 'Jobs', id: arg }],
       }),
       updateJob: builder.mutation({
@@ -199,17 +250,53 @@ export const apiSlice = createApi({
             method: 'PATCH',
             body,
          }),
+         async onQueryStarted(id, { dispatch, queryFulfilled }) {
+            try {
+               await queryFulfilled
+
+               toast.success('Update Successful')
+            } catch (err) {
+               if (err.error.status === 401) {
+                  dispatch(setLogout())
+
+                  toast.error("You're not logged in.")
+               } else {
+                  const msg = `${err.error.data.status}: ${err.error.data.message}`
+
+                  toast.error(msg)
+                  console.log(msg)
+               }
+            }
+         },
          providesTags: (result, error, arg) => [{ type: 'Jobs', idTags: arg }],
          invalidatesTags: (result, error, arg) => [
             { type: 'Jobs', id: arg.id },
          ],
       }),
-      saveJob: builder.mutation({
+      createJob: builder.mutation({
          query: ({ body }) => ({
             url: `/jobs`,
             method: 'Post',
             body,
          }),
+         async onQueryStarted(id, { dispatch, queryFulfilled }) {
+            try {
+               await queryFulfilled
+
+               toast.success('Job was added successfully')
+            } catch (err) {
+               if (err.error.status === 401) {
+                  dispatch(setLogout())
+
+                  toast.error("You're not logged in.")
+               } else {
+                  toast.error(
+                     `Sorry, there was an error while creating your Job.`
+                  )
+                  console.log(err.error.data.message)
+               }
+            }
+         },
          invalidatesTags: ['Jobs'],
       }),
       removeJob: builder.mutation({
@@ -224,10 +311,12 @@ export const apiSlice = createApi({
             } catch (err) {
                if (err.error.status === 401) {
                   dispatch(setLogout())
-               }
 
-               toast.error(err.error.data.message)
-               console.log('error message', err.error.data.message)
+                  toast.error("You're not logged in.")
+               } else {
+                  toast.error(err.error.data.message)
+                  console.log('error message', err.error.data.message)
+               }
             }
          },
          invalidatesTags: ['Jobs'],
@@ -247,10 +336,12 @@ export const apiSlice = createApi({
             } catch (err) {
                if (err.error.status === 401) {
                   dispatch(setLogout())
-               }
 
-               toast.error(err.error.data.message)
-               console.log('error message', err.error.data.message)
+                  toast.error("You're not logged in.")
+               } else {
+                  toast.error(err.error.data.message)
+                  console.log('error message', err.error.data.message)
+               }
             }
          },
          invalidatesTags: ['recruiters'],
@@ -274,7 +365,7 @@ export const {
    useGetJobsQuery,
    useGetJobQuery,
    useUpdateJobMutation,
-   useSaveJobMutation,
+   useCreateJobMutation,
    useRemoveJobMutation,
    /* Recruiters */
    useSaveRecruiterMutation,
