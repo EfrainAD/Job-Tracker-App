@@ -323,6 +323,42 @@ export const apiSlice = createApi({
       }),
 
       /* Recruiter Endpoints */
+      getRecruiters: builder.query({
+         query: () => ({
+            url: '/recruiters',
+         }),
+         transformResponse: (response, meta, arg) => {
+            return response.map((item) => ({
+               ...item,
+               outreachDate: item.outreachDate
+                  ? formatDate(item.outreachDate)
+                  : null,
+               conversationDate: item.conversationDate
+                  ? formatDate(item.conversationDate)
+                  : null,
+            }))
+         },
+         async onQueryStarted(id, { dispatch, queryFulfilled }) {
+            try {
+               await queryFulfilled
+            } catch (err) {
+               if (err.error.status === 401) {
+                  dispatch(setLogout())
+
+                  toast.error("You're not logged in.")
+               } else {
+                  const message = `Error when getting the user data. Returned error message: ${err.error.data.message}`
+
+                  toast.error(message)
+                  console.log(message)
+               }
+            }
+         },
+         providesTags: (result = [], error, arg) => [
+            'Recruiters',
+            ...result.map(({ id }) => ({ type: 'Recruiters', id })),
+         ],
+      }),
       saveRecruiter: builder.mutation({
          query: ({ body }) => ({
             url: `/recruiters`,
@@ -368,5 +404,6 @@ export const {
    useCreateJobMutation,
    useRemoveJobMutation,
    /* Recruiters */
+   useGetRecruitersQuery,
    useSaveRecruiterMutation,
 } = apiSlice

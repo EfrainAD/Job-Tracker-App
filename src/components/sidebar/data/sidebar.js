@@ -8,6 +8,11 @@ const menu = [
       path: '/dashboard',
    },
    {
+      title: 'Recruiter Dashboard',
+      icon: <FaTh />,
+      path: '/dashboard/recruiter',
+   },
+   {
       title: 'Add Job',
       icon: <BiImageAdd />,
       path: '/dashboard/add-job',

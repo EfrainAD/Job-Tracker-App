@@ -15,6 +15,7 @@ import Profile from '../pages/profile/Profile'
 import EditProfile from '../pages/profile/EditProfile'
 import Register from '../pages/auth/Register'
 import AddRecruiter from '../pages/recruiter/addRecruiter/AddRecruiter'
+import RecruiterDashboard from '../pages/dashboard/RecruiterDashboard'
 
 const PageRouter = () => {
    return (
@@ -44,6 +45,16 @@ const PageRouter = () => {
                   <ProtectedPage>
                      <Layout>
                         <Dashboard />
+                     </Layout>
+                  </ProtectedPage>
+               }
+            />
+            <Route
+               path="/dashboard/recruiter"
+               element={
+                  <ProtectedPage>
+                     <Layout>
+                        <RecruiterDashboard />
                      </Layout>
                   </ProtectedPage>
                }
