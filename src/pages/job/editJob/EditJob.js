@@ -7,18 +7,20 @@ import {
 } from '../../../api/apiSlice'
 import JobForm from '../../../components/job/jobForm/JobForm'
 import { SpinningImg } from '../../../components/loader/loader'
-import { toast } from 'react-toastify'
 import { comfirmAndDelete } from '../../../utils/general.utils'
 
 const EditJob = () => {
    const navigate = useNavigate()
 
+   const [job, setJob] = useState({})
+   const [jobDeleted, setJobDeleted] = useState(false)
+
    const { id } = useParams()
-   const { data: jobFetched, isLoading } = useGetJobQuery(id)
+   const { data: jobFetched, isLoading } = useGetJobQuery(id, {
+      skip: jobDeleted,
+   })
    const [updateJob] = useUpdateJobMutation()
    const [deleteJob, { isSuccess: isDeleteSuccessful }] = useRemoveJobMutation()
-
-   const [job, setJob] = useState({})
 
    useEffect(() => {
       if (jobFetched) {
@@ -39,11 +41,17 @@ const EditJob = () => {
 
       navigate('/dashboard/job-detail/' + id)
    }
-
    const handleDeleteJob = async (e) => {
       e.preventDefault()
 
-      comfirmAndDelete({ title: 'Delete Job', deleteFunc: deleteJob, id })
+      comfirmAndDelete({
+         title: 'Delete Job',
+         deleteFunc: async () => {
+            setJobDeleted(true)
+            deleteJob(id)
+         },
+         id,
+      })
    }
 
    return (
