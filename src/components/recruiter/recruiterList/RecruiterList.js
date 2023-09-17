@@ -9,15 +9,16 @@ import { SpinningImg } from '../../loader/loader'
 import Search from '../../search/search'
 import { filterRecruiters } from '../../../utils/recruiter.utils'
 import MessageBox from '../../messageBox/MessageBox'
-// import { useRemoveRecruiterMutation } from '../../../api/apiSlice'
+import { useRemoveRecruiterMutation } from '../../../api/apiSlice'
 import 'react-confirm-alert/src/react-confirm-alert.css'
-// import { comfirmAndDelete } from '../../../utils/general.utils'
+import { comfirmAndDelete } from '../../../utils/general.utils'
 
 const RecruiterList = ({ recruiters, isRecruiterError, isLoadding }) => {
    const navigate = useNavigate()
    const [search, setSearch] = useState('')
    const [filteredRecruiters, setFilteredRecruiters] = useState(recruiters)
-   // const [removeRecruiter] = useRemoveRecruiterMutation()
+   const [removeRecruiter] = useRemoveRecruiterMutation()
+
    //Pagination - variables
    const itemsPerPage = 15
    const [currentPage, setCurrentPage] = useState(-1)
@@ -50,12 +51,12 @@ const RecruiterList = ({ recruiters, isRecruiterError, isLoadding }) => {
    }
 
    //    Action Buttons
-   const handleDeleteRecruiter = (id) => console.log('DELETE YOYO')
-   // comfirmAndDelete({
-   //    title: 'Delete Recruiter',
-   //    deleteFunc: removeRecruiter,
-   //    id,
-   // })
+   const handleDeleteRecruiter = (id) =>
+      comfirmAndDelete({
+         title: 'Delete Recruiter',
+         deleteFunc: removeRecruiter,
+         id,
+      })
 
    const handleViewRecruiter = (id) =>
       navigate(`/dashboard/recruiter-detail/${id}`)

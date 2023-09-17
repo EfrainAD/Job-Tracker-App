@@ -382,6 +382,28 @@ export const apiSlice = createApi({
          },
          invalidatesTags: ['recruiters'],
       }),
+      removeRecruiter: builder.mutation({
+         query: (id) => ({
+            url: `/recruiters/${id}`,
+            method: 'Delete',
+         }),
+         async onQueryStarted(id, { dispatch, queryFulfilled }) {
+            try {
+               await queryFulfilled
+               toast.success('Delete Successful')
+            } catch (err) {
+               if (err.error.status === 401) {
+                  dispatch(setLogout())
+
+                  toast.error("You're not logged in.")
+               } else {
+                  toast.error(err.error.data.message)
+                  console.log('error message', err.error.data.message)
+               }
+            }
+         },
+         invalidatesTags: ['Recruiters'],
+      }),
    }),
 })
 
@@ -406,4 +428,5 @@ export const {
    /* Recruiters */
    useGetRecruitersQuery,
    useSaveRecruiterMutation,
+   useRemoveRecruiterMutation,
 } = apiSlice

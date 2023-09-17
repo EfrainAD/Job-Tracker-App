@@ -20,23 +20,12 @@ const AddRecruiter = () => {
       dateApplied: getTodaysDate(),
    })
 
-   const [postRecruiter, { isLoading, isError, error, isSuccess, data }] =
+   const [postRecruiter, { isLoading, isSuccess, data }] =
       useSaveRecruiterMutation()
    const navigate = useNavigate()
 
    useEffect(() => {
-      if (isError) {
-         const msg = `${error.status}: ${error.data.message}`
-
-         console.log(msg)
-         toast.error(msg)
-      }
-   }, [isError, error])
-
-   useEffect(() => {
       if (isSuccess) {
-         toast.success('Added Successful')
-
          const { _id } = data
 
          navigate('/dashboard/recruiter-detail/' + _id)
