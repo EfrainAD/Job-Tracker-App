@@ -1,4 +1,12 @@
-const InputForm = ({ type, placeholder, name, value, onChange, ...arg }) => {
+const InputForm = ({
+   type,
+   placeholder,
+   name,
+   value,
+   onChange,
+   selectOptions,
+   ...arg
+}) => {
    switch (type) {
       case 'text':
       case 'email':
@@ -27,16 +35,23 @@ const InputForm = ({ type, placeholder, name, value, onChange, ...arg }) => {
                {...arg}
             />
          )
-      case 'enum':
+      case 'select':
          return (
-            <select name={name} value={value} onChange={onChange} {...arg}>
-               <option value="null">SELECT</option>
-               <option value="remote">Remote</option>
-               <option value="on-site">On-site</option>
-               <option value="hybrid">Hybrid</option>
+            <select
+               name={name}
+               defaultValue={'null'}
+               onChange={onChange}
+               {...arg}
+            >
+               <option value={'null'}>SELECT</option>
+               {selectOptions.map((option, idx) => (
+                  <option key={idx} value={option.value}>
+                     {option.text}
+                  </option>
+               ))}
             </select>
          )
-      case 'textArea':
+      case 'textarea':
          return (
             <textarea
                placeholder={placeholder}

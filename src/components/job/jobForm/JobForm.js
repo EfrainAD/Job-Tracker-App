@@ -33,16 +33,24 @@ const JobForm = ({
       { value: 'Job URL', type: 'url' },
       { value: 'Job Source', type: 'text' },
       { value: 'Easy Apply', type: 'checkbox' },
-      { value: 'Remote', type: 'enum' },
+      {
+         value: 'Remote',
+         type: 'select',
+         options: [
+            { value: 'remote', text: 'Remote' },
+            { value: 'on-site', text: 'On-site' },
+            { value: 'hybrid', text: 'Hybrid' },
+         ],
+      },
       { value: 'Job Location', type: 'text' },
       { value: 'Recruiter', type: 'text' },
       { value: 'Required Experience', type: 'number' },
       { value: 'Jobalytics Rating', type: 'number' },
       { value: 'Company Size', type: 'text' },
       { value: 'Resume', type: 'url' },
-      { value: 'Cover Letter', type: 'textArea' },
+      { value: 'Cover Letter', type: 'textarea' },
       { value: 'Rejection Date', type: 'date' },
-      { value: 'Rejection Reason', type: 'textArea' },
+      { value: 'Rejection Reason', type: 'textarea' },
       { value: 'First Interview Date', type: 'date' },
       { value: 'Technical Challenge Interview Date', type: 'date' },
       { value: 'Second Interview Date', type: 'date' },
@@ -63,6 +71,7 @@ const JobForm = ({
                name={name}
                value={jobOjbValue}
                onChange={handleOnChange}
+               {...(label.options ? { selectOptions: label.options } : null)}
             />
          </div>
       )
