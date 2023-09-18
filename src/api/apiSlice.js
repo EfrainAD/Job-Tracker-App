@@ -394,6 +394,37 @@ export const apiSlice = createApi({
             { type: 'Recruiters', id: arg },
          ],
       }),
+      updateRecruiter: builder.mutation({
+         query: ({ id, body }) => ({
+            url: `/recruiters/${id}`,
+            method: 'PATCH',
+            body,
+         }),
+         async onQueryStarted(id, { dispatch, queryFulfilled }) {
+            try {
+               await queryFulfilled
+
+               toast.success('Update Successful')
+            } catch (err) {
+               if (err.error.status === 401) {
+                  dispatch(setLogout())
+
+                  toast.error("You're not logged in.")
+               } else {
+                  const msg = `${err.error.data.status}: ${err.error.data.message}`
+
+                  toast.error(msg)
+                  console.log(msg)
+               }
+            }
+         },
+         providesTags: (result, error, arg) => [
+            { type: 'Recruiters', idTags: arg },
+         ],
+         invalidatesTags: (result, error, arg) => [
+            { type: 'Recruiters', id: arg.id },
+         ],
+      }),
       saveRecruiter: builder.mutation({
          query: ({ body }) => ({
             url: `/recruiters`,
@@ -463,6 +494,7 @@ export const {
    /* Recruiters */
    useGetRecruitersQuery,
    useGetRecruiterQuery,
+   useUpdateRecruiterMutation,
    useSaveRecruiterMutation,
    useRemoveRecruiterMutation,
 } = apiSlice

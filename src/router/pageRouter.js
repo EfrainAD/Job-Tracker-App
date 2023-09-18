@@ -17,6 +17,7 @@ import Register from '../pages/auth/Register'
 import AddRecruiter from '../pages/recruiter/addRecruiter/AddRecruiter'
 import RecruiterDashboard from '../pages/dashboard/RecruiterDashboard'
 import RecruiterDetail from '../pages/recruiter/recruiterDetail/RecruiterDetail'
+import EditRecruiter from '../pages/recruiter/editRecruiter/editRecruiter'
 
 const PageRouter = () => {
    return (
@@ -94,6 +95,16 @@ const PageRouter = () => {
             />
 
             {/* Recruiter Routes */}
+            <Route
+               path="/dashboard/edit-recruiter/:id"
+               element={
+                  <ProtectedPage>
+                     <Layout>
+                        <EditRecruiter />
+                     </Layout>
+                  </ProtectedPage>
+               }
+            />
             <Route
                path="/dashboard/add-recruiter"
                element={
