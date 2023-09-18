@@ -23,6 +23,11 @@ const menu = [
       path: '/dashboard/add-recruiter',
    },
    {
+      title: 'Couch',
+      icon: <BiImageAdd />,
+      path: '/dashboard/couch',
+   },
+   {
       title: 'Account',
       icon: <FaRegChartBar />,
       childrens: [

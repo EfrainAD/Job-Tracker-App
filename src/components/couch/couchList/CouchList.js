@@ -1,24 +1,30 @@
 import Card from '../../card/card'
 import { FaTrashAlt } from 'react-icons/fa'
 import './couchList.scss'
-
-const couchs = [
-   { couch: 'john yo', email: 'yo@yo.yo', _id: 1 },
-   { couch: 'gohn qo', _id: 2 },
-   { couch: 'iohn po', _id: 3 },
-   { couch: 'eohn  ko', _id: 4 },
-   { couch: 'lohn oo', _id: 5 },
-]
+import {
+   useGetCouchesQuery,
+   useRemoveCouchMutation,
+} from '../../../api/apiSlice'
+import { SpinningImg } from '../../loader/loader'
+import { comfirmAndDelete } from '../../../utils/general.utils'
 
 const CouchList = () => {
-   const handleDeleteCouch = (id) => {
-      console.log('Pressed Delete:', id)
+   const { data: couches, isLoading } = useGetCouchesQuery()
+   const [removeCouch] = useRemoveCouchMutation()
+
+   const handleDeleteCouch = async (id) => {
+      comfirmAndDelete({
+         title: 'Remove this person as your couch?',
+         deleteFunc: removeCouch,
+         id,
+      })
    }
 
    return (
       <div className="table">
          <Card>
-            {couchs?.length === 0 ? (
+            {isLoading && <SpinningImg />}
+            {couches?.length === 0 ? (
                <p>You have no couch</p>
             ) : (
                <table>
@@ -31,8 +37,8 @@ const CouchList = () => {
                      </tr>
                   </thead>
                   <tbody>
-                     {couchs?.map((couch, idx) => {
-                        const { _id, couch: currentCouch, email } = couch
+                     {couches?.map((couch, idx) => {
+                        const { _id, name: currentCouch, email } = couch
 
                         return (
                            <tr key={_id}>

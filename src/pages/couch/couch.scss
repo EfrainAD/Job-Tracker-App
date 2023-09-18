@@ -1,8 +1,7 @@
 .couch-list {
    color: #333;
 
-   p,
-   h1 {
+   & > * {
       margin: 2rem 0;
    }
 }

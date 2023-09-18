@@ -1,13 +1,12 @@
 .table {
    padding: 5px;
-   width: 40%;
+   width: 55rem;
    overflow-x: auto;
 
    table {
       border-collapse: collapse;
       width: 100%;
       font-size: 1.4rem;
-
       thead {
          border-top: 2px solid var(--light-blue);
          border-bottom: 2px solid var(--light-blue);

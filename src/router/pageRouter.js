@@ -18,6 +18,7 @@ import AddRecruiter from '../pages/recruiter/addRecruiter/AddRecruiter'
 import RecruiterDashboard from '../pages/dashboard/RecruiterDashboard'
 import RecruiterDetail from '../pages/recruiter/recruiterDetail/RecruiterDetail'
 import EditRecruiter from '../pages/recruiter/editRecruiter/editRecruiter'
+import Couch from '../pages/couch/Couch'
 
 const PageRouter = () => {
    return (
@@ -121,6 +122,18 @@ const PageRouter = () => {
                   <ProtectedPage>
                      <Layout>
                         <RecruiterDetail />
+                     </Layout>
+                  </ProtectedPage>
+               }
+            />
+
+            {/* Couch Routes */}
+            <Route
+               path="/dashboard/couch"
+               element={
+                  <ProtectedPage>
+                     <Layout>
+                        <Couch />
                      </Layout>
                   </ProtectedPage>
                }

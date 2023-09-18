@@ -493,7 +493,61 @@ export const apiSlice = createApi({
                }
             }
          },
-         invalidatesTags: ['couches'],
+         invalidatesTags: ['Couches'],
+      }),
+      getCouches: builder.query({
+         query: () => ({
+            url: '/couch/getUserCouches',
+         }),
+         transformResponse: (res, meta, arg) => {
+            return res.map((couch, idx) => ({
+               _id: couch._id,
+               name: couch.couch.name,
+               email: couch.couch.email,
+            }))
+         },
+         async onQueryStarted(id, { dispatch, queryFulfilled }) {
+            try {
+               await queryFulfilled
+            } catch (err) {
+               if (err.error.status === 401) {
+                  dispatch(setLogout())
+
+                  toast.error("You're not logged in.")
+               } else {
+                  toast.error(
+                     `Error when getting the list of couches. Returned error message: ${err.error.data.message}`
+                  )
+                  console.log(`${err.error.status}: ${err.error.data.message}`)
+               }
+            }
+         },
+         providesTags: (result = [], error, arg) => [
+            'Couches',
+            ...result.map(({ id }) => ({ type: 'Couches', id })),
+         ],
+      }),
+      removeCouch: builder.mutation({
+         query: (id) => ({
+            url: `/couch/${id}`,
+            method: 'Delete',
+         }),
+         async onQueryStarted(id, { dispatch, queryFulfilled }) {
+            try {
+               await queryFulfilled
+               toast.success('Delete Successful')
+            } catch (err) {
+               if (err.error.status === 401) {
+                  dispatch(setLogout())
+
+                  toast.error("You're not logged in.")
+               } else {
+                  toast.error(err.error.data.message)
+                  console.log('error message', err.error.data.message)
+               }
+            }
+         },
+         invalidatesTags: ['Couches'],
       }),
    }),
 })
@@ -524,4 +578,6 @@ export const {
    useRemoveRecruiterMutation,
    /* Couch */
    useAddCouchMutation,
+   useGetCouchesQuery,
+   useRemoveCouchMutation,
 } = apiSlice
