@@ -470,6 +470,31 @@ export const apiSlice = createApi({
          },
          invalidatesTags: ['Recruiters'],
       }),
+
+      /* Couch Endpoints */
+      addCouch: builder.mutation({
+         query: (body) => ({
+            url: `/couch/addusercouch`,
+            method: 'Post',
+            body,
+         }),
+         async onQueryStarted(id, { dispatch, queryFulfilled }) {
+            try {
+               await queryFulfilled
+               toast.success('Added Successfully')
+            } catch (err) {
+               if (err.error.status === 401) {
+                  dispatch(setLogout())
+
+                  toast.error("You're not logged in.")
+               } else {
+                  toast.error(err.error.data.message)
+                  console.log('error message:', err.error.data.message)
+               }
+            }
+         },
+         invalidatesTags: ['couches'],
+      }),
    }),
 })
 
@@ -497,4 +522,6 @@ export const {
    useUpdateRecruiterMutation,
    useSaveRecruiterMutation,
    useRemoveRecruiterMutation,
+   /* Couch */
+   useAddCouchMutation,
 } = apiSlice

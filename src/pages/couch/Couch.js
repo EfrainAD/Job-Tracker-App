@@ -2,6 +2,8 @@ import { FaTrashAlt } from 'react-icons/fa'
 import Card from '../../components/card/card'
 import './couch.scss'
 import { useState } from 'react'
+import { useAddCouchMutation } from '../../api/apiSlice'
+import { SpinningImg } from '../../components/loader/loader'
 
 const couchs = [
    { couch: 'john yo', email: 'yo@yo.yo', _id: 1 },
@@ -12,6 +14,7 @@ const couchs = [
 ]
 
 const Couch = () => {
+   const [addCouch, { isLoading }] = useAddCouchMutation()
    const handleDeleteCouch = (id) => {
       console.log('Pressed Delete:', id)
    }
@@ -20,9 +23,12 @@ const Couch = () => {
       const { name, value } = e.target
       setFormData({ [name]: value })
    }
-   const handleSubmit = (e) => {
+   const handleSubmit = async (e) => {
       e.preventDefault()
-      console.log('YO Submited')
+
+      await addCouch(formData)
+
+      setFormData({ email: '' })
    }
    return (
       <div className="couch-list">
@@ -76,6 +82,7 @@ const Couch = () => {
          </div>
          <div className={'addCouchForm'}>
             <Card>
+               {isLoading && <SpinningImg />}
                <form onSubmit={handleSubmit}>
                   <h2>Add a Couch</h2>
                   <input
