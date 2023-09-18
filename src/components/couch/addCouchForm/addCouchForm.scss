@@ -1,0 +1,35 @@
+.addCouchForm {
+   width: 40%;
+   form {
+      padding: 1rem;
+      // Removes lastpass from putting it's clickable icon inside the name field.
+      [data-lastpass-icon-root] {
+         display: none !important;
+      }
+      input {
+         display: block;
+         font-size: 1.6rem;
+         font-weight: 300;
+         padding: 1rem;
+         margin: 1rem 0;
+         width: 100%;
+         border: 1px solid #ccc;
+         border-bottom: 3px solid #ccc;
+         border-radius: 3px;
+         outline: none;
+
+         &:focus {
+            outline: none;
+            box-shadow: 0 1rem 2rem rgba(0, 0, 0, 0.1);
+            border-bottom: 3px solid #55c57a;
+         }
+
+         &:focus:invalid {
+            border-bottom: 3px solid #ff7730;
+         }
+      }
+      button[type='submit'] {
+         margin: 0;
+      }
+   }
+}
