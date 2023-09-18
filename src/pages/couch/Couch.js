@@ -1,6 +1,7 @@
 import { FaTrashAlt } from 'react-icons/fa'
 import Card from '../../components/card/card'
 import './couch.scss'
+import { useState } from 'react'
 
 const couchs = [
    { couch: 'john yo', email: 'yo@yo.yo', _id: 1 },
@@ -14,7 +15,15 @@ const Couch = () => {
    const handleDeleteCouch = (id) => {
       console.log('Pressed Delete:', id)
    }
-
+   const [formData, setFormData] = useState({ email: '' })
+   const handleOnChange = (e) => {
+      const { name, value } = e.target
+      setFormData({ [name]: value })
+   }
+   const handleSubmit = (e) => {
+      e.preventDefault()
+      console.log('YO Submited')
+   }
    return (
       <div className="couch-list">
          <h1>Couch</h1>
@@ -65,8 +74,27 @@ const Couch = () => {
                )}
             </Card>
          </div>
-         <div className="addCouchForm">
-            <form action=""></form>
+         <div className={'addCouchForm'}>
+            <Card>
+               <form onSubmit={handleSubmit}>
+                  <h2>Add a Couch</h2>
+                  <input
+                     type="email"
+                     autoComplete="email"
+                     data-lpignore="true"
+                     required
+                     placeholder="email"
+                     name="email"
+                     value={formData.email}
+                     onChange={handleOnChange}
+                  />
+                  <div className="--flex-end">
+                     <button type="submit" className="--btn --btn-primary">
+                        Add Couch
+                     </button>
+                  </div>
+               </form>
+            </Card>
          </div>
       </div>
    )
