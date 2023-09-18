@@ -2,7 +2,6 @@ import { useEffect, useState } from 'react'
 import RecruiterForm from '../../../components/recruiter/recruiterForm/RecruiterForm'
 import { useSaveRecruiterMutation } from '../../../api/apiSlice'
 import { SpinningImg } from '../../../components/loader/loader'
-import { toast } from 'react-toastify'
 import { useNavigate } from 'react-router-dom'
 import { getTodaysDate } from '../../../utils/general.utils'
 
