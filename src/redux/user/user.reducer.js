@@ -9,6 +9,7 @@ import { USER_ACTION_TYPES } from './user.types'
 const initialState = getLocalStrage() || {
    name: '',
    isLoggedIn: '',
+   roles: [],
 }
 
 export const userReducer = (state = initialState, action) => {
@@ -17,7 +18,6 @@ export const userReducer = (state = initialState, action) => {
    switch (type) {
       case USER_ACTION_TYPES.SET_LOGIN:
          const setUserObj = createSetUserObj(payload)
-
          setLocalStorage(setUserObj)
 
          return {
@@ -31,6 +31,7 @@ export const userReducer = (state = initialState, action) => {
             ...state,
             isLoggedIn: false,
             name: '',
+            roles: [],
          }
 
       // Set to be Removed

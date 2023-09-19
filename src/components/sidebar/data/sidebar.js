@@ -26,6 +26,7 @@ const menu = [
       title: 'Couch',
       icon: <BiImageAdd />,
       path: '/dashboard/couch',
+      role: 'couchee',
    },
    {
       title: 'Account',

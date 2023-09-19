@@ -3,6 +3,7 @@ export const createAction = (type, payload) => ({ type, payload })
 export const createSetUserObj = (user) => ({
    isLoggedIn: true,
    name: user.name,
+   roles: user.roles,
 })
 
 export const setLocalStorage = (setUserObj) => {
