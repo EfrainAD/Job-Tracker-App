@@ -322,6 +322,33 @@ export const apiSlice = createApi({
          invalidatesTags: ['Jobs'],
       }),
 
+      /* Job Boards Endpoints */
+      getJobBoards: builder.query({
+         query: () => ({
+            url: '/jobboards',
+         }),
+         async onQueryStarted(_, { dispatch, queryFulfilled }) {
+            try {
+               await queryFulfilled
+            } catch (err) {
+               if (err.error.status === 401) {
+                  dispatch(setLogout())
+
+                  toast.error("You're not logged in.")
+               } else {
+                  const message = `Error when getting the job boards data. Returned error message: ${err.error.data.message}`
+
+                  toast.error(message)
+                  console.log(message)
+               }
+            }
+         },
+         providesTags: (result = [], error, arg) => [
+            'JobBoards',
+            ...result.map(({ _id }) => ({ type: 'JobBoards', id: _id })),
+         ],
+      }),
+
       /* Recruiter Endpoints */
       getRecruiters: builder.query({
          query: () => ({
@@ -567,6 +594,8 @@ export const {
    useUpdateJobMutation,
    useCreateJobMutation,
    useRemoveJobMutation,
+   /* Job Board */
+   useGetJobBoardsQuery,
    /* Recruiters */
    useGetRecruitersQuery,
    useGetRecruiterQuery,
