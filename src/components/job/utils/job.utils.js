@@ -1,5 +1,5 @@
 export const filterJobs = (jobs = [], search = '') => {
-   const searchLowerCase = search.toLowerCase()
+   const searchLowerCase = search.toLowerCase().trim()
 
    return jobs?.filter(
       (job) =>

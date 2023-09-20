@@ -42,7 +42,7 @@ const AddJob = () => {
    const saveJob = async (e) => {
       e.preventDefault()
 
-      postJob({ body: job })
+      postJob(job)
    }
    return (
       <>

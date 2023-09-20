@@ -11,16 +11,17 @@ export const apiSlice = createApi({
       baseUrl,
       credentials: 'include',
    }),
+   tagTypes: ['userData', 'Jobs', 'Couches'],
 
    endpoints: (builder) => ({
       /* User Endpoints */
       loginUser: builder.mutation({
-         query: ({ email, password }) => ({
+         query: (body) => ({
             url: '/users/signin',
             method: 'POST',
-            body: { email, password },
+            body,
          }),
-         async onQueryStarted(id, { dispatch, queryFulfilled }) {
+         async onQueryStarted(body, { dispatch, queryFulfilled }) {
             try {
                const { data: user } = await queryFulfilled
 
@@ -39,7 +40,7 @@ export const apiSlice = createApi({
             url: '/users/signout',
             method: 'DELETE',
          }),
-         async onQueryStarted(id, { dispatch, queryFulfilled }) {
+         async onQueryStarted(_, { dispatch, queryFulfilled }) {
             try {
                await queryFulfilled
                dispatch(setLogout())
@@ -60,7 +61,7 @@ export const apiSlice = createApi({
          query: () => ({
             url: '/users/getuser',
          }),
-         async onQueryStarted(id, { dispatch, queryFulfilled }) {
+         async onQueryStarted(_, { dispatch, queryFulfilled }) {
             try {
                await queryFulfilled
             } catch (err) {
@@ -84,7 +85,7 @@ export const apiSlice = createApi({
             method: 'PATCH',
             body,
          }),
-         async onQueryStarted(id, { dispatch, queryFulfilled }) {
+         async onQueryStarted(body, { dispatch, queryFulfilled }) {
             try {
                await queryFulfilled
                toast.success('Update Successful')
@@ -107,7 +108,7 @@ export const apiSlice = createApi({
             method: 'POST',
             body,
          }),
-         async onQueryStarted(id, { queryFulfilled }) {
+         async onQueryStarted(body, { queryFulfilled }) {
             try {
                await queryFulfilled
                toast.success('New account made successfully')
@@ -126,7 +127,7 @@ export const apiSlice = createApi({
             method: 'PATCH',
             body,
          }),
-         async onQueryStarted(id, { dispatch, queryFulfilled }) {
+         async onQueryStarted(body, { dispatch, queryFulfilled }) {
             try {
                await queryFulfilled
                toast.success('Changed Password successful')
@@ -180,7 +181,7 @@ export const apiSlice = createApi({
                ),
             }))
          },
-         async onQueryStarted(id, { dispatch, queryFulfilled }) {
+         async onQueryStarted(_, { dispatch, queryFulfilled }) {
             try {
                await queryFulfilled
             } catch (err) {
@@ -198,7 +199,7 @@ export const apiSlice = createApi({
          },
          providesTags: (result = [], error, arg) => [
             'Jobs',
-            ...result.map(({ id }) => ({ type: 'Jobs', id })),
+            ...result.map(({ _id }) => ({ type: 'Jobs', id: _id })),
          ],
       }),
       getJob: builder.query({
@@ -250,7 +251,7 @@ export const apiSlice = createApi({
             method: 'PATCH',
             body,
          }),
-         async onQueryStarted(id, { dispatch, queryFulfilled }) {
+         async onQueryStarted(arg, { dispatch, queryFulfilled }) {
             try {
                await queryFulfilled
 
@@ -268,18 +269,17 @@ export const apiSlice = createApi({
                }
             }
          },
-         providesTags: (result, error, arg) => [{ type: 'Jobs', idTags: arg }],
          invalidatesTags: (result, error, arg) => [
             { type: 'Jobs', id: arg.id },
          ],
       }),
       createJob: builder.mutation({
-         query: ({ body }) => ({
+         query: (body) => ({
             url: `/jobs`,
             method: 'Post',
             body,
          }),
-         async onQueryStarted(id, { dispatch, queryFulfilled }) {
+         async onQueryStarted(body, { dispatch, queryFulfilled }) {
             try {
                await queryFulfilled
 
@@ -338,7 +338,7 @@ export const apiSlice = createApi({
                   : null,
             }))
          },
-         async onQueryStarted(id, { dispatch, queryFulfilled }) {
+         async onQueryStarted(_, { dispatch, queryFulfilled }) {
             try {
                await queryFulfilled
             } catch (err) {
@@ -356,7 +356,7 @@ export const apiSlice = createApi({
          },
          providesTags: (result = [], error, arg) => [
             'Recruiters',
-            ...result.map(({ id }) => ({ type: 'Recruiters', id })),
+            ...result.map(({ _id }) => ({ type: 'Recruiters', id: _id })),
          ],
       }),
       getRecruiter: builder.query({
@@ -400,7 +400,7 @@ export const apiSlice = createApi({
             method: 'PATCH',
             body,
          }),
-         async onQueryStarted(id, { dispatch, queryFulfilled }) {
+         async onQueryStarted(arg, { dispatch, queryFulfilled }) {
             try {
                await queryFulfilled
 
@@ -418,15 +418,12 @@ export const apiSlice = createApi({
                }
             }
          },
-         providesTags: (result, error, arg) => [
-            { type: 'Recruiters', idTags: arg },
-         ],
          invalidatesTags: (result, error, arg) => [
             { type: 'Recruiters', id: arg.id },
          ],
       }),
       saveRecruiter: builder.mutation({
-         query: ({ body }) => ({
+         query: (body) => ({
             url: `/recruiters`,
             method: 'Post',
             body,
@@ -472,29 +469,6 @@ export const apiSlice = createApi({
       }),
 
       /* Couch Endpoints */
-      addCouch: builder.mutation({
-         query: (body) => ({
-            url: `/couch/addusercouch`,
-            method: 'Post',
-            body,
-         }),
-         async onQueryStarted(id, { dispatch, queryFulfilled }) {
-            try {
-               await queryFulfilled
-               toast.success('Added Successfully')
-            } catch (err) {
-               if (err.error.status === 401) {
-                  dispatch(setLogout())
-
-                  toast.error("You're not logged in.")
-               } else {
-                  toast.error(err.error.data.message)
-                  console.log('error message:', err.error.data.message)
-               }
-            }
-         },
-         invalidatesTags: ['Couches'],
-      }),
       getCouches: builder.query({
          query: () => ({
             url: '/couch/getUserCouches',
@@ -506,7 +480,7 @@ export const apiSlice = createApi({
                email: couch.couch.email,
             }))
          },
-         async onQueryStarted(id, { dispatch, queryFulfilled }) {
+         async onQueryStarted(arg, { dispatch, queryFulfilled }) {
             try {
                await queryFulfilled
             } catch (err) {
@@ -524,8 +498,31 @@ export const apiSlice = createApi({
          },
          providesTags: (result = [], error, arg) => [
             'Couches',
-            ...result.map(({ id }) => ({ type: 'Couches', id })),
+            ...result.map(({ _id }) => ({ type: 'Couches', id: _id })),
          ],
+      }),
+      addCouch: builder.mutation({
+         query: (body) => ({
+            url: `/couch/addusercouch`,
+            method: 'Post',
+            body,
+         }),
+         async onQueryStarted(body, { dispatch, queryFulfilled }) {
+            try {
+               await queryFulfilled
+               toast.success('Added Successfully')
+            } catch (err) {
+               if (err.error.status === 401) {
+                  dispatch(setLogout())
+
+                  toast.error("You're not logged in.")
+               } else {
+                  toast.error(err.error.data.message)
+                  console.log('error message:', err.error.data.message)
+               }
+            }
+         },
+         invalidatesTags: ['Couches'],
       }),
       removeCouch: builder.mutation({
          query: (id) => ({

@@ -34,7 +34,7 @@ const AddRecruiter = () => {
    const saveRecruiter = async (e) => {
       e.preventDefault()
 
-      postRecruiter({ body: recruiter })
+      postRecruiter(recruiter)
    }
    return (
       <>
