@@ -6,14 +6,14 @@ import { SpinningImg } from '../../loader/loader'
 import Search from '../../search/search'
 import { filterJobBoards } from '../../../utils/jobBoard.utils'
 import MessageBox from '../../messageBox/MessageBox'
-// import { useRemoveJobBoardMutation } from '../../../api/apiSlice'
+import { useRemoveJobBoardMutation } from '../../../api/apiSlice'
 import 'react-confirm-alert/src/react-confirm-alert.css'
 import { comfirmAndDelete } from '../../../utils/general.utils'
 
 const JobBoardList = ({ jobBoards, isJobBoardError, isLoading }) => {
    const [search, setSearch] = useState('')
    const [filteredJobBoards, setFilteredJobBoards] = useState(jobBoards)
-   // const [removeJobBoard] = useRemoveJobBoardMutation()
+   const [removeJobBoard] = useRemoveJobBoardMutation()
 
    useEffect(() => {
       const newFilteredjobBoard = filterJobBoards(jobBoards, search)
@@ -25,9 +25,8 @@ const JobBoardList = ({ jobBoards, isJobBoardError, isLoading }) => {
    const handleEditJobBoard = (id) => console.log('Not yet built')
    const handleDeleteJobBoard = (id) =>
       comfirmAndDelete({
-         title: 'Delete JobBoard',
-         deleteFunc: (id) => console.log(id),
-         // deleteFunc: removeJobBoard,
+         title: 'Delete Job Board',
+         deleteFunc: removeJobBoard,
          id,
       })
 
