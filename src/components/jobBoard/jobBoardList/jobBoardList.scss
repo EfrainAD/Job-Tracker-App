@@ -29,11 +29,46 @@
             border: 1px solid #eee;
          }
 
-         th,
-         td {
+         td,
+         th {
             vertical-align: top;
             text-align: left;
             padding: 8px;
+            div,
+            form {
+               padding: 5px;
+               label {
+                  font-size: 1.4rem;
+                  font-weight: 500;
+                  color: var(--color-dark);
+               }
+               input[type='text'],
+               input[type='url'],
+               textArea {
+                  display: block;
+                  font-size: 1.6rem;
+                  font-weight: 300;
+                  padding: 1rem;
+                  margin: 1rem auto;
+                  width: 100%;
+                  border: 1px solid #777;
+                  border-radius: 3px;
+                  outline: none;
+               }
+               input[type='date'] {
+                  width: auto;
+                  margin: 1rem 0;
+               }
+               input[type='checkbox'] {
+                  display: inline;
+                  margin-left: 1rem;
+               }
+               .btn-container {
+                  display: flex;
+                  justify-content: flex-end;
+                  margin-top: 2rem;
+               }
+            }
 
             &.icons {
                display: flex;
@@ -50,6 +85,7 @@
 
          tr {
             border-bottom: 1px solid #ccc;
+            width: 100%;
          }
 
          tr:nth-child(even) {

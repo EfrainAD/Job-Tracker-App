@@ -1,51 +1,53 @@
-.table {
-   padding: 5px;
-   width: 55rem;
-   overflow-x: auto;
+.coach-list {
+   .table {
+      padding: 5px;
+      width: 55rem;
+      overflow-x: auto;
 
-   table {
-      border-collapse: collapse;
-      width: 100%;
-      font-size: 1.4rem;
-      thead {
-         border-top: 2px solid var(--light-blue);
-         border-bottom: 2px solid var(--light-blue);
-      }
+      table {
+         border-collapse: collapse;
+         width: 100%;
+         font-size: 1.4rem;
+         thead {
+            border-top: 2px solid var(--light-blue);
+            border-bottom: 2px solid var(--light-blue);
+         }
 
-      th {
-         border: 1px solid #eee;
-      }
+         th {
+            border: 1px solid #eee;
+         }
 
-      th,
-      td {
-         vertical-align: top;
-         text-align: center;
-         padding: 8px;
+         th,
+         td {
+            vertical-align: top;
+            text-align: center;
+            padding: 8px;
 
-         &.icons {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            > * {
-               margin-right: 7px;
-               cursor: pointer;
-               vertical-align: middle;
-               align-self: center;
+            &.icons {
+               display: flex;
+               justify-content: center;
+               align-items: center;
+               > * {
+                  margin-right: 7px;
+                  cursor: pointer;
+                  vertical-align: middle;
+                  align-self: center;
+               }
             }
          }
-      }
 
-      tr {
-         border-bottom: 1px solid #ccc;
-      }
+         tr {
+            border-bottom: 1px solid #ccc;
+         }
 
-      tr:nth-child(even) {
-         background-color: #fff;
-      }
-      tbody {
-         tr:hover {
-            cursor: pointer;
-            background-color: rgba(31, 147, 255, 0.3);
+         tr:nth-child(even) {
+            background-color: #fff;
+         }
+         tbody {
+            tr:hover {
+               cursor: pointer;
+               background-color: rgba(31, 147, 255, 0.3);
+            }
          }
       }
    }

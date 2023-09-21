@@ -348,6 +348,34 @@ export const apiSlice = createApi({
             ...result.map(({ _id }) => ({ type: 'JobBoards', id: _id })),
          ],
       }),
+      updateJobBoard: builder.mutation({
+         query: ({ id, body }) => ({
+            url: `/jobboards/${id}`,
+            method: 'PATCH',
+            body,
+         }),
+         async onQueryStarted(arg, { dispatch, queryFulfilled }) {
+            try {
+               await queryFulfilled
+
+               toast.success('Update Successful')
+            } catch (err) {
+               if (err.error.status === 401) {
+                  dispatch(setLogout())
+
+                  toast.error("You're not logged in.")
+               } else {
+                  const msg = `${err.error.data.status}: ${err.error.data.message}`
+
+                  toast.error(msg)
+                  console.log(msg)
+               }
+            }
+         },
+         invalidatesTags: (result, error, arg) => [
+            { type: 'JobBoards', id: arg.id },
+         ],
+      }),
       removeJobBoard: builder.mutation({
          query: (id) => ({
             url: `/jobboards/${id}`,
@@ -617,6 +645,7 @@ export const {
    useRemoveJobMutation,
    /* Job Board */
    useGetJobBoardsQuery,
+   useUpdateJobBoardMutation,
    useRemoveJobBoardMutation,
    /* Recruiters */
    useGetRecruitersQuery,

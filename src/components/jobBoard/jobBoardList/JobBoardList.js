@@ -1,34 +1,22 @@
 import './jobBoardList.scss'
 
-import { FaExternalLinkAlt, FaEdit, FaTrashAlt } from 'react-icons/fa'
 import { useEffect, useState } from 'react'
 import { SpinningImg } from '../../loader/loader'
 import Search from '../../search/search'
 import { filterJobBoards } from '../../../utils/jobBoard.utils'
 import MessageBox from '../../messageBox/MessageBox'
-import { useRemoveJobBoardMutation } from '../../../api/apiSlice'
 import 'react-confirm-alert/src/react-confirm-alert.css'
-import { comfirmAndDelete } from '../../../utils/general.utils'
+import JobBoardTableRow from '../table/JobBoardRow'
 
 const JobBoardList = ({ jobBoards, isJobBoardError, isLoading }) => {
    const [search, setSearch] = useState('')
    const [filteredJobBoards, setFilteredJobBoards] = useState(jobBoards)
-   const [removeJobBoard] = useRemoveJobBoardMutation()
 
    useEffect(() => {
       const newFilteredjobBoard = filterJobBoards(jobBoards, search)
 
       setFilteredJobBoards(newFilteredjobBoard)
    }, [search, jobBoards, setFilteredJobBoards])
-
-   const handleGoToJobBoard = (url) => window.open(url, '_blank')
-   const handleEditJobBoard = (id) => console.log('Not yet built')
-   const handleDeleteJobBoard = (id) =>
-      comfirmAndDelete({
-         title: 'Delete Job Board',
-         deleteFunc: removeJobBoard,
-         id,
-      })
 
    return (
       <div className="job-board-list">
@@ -62,41 +50,12 @@ const JobBoardList = ({ jobBoards, isJobBoardError, isLoading }) => {
                      </tr>
                   </thead>
                   <tbody>
-                     {filteredJobBoards?.map((jobboard, index) => {
-                        const { _id, name, searchUrl, notes } = jobboard
-
+                     {filteredJobBoards?.map((jobBoard, index) => {
                         return (
-                           <tr key={_id}>
-                              <td>{index + 1}</td>
-                              <td>{name}</td>
-                              <td>{notes}</td>
-                              {/* Icons */}
-                              <td className="icons">
-                                 <span>
-                                    <FaExternalLinkAlt
-                                       size="18"
-                                       color="purble"
-                                       onClick={() =>
-                                          handleGoToJobBoard(searchUrl)
-                                       }
-                                    />
-                                 </span>
-                                 <span>
-                                    <FaEdit
-                                       size="20"
-                                       color="green"
-                                       onClick={() => handleEditJobBoard(_id)}
-                                    />
-                                 </span>
-                                 <span>
-                                    <FaTrashAlt
-                                       size="16"
-                                       color="red"
-                                       onClick={() => handleDeleteJobBoard(_id)}
-                                    />
-                                 </span>
-                              </td>
-                           </tr>
+                           <JobBoardTableRow
+                              index={index + 1}
+                              jobBoard={jobBoard}
+                           />
                         )
                      })}
                   </tbody>
