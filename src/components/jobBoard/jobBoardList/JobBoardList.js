@@ -7,9 +7,11 @@ import { filterJobBoards } from '../../../utils/jobBoard.utils'
 import MessageBox from '../../messageBox/MessageBox'
 import 'react-confirm-alert/src/react-confirm-alert.css'
 import JobBoardTableRow from '../table/JobBoardRow'
+import JobBoardRowForm from '../table/JobBoardRowForm'
 
 const JobBoardList = ({ jobBoards, isJobBoardError, isLoading }) => {
    const [search, setSearch] = useState('')
+   const [showAddForm, setShowAddForm] = useState(false)
    const [filteredJobBoards, setFilteredJobBoards] = useState(jobBoards)
 
    useEffect(() => {
@@ -53,11 +55,17 @@ const JobBoardList = ({ jobBoards, isJobBoardError, isLoading }) => {
                      {filteredJobBoards?.map((jobBoard, index) => {
                         return (
                            <JobBoardTableRow
+                              type={'info'}
                               index={index + 1}
                               jobBoard={jobBoard}
                            />
                         )
                      })}
+                     <JobBoardTableRow
+                        type={'openForm'}
+                        index={jobBoards?.length + 1}
+                        setDisplay={setShowAddForm}
+                     />
                   </tbody>
                </table>
             )}

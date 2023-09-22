@@ -1,13 +1,17 @@
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { FaExternalLinkAlt, FaEdit, FaTrashAlt } from 'react-icons/fa'
 import { comfirmAndDelete } from '../../../utils/general.utils'
-import InputField from '../../form/inputField/InputField.js'
 import { useRemoveJobBoardMutation } from '../../../api/apiSlice'
 import JobBoardRowForm from './JobBoardRowForm'
 
-const JobBoardTableRow = ({ jobBoard, index }) => {
+const JobBoardTableRow = ({
+   jobBoard = {},
+   index,
+   type = 'info',
+   setDisplay,
+}) => {
    const { _id, name, searchUrl, notes } = jobBoard
-   const [editMode, setEditMode] = useState(false)
+   const [mode, setMode] = useState(type)
 
    const [removeJobBoard] = useRemoveJobBoardMutation()
 
@@ -20,19 +24,36 @@ const JobBoardTableRow = ({ jobBoard, index }) => {
          id,
       })
    const handleSetEditMode = () => {
-      setEditMode(true)
+      setMode('edit')
    }
 
    return (
       <>
-         {editMode ? (
+         {mode === 'add' || mode === 'edit' ? (
             <JobBoardRowForm
                jobBaord={jobBoard}
                index={index}
-               editMode={editMode}
-               setEditMode={setEditMode}
+               mode={mode}
+               setMode={setMode}
+               setDisplay={setDisplay}
             />
-         ) : (
+         ) : mode === 'openForm' ? (
+            <tr>
+               <td>{index}</td>
+               <td colSpan={3}>
+                  {
+                     <button
+                        className="--btn --btn-block "
+                        onClick={() => {
+                           setMode('add')
+                        }}
+                     >
+                        Add New Job Board
+                     </button>
+                  }
+               </td>
+            </tr>
+         ) : mode === 'info' ? (
             <tr key={index}>
                <td>{index}</td>
                <td>{name}</td>
@@ -41,7 +62,7 @@ const JobBoardTableRow = ({ jobBoard, index }) => {
                   <span>
                      <FaExternalLinkAlt
                         size="18"
-                        color="purble"
+                        color="purple"
                         onClick={() => handleGoToJobBoard(searchUrl)}
                      />
                   </span>
@@ -61,7 +82,7 @@ const JobBoardTableRow = ({ jobBoard, index }) => {
                   </span>
                </td>
             </tr>
-         )}
+         ) : null}
       </>
    )
 }

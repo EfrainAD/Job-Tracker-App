@@ -1,9 +1,12 @@
 import { useEffect, useState } from 'react'
 import InputField from '../../form/inputField/InputField.js'
-import { useUpdateJobBoardMutation } from '../../../api/apiSlice'
+import {
+   useCreateJobBoardMutation,
+   useUpdateJobBoardMutation,
+} from '../../../api/apiSlice'
 import { SpinningImg } from '../../loader/loader'
 
-const initialForm = { name: '', notes: '', searchUrl: '' }
+const initialState = { name: '', notes: '', searchUrl: '' }
 
 const fieldAttributes = [
    { label: 'Name', type: 'text', name: 'name' },
@@ -11,25 +14,61 @@ const fieldAttributes = [
    { label: 'URL', type: 'url', name: 'searchUrl' },
 ]
 
-const JobBoardRowForm = ({ jobBaord, index, editMode, setEditMode }) => {
-   const { _id } = jobBaord
+const title = {
+   add: 'Add a New Job Baord',
+   edit: 'Edit the Job Baord',
+}
+
+const submitLabel = {
+   add: 'Submit Job Board',
+   edit: 'Submit Edit',
+}
+
+const cancelBtn = {
+   add: (setFunc) => {
+      setFunc('openForm')
+   },
+   edit: (setFunc) => {
+      setFunc('info')
+   },
+}
+
+const JobBoardRowForm = ({ jobBaord, index, mode, setMode }) => {
+   const _id = jobBaord?._id
    const [formData, setFormData] = useState({})
+   const [isLoading, setIsLoading] = useState(false)
+
    const [
       updateJobBoard,
       { isLoading: isUpdateLoading, isSuccess: isUpdateSuccess },
    ] = useUpdateJobBoardMutation()
 
-   useEffect(() => {
-      if (editMode) {
-         setFormData({ ...jobBaord })
-      } else {
-         setFormData({ ...initialForm })
-      }
-   }, [editMode, jobBaord, setFormData])
+   const [createJobBoard, { isLoading: isPosting, isSuccess: isPostSuccess }] =
+      useCreateJobBoardMutation()
 
    useEffect(() => {
-      if (isUpdateSuccess) setEditMode(false)
-   }, [isUpdateSuccess, setEditMode])
+      if (isPostSuccess) setMode('openForm')
+   }, [isPostSuccess, setMode])
+
+   useEffect(() => {
+      if (isPosting || isUpdateLoading) {
+         setIsLoading(true)
+      } else {
+         setIsLoading(false)
+      }
+   }, [isPosting, isUpdateLoading, setIsLoading])
+
+   useEffect(() => {
+      if (mode === 'add') {
+         setFormData({ ...initialState })
+      } else {
+         setFormData({ ...jobBaord })
+      }
+   }, [mode, jobBaord, setFormData])
+
+   useEffect(() => {
+      if (isUpdateSuccess) setMode('info')
+   }, [isUpdateSuccess, setMode])
 
    const handleInputChange = (e) => {
       const { name, value } = e.target
@@ -39,10 +78,15 @@ const JobBoardRowForm = ({ jobBaord, index, editMode, setEditMode }) => {
 
    const handleSubmit = (e) => {
       e.preventDefault()
+
       const { name, notes, searchUrl } = formData
       const body = { name, notes, searchUrl }
 
-      updateJobBoard({ id: _id, body })
+      if (mode === 'add') {
+         createJobBoard(body)
+      } else {
+         updateJobBoard({ id: _id, body })
+      }
    }
 
    const allFields = fieldAttributes.map((field, idx) => (
@@ -60,22 +104,22 @@ const JobBoardRowForm = ({ jobBaord, index, editMode, setEditMode }) => {
    return (
       <tr>
          <td colSpan={'4'} key={index}>
-            <h3 className="title">Edit the Job Baord</h3>
+            <h3 className="title">{title[mode]}</h3>
             <hr />
             <form onSubmit={handleSubmit}>
-               {isUpdateLoading && <SpinningImg />}
+               {isLoading && <SpinningImg />}
                {}
                <div className="form">{allFields}</div>
                <div className="btn-container">
                   <button
                      type="button"
                      className="--btn --btn-danger"
-                     onClick={() => setEditMode(false)}
+                     onClick={() => cancelBtn[mode](setMode)}
                   >
                      Cancel
                   </button>
                   <button type="submit" className="--btn --btn-primary">
-                     Submit Edit
+                     {submitLabel[mode]}
                   </button>
                </div>
             </form>
