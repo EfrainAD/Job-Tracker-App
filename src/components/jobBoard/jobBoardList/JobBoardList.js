@@ -1,5 +1,4 @@
 import './jobBoardList.scss'
-
 import { useEffect, useState } from 'react'
 import { SpinningImg } from '../../loader/loader'
 import Search from '../../search/search'
@@ -7,11 +6,18 @@ import { filterJobBoards } from '../../../utils/jobBoard.utils'
 import MessageBox from '../../messageBox/MessageBox'
 import 'react-confirm-alert/src/react-confirm-alert.css'
 import JobBoardTableRow from '../table/JobBoardRow'
-import JobBoardRowForm from '../table/JobBoardRowForm'
+import Table from '../../table/Table'
+import SearchbarBanner from '../../searchbarBanner/SearchbarBanner'
+
+const tableHeaders = [
+   { label: '' },
+   { label: 'Job Board' },
+   { label: 'Notes' },
+   { label: 'Action', classname: '--center-all' },
+]
 
 const JobBoardList = ({ jobBoards, isJobBoardError, isLoading }) => {
    const [search, setSearch] = useState('')
-   const [showAddForm, setShowAddForm] = useState(false)
    const [filteredJobBoards, setFilteredJobBoards] = useState(jobBoards)
 
    useEffect(() => {
@@ -22,14 +28,11 @@ const JobBoardList = ({ jobBoards, isJobBoardError, isLoading }) => {
 
    return (
       <div className="job-board-list">
-         <hr />
-         <div className="search-banner">
-            <h3>Job Boards</h3>
-            <Search
-               value={search}
-               onChange={(e) => setSearch(e.target.value)}
-            />
-         </div>
+         <SearchbarBanner
+            title={'Job Boards'}
+            searchValue={search}
+            handleOnChange={(e) => setSearch(e.target.value)}
+         />
 
          {/* List of JobBoards */}
          <div className="table">
@@ -42,32 +45,22 @@ const JobBoardList = ({ jobBoards, isJobBoardError, isLoading }) => {
                   message={`There was an ${isJobBoardError.status} error when fetching the jobboard, with message that says "${isJobBoardError.data.message}"`}
                />
             ) : (
-               <table>
-                  <thead>
-                     <tr>
-                        <th></th>
-                        <th>Job Board</th>
-                        <th>Notes</th>
-                        <th className="--center-all">Action</th>
-                     </tr>
-                  </thead>
-                  <tbody>
-                     {filteredJobBoards?.map((jobBoard, index) => {
-                        return (
-                           <JobBoardTableRow
-                              type={'info'}
-                              index={index + 1}
-                              jobBoard={jobBoard}
-                           />
-                        )
-                     })}
-                     <JobBoardTableRow
-                        type={'openForm'}
-                        index={jobBoards?.length + 1}
-                        setDisplay={setShowAddForm}
-                     />
-                  </tbody>
-               </table>
+               <Table headers={tableHeaders}>
+                  {filteredJobBoards?.map((jobBoard, index) => {
+                     return (
+                        <JobBoardTableRow
+                           key={index}
+                           index={index + 1}
+                           type={'info'}
+                           jobBoard={jobBoard}
+                        />
+                     )
+                  })}
+                  <JobBoardTableRow
+                     index={jobBoards?.length + 1}
+                     type={'AddButtonForm'}
+                  />
+               </Table>
             )}
          </div>
       </div>
