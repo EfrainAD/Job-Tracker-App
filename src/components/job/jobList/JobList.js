@@ -6,12 +6,25 @@ import { useEffect, useState } from 'react'
 import ReactPaginate from 'react-paginate'
 import { useNavigate } from 'react-router-dom'
 import { SpinningImg } from '../../loader/loader'
-import Search from '../../search/search'
 import { filterJobs } from '../utils/job.utils'
 import MessageBox from '../../messageBox/MessageBox'
 import { useRemoveJobMutation } from '../../../api/apiSlice'
 import 'react-confirm-alert/src/react-confirm-alert.css'
 import { comfirmAndDelete } from '../../../utils/general.utils'
+import Table from '../../table/Table'
+import SearchbarBanner from '../../searchbarBanner/SearchbarBanner'
+
+const headers = [
+   { label: '' },
+   { label: 'Job Title' },
+   { label: 'Company' },
+   { label: 'Recruiter' },
+   { label: 'Remote' },
+   { label: 'Date Applied' },
+   { label: 'Rejection' },
+   { label: 'Had Interview' },
+   { label: 'Action' },
+]
 
 const JobList = ({ jobs, isJobError, isLoadding }) => {
    const navigate = useNavigate()
@@ -58,13 +71,11 @@ const JobList = ({ jobs, isJobError, isLoadding }) => {
    return (
       <div className="job-list">
          <hr />
-         <div className="search-banner">
-            <h3>Jobs</h3>
-            <Search
-               value={search}
-               onChange={(e) => setSearch(e.target.value)}
-            />
-         </div>
+         <SearchbarBanner
+            title={'Jobs'}
+            searchValue={search}
+            handleOnChange={(e) => setSearch(e.target.value)}
+         />
 
          {/* List of Jobs */}
          <div className="table">
@@ -77,72 +88,57 @@ const JobList = ({ jobs, isJobError, isLoadding }) => {
                   message={`There was an ${isJobError.status} error when fetching the jobs, with message that says "${isJobError.data.message}"`}
                />
             ) : (
-               <table>
-                  <thead>
-                     <tr>
-                        <th></th>
-                        <th>Job Title</th>
-                        <th>Company</th>
-                        <th>Recruiter</th>
-                        <th>Remote</th>
-                        <th>Date Applied</th>
-                        <th>Rejection</th>
-                        <th>Had Interview</th>
-                        <th>Action</th>
-                     </tr>
-                  </thead>
-                  <tbody>
-                     {currentItems?.map((job, index) => {
-                        const {
-                           _id,
-                           jobTitle,
-                           companyName,
-                           recruiter,
-                           remote,
-                           dateApplied,
-                           rejectionDate,
-                           hadInterview,
-                        } = job
+               <Table headers={headers}>
+                  {currentItems?.map((job, index) => {
+                     const {
+                        _id,
+                        jobTitle,
+                        companyName,
+                        recruiter,
+                        remote,
+                        dateApplied,
+                        rejectionDate,
+                        hadInterview,
+                     } = job
 
-                        return (
-                           <tr key={_id}>
-                              <td>{index + 1}</td>
-                              <td>{jobTitle}</td>
-                              <td>{companyName}</td>
-                              <td>{recruiter?.length > 0 ? 'Yes' : 'No'}</td>
-                              <td>{remote}</td>
-                              <td>{dateApplied}</td>
-                              <td>{rejectionDate ? rejectionDate : 'none'}</td>
-                              <td>{hadInterview ? 'Yes' : 'No'}</td>
-                              {/* Icons */}
-                              <td className="icons">
-                                 <span>
-                                    <AiOutlineEye
-                                       size="25"
-                                       color="purble"
-                                       onClick={() => handleViewJob(job._id)}
-                                    />
-                                 </span>
-                                 <span>
-                                    <FaEdit
-                                       size="20"
-                                       color="green"
-                                       onClick={() => handleEditJob(job._id)}
-                                    />
-                                 </span>
-                                 <span>
-                                    <FaTrashAlt
-                                       size="20"
-                                       color="red"
-                                       onClick={() => handleDeleteJob(job._id)}
-                                    />
-                                 </span>
-                              </td>
-                           </tr>
-                        )
-                     })}
-                  </tbody>
-               </table>
+                     return (
+                        <tr key={_id}>
+                           <td>{index + 1}</td>
+                           <td>{jobTitle}</td>
+                           <td>{companyName}</td>
+                           <td>{recruiter?.length > 0 ? 'Yes' : 'No'}</td>
+                           <td>{remote}</td>
+                           <td>{dateApplied}</td>
+                           <td>{rejectionDate ? rejectionDate : 'none'}</td>
+                           <td>{hadInterview ? 'Yes' : 'No'}</td>
+                           {/* Icons */}
+                           <td className="icons">
+                              <span>
+                                 <AiOutlineEye
+                                    size="25"
+                                    color="purble"
+                                    onClick={() => handleViewJob(job._id)}
+                                 />
+                              </span>
+                              <span>
+                                 <FaEdit
+                                    size="20"
+                                    color="green"
+                                    onClick={() => handleEditJob(job._id)}
+                                 />
+                              </span>
+                              <span>
+                                 <FaTrashAlt
+                                    size="20"
+                                    color="red"
+                                    onClick={() => handleDeleteJob(job._id)}
+                                 />
+                              </span>
+                           </td>
+                        </tr>
+                     )
+                  })}
+               </Table>
             )}
          </div>
          <ReactPaginate
