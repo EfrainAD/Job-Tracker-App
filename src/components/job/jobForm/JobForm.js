@@ -2,10 +2,12 @@ import './jobForm.scss'
 import Card from '../../card/card'
 import InputForm from '../../form/inputForm/InputForm'
 import { getUrlHost } from '../../../utils/general.utils'
+import { isCompanyField } from '../../../utils/form.utils'
 
 const JobForm = ({
    title,
    job,
+   companies,
    setJob,
    onSubmit,
    submitLabelBtn,
@@ -14,27 +16,40 @@ const JobForm = ({
 }) => {
    const handleSubmit = (e) => onSubmit(e)
    const handleOnChange = (e) => {
-      const { name, value, type, checked } = e.target
+      const { name, type, checked } = e.target
+      const value = type === 'checkbox' ? checked : e.target.value
 
-      if (type === 'checkbox') {
-         setJob({ ...job, [name]: checked })
-      } else if (name === 'jobURL') {
+      if (name === 'jobURL') {
          const host = getUrlHost(value)
          setJob({ ...job, [name]: value, jobSource: host })
+      } else if (isCompanyField(name)) {
+         setJob({ ...job, company: { ...job.company, [name]: value } })
       } else {
          setJob({ ...job, [name]: value })
       }
    }
 
+   const companyOptons = !companies
+      ? []
+      : companies.map((company) => ({
+           value: company.companyName,
+        }))
    const formLabels = [
-      { value: 'Job Title', type: 'text' },
-      { value: 'Company Name', type: 'text' },
-      { value: 'Date Applied', type: 'date' },
-      { value: 'Job URL', type: 'url' },
-      { value: 'Job Source', type: 'text' },
-      { value: 'Easy Apply', type: 'checkbox' },
+      { label: 'Job Title', name: 'jobTitle', type: 'text' },
       {
-         value: 'Remote',
+         label: 'Company Name',
+         name: 'companyName',
+         type: 'datalist',
+         options: companyOptons,
+      },
+      { label: 'Date Applied', name: 'dateApplied', type: 'date' },
+      { label: 'Job URL', name: 'jobURL', type: 'url' },
+      { label: 'Job Source', name: 'jobSource', type: 'text' },
+      { label: 'Easy Apply', name: 'easyApply', type: 'checkbox' },
+      { label: 'Pears Outreach', name: 'peersOutreach', type: 'checkbox' },
+      {
+         label: 'Remote',
+         name: 'remote',
          type: 'select',
          options: [
             { value: 'remote', text: 'Remote' },
@@ -42,36 +57,56 @@ const JobForm = ({
             { value: 'hybrid', text: 'Hybrid' },
          ],
       },
-      { value: 'Job Location', type: 'text' },
-      { value: 'Recruiter', type: 'text' },
-      { value: 'Required Experience', type: 'number' },
-      { value: 'Jobalytics Rating', type: 'number' },
-      { value: 'Company Size', type: 'text' },
-      { value: 'Resume', type: 'url' },
-      { value: 'Cover Letter', type: 'textarea' },
-      { value: 'Rejection Date', type: 'date' },
-      { value: 'Rejection Reason', type: 'textarea' },
-      { value: 'First Interview Date', type: 'date' },
-      { value: 'Technical Challenge Interview Date', type: 'date' },
-      { value: 'Second Interview Date', type: 'date' },
+      { label: 'Job Location', name: 'jobLocation', type: 'text' },
+      { label: 'Recruiter', name: 'recruiter', type: 'text' },
+      {
+         label: 'Required Experience',
+         name: 'requiredExperience',
+         type: 'number',
+      },
+      { label: 'Jobalytics Rating', name: 'jobalyticsRating', type: 'number' },
+      { label: 'Company Size', name: 'companySize', type: 'text' },
+      { label: 'Resume', name: 'resume', type: 'url' },
+      { label: 'Cover Letter', name: 'coverLetter', type: 'textarea' },
+      { label: 'Rejection Date', name: 'rejectionDate', type: 'date' },
+      { label: 'Rejection Reason', name: 'rejectionReason', type: 'textarea' },
+      {
+         label: 'First Interview Date',
+         name: 'firstInterviewDate',
+         type: 'date',
+      },
+      {
+         label: 'Technical Challenge Interview Date',
+         name: 'technicalChallengeInterview',
+         type: 'date',
+      },
+      {
+         label: 'Second Interview Date',
+         name: 'secondInterviewDate',
+         type: 'date',
+      },
    ]
 
-   const allTextInputs = formLabels.map((label, index) => {
-      const name = label.value
-         .replaceAll(' ', '')
-         .replace(/^./, (firstLetter) => firstLetter.toLowerCase())
-      const jobOjbValue = job[name] ? job[name] : ''
+   const allTextInputs = formLabels.map((formLabel, index) => {
+      const { label, name, type } = formLabel
+
+      let jobOjbValue
+      if (isCompanyField(name)) {
+         jobOjbValue = job.company && job.company[name] ? job.company[name] : ''
+      } else jobOjbValue = job[name] ? job[name] : ''
 
       return (
          <div className="form-field" key={index}>
-            <label>{label.value}:</label>
+            <label>{label}:</label>
             <InputForm
-               type={label.type}
-               placeholder={label.value}
+               type={type}
+               placeholder={label}
                name={name}
                value={jobOjbValue}
                onChange={handleOnChange}
-               {...(label.options ? { selectOptions: label.options } : null)}
+               {...(formLabel.options
+                  ? { selectOptions: formLabel.options }
+                  : null)}
             />
          </div>
       )
@@ -84,6 +119,7 @@ const JobForm = ({
             <form onSubmit={handleSubmit}>
                {/* All Text Input Fields */}
                {allTextInputs}
+
                {/* Submit Button */}
                <div className="btn-container --my">
                   {secondSubmit && (

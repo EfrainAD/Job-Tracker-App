@@ -1,6 +1,9 @@
 import { useEffect, useState } from 'react'
 import JobForm from '../../../components/job/jobForm/JobForm'
-import { useCreateJobMutation } from '../../../api/apiSlice'
+import {
+   useCreateJobMutation,
+   useGetComanyNamesQuery,
+} from '../../../api/apiSlice'
 import { SpinningImg } from '../../../components/loader/loader'
 import { useNavigate } from 'react-router-dom'
 import { getTodaysDate } from '../../../utils/general.utils'
@@ -29,6 +32,7 @@ const AddJob = () => {
    })
 
    const [postJob, { isLoading, isSuccess, data }] = useCreateJobMutation()
+   const { data: companies } = useGetComanyNamesQuery()
    const navigate = useNavigate()
 
    useEffect(() => {
@@ -42,7 +46,12 @@ const AddJob = () => {
    const saveJob = async (e) => {
       e.preventDefault()
 
-      postJob(job)
+      const find = companies.find((company) => {
+         return company.companyName === job.company.companyName?.trim()
+      })
+
+      if (find) postJob({ ...job, company: find._id })
+      else postJob(job)
    }
    return (
       <>
@@ -50,6 +59,7 @@ const AddJob = () => {
          <JobForm
             title={'Add Job Entry'}
             job={job}
+            companies={companies}
             setJob={setJob}
             onSubmit={saveJob}
             submitLabelBtn={'Add job'}

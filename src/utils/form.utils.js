@@ -4,3 +4,6 @@ export const validateEmail = (email) => {
 
    return email.match(emailValidater)
 }
+
+export const isCompanyField = (name) =>
+   name === 'companyName' || name === 'peersOutreach' || name === 'companySize'

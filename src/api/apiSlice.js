@@ -649,6 +649,33 @@ export const apiSlice = createApi({
          },
          invalidatesTags: ['Couches'],
       }),
+
+      /* Company */
+      getComanyNames: builder.query({
+         query: () => ({
+            url: '/companies/names',
+         }),
+         async onQueryStarted(arg, { dispatch, queryFulfilled }) {
+            try {
+               await queryFulfilled
+            } catch (err) {
+               if (err.error.status === 401) {
+                  dispatch(setLogout())
+
+                  toast.error("You're not logged in.")
+               } else {
+                  toast.error(
+                     `Error when getting the list of companies. Returned error message: ${err.error.data.message} you are not able to add company if it already exist`
+                  )
+                  console.log(`${err.error.status}: ${err.error.data.message}`)
+               }
+            }
+         },
+         providesTags: (result = [], error, arg) => [
+            'Couches',
+            ...result.map(({ _id }) => ({ type: 'Couches', id: _id })),
+         ],
+      }),
    }),
 })
 
@@ -685,4 +712,6 @@ export const {
    useAddCouchMutation,
    useGetCouchesQuery,
    useRemoveCouchMutation,
+   /* Company */
+   useGetComanyNamesQuery,
 } = apiSlice

@@ -93,13 +93,18 @@ const JobList = ({ jobs, isJobError, isLoadding }) => {
                      const {
                         _id,
                         jobTitle,
-                        companyName,
+                        // company: { companyName },
                         recruiter,
                         remote,
                         dateApplied,
                         rejectionDate,
                         hadInterview,
                      } = job
+
+                     // remove when Post DB been changed
+                     const companyName = job.company?.companyName
+                        ? job.company?.companyName
+                        : null
 
                      return (
                         <tr key={_id}>

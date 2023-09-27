@@ -19,16 +19,24 @@ const JobDetail = () => {
             {job && (
                <div className="detail">
                   {/* Company Name */}
-                  {job.companyName && (
+                  {job.company?.companyName && (
                      <JobDetailField
                         label={'Company Name'}
-                        value={job.companyName}
+                        value={job.company.companyName}
                         className="job-detail-field"
                      />
                   )}
                   {/* Job Title */}
                   {job.jobTitle && (
                      <JobDetailField label={'Job Title'} value={job.jobTitle} />
+                  )}
+                  {/* Company Peers Outreach */}
+                  {job.company?.companyName && (
+                     <JobDetailField
+                        label={'Peers Outreach'}
+                        value={job.company.peersOutreach}
+                        className="job-detail-field"
+                     />
                   )}
                   {/* Job Source */}
                   {job.jobSource && (
@@ -71,10 +79,10 @@ const JobDetail = () => {
                      />
                   )}
                   {/* Company Size */}
-                  {job.companySize && (
+                  {job.company?.companySize && (
                      <JobDetailField
                         label={'Company Size'}
-                        value={job.companySize}
+                        value={job.company.companySize}
                         className="job-detail-field-ele"
                      />
                   )}
@@ -90,14 +98,15 @@ const JobDetail = () => {
                      />
                   )}
                   {/* Recruiters */}
-                  {job.recruiter.length > 0 && (
+                  {/* plan to adapt it to DB Changes */}
+                  {/* {job.recruiter.length > 0 && (
                      <p>
                         <b>&rarr; Recruiters : </b>
                         {job.recruiter.map((recruiter) => (
                            <span key={recruiter._id}>{recruiter.name}, </span>
                         ))}
                      </p>
-                  )}
+                  )} */}
                   {/* Date Applied */}
                   {job.dateApplied && (
                      <JobDetailField

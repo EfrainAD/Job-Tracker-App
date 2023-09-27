@@ -51,6 +51,27 @@ const InputForm = ({
                ))}
             </select>
          )
+      case 'datalist':
+         return (
+            <>
+               <input
+                  list="companies"
+                  type={type}
+                  placeholder={placeholder}
+                  name={name}
+                  value={value}
+                  onChange={onChange}
+                  {...arg}
+               />
+               <datalist id="companies">
+                  {selectOptions.map((option, idx) => (
+                     <option key={idx} value={option.value}>
+                        Company data you already have.
+                     </option>
+                  ))}
+               </datalist>
+            </>
+         )
       case 'textarea':
          return (
             <textarea
