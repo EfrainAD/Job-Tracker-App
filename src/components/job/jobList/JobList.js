@@ -19,6 +19,7 @@ const headers = [
    { label: 'Job Title' },
    { label: 'Company' },
    { label: 'Recruiter' },
+   { label: 'Peers Outreach' },
    { label: 'Remote' },
    { label: 'Date Applied' },
    { label: 'Rejection' },
@@ -94,6 +95,7 @@ const JobList = ({ jobs, isJobError, isLoadding }) => {
                         _id,
                         jobTitle,
                         // company: { companyName },
+                        // company: { peersOutreach },
                         recruiter,
                         remote,
                         dateApplied,
@@ -105,13 +107,17 @@ const JobList = ({ jobs, isJobError, isLoadding }) => {
                      const companyName = job.company?.companyName
                         ? job.company?.companyName
                         : null
-
+                     const peersOutreach = job.company?.peersOutreach
+                        ? job.company?.peersOutreach
+                        : null
+                     console.log(peersOutreach)
                      return (
                         <tr key={_id}>
                            <td>{index + 1}</td>
                            <td>{jobTitle}</td>
                            <td>{companyName}</td>
                            <td>{recruiter?.length > 0 ? 'Yes' : 'No'}</td>
+                           <td>{peersOutreach ? ' Yes' : 'No'}</td>
                            <td>{remote}</td>
                            <td>{dateApplied}</td>
                            <td>{rejectionDate ? rejectionDate : 'none'}</td>
