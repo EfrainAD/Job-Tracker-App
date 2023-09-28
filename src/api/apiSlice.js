@@ -11,7 +11,7 @@ export const apiSlice = createApi({
       baseUrl,
       credentials: 'include',
    }),
-   tagTypes: ['userData', 'Jobs', 'Couches', 'JobBoards'],
+   tagTypes: ['userData', 'Jobs', 'Couches', 'JobBoards', 'Company'],
 
    endpoints: (builder) => ({
       /* User Endpoints */
@@ -672,8 +672,37 @@ export const apiSlice = createApi({
             }
          },
          providesTags: (result = [], error, arg) => [
-            'Couches',
-            ...result.map(({ _id }) => ({ type: 'Couches', id: _id })),
+            'Company',
+            ...result.map(({ _id }) => ({ type: 'Company', id: _id })),
+         ],
+      }),
+      updateCompany: builder.mutation({
+         query: ({ id, body }) => ({
+            url: `/companies/${id}`,
+            method: 'PATCH',
+            body,
+         }),
+         async onQueryStarted(arg, { dispatch, queryFulfilled }) {
+            try {
+               console.log({ arg })
+               await queryFulfilled
+
+               toast.success('Update Successful')
+            } catch (err) {
+               if (err.error.status === 401) {
+                  dispatch(setLogout())
+
+                  toast.error("You're not logged in.")
+               } else {
+                  const msg = `${err.error.data.status}: ${err.error.data.message}`
+
+                  toast.error(msg)
+                  console.log(msg)
+               }
+            }
+         },
+         invalidatesTags: (result, error, arg) => [
+            { type: 'Jobs', id: arg.jobId },
          ],
       }),
    }),
@@ -714,4 +743,5 @@ export const {
    useRemoveCouchMutation,
    /* Company */
    useGetComanyNamesQuery,
+   useUpdateCompanyMutation,
 } = apiSlice

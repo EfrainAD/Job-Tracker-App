@@ -13,6 +13,7 @@ import 'react-confirm-alert/src/react-confirm-alert.css'
 import { comfirmAndDelete } from '../../../utils/general.utils'
 import Table from '../../table/Table'
 import SearchbarBanner from '../../searchbarBanner/SearchbarBanner'
+import ChangePeersOutreachBtn from '../../button/changePeersOutreachBtn/ChangePeersOutreachBtn'
 
 const headers = [
    { label: '' },
@@ -94,6 +95,7 @@ const JobList = ({ jobs, isJobError, isLoadding }) => {
                      const {
                         _id,
                         jobTitle,
+                        // company: { _id },
                         // company: { companyName },
                         // company: { peersOutreach },
                         recruiter,
@@ -109,15 +111,26 @@ const JobList = ({ jobs, isJobError, isLoadding }) => {
                         : null
                      const peersOutreach = job.company?.peersOutreach
                         ? job.company?.peersOutreach
+                        : false
+                     const companyId = job.company?._id
+                        ? job.company?._id
                         : null
-                     console.log(peersOutreach)
+
                      return (
                         <tr key={_id}>
                            <td>{index + 1}</td>
                            <td>{jobTitle}</td>
                            <td>{companyName}</td>
                            <td>{recruiter?.length > 0 ? 'Yes' : 'No'}</td>
-                           <td>{peersOutreach ? ' Yes' : 'No'}</td>
+                           <td>
+                              {
+                                 <ChangePeersOutreachBtn
+                                    bool={peersOutreach}
+                                    companyId={companyId}
+                                    jobId={_id}
+                                 />
+                              }
+                           </td>
                            <td>{remote}</td>
                            <td>{dateApplied}</td>
                            <td>{rejectionDate ? rejectionDate : 'none'}</td>
