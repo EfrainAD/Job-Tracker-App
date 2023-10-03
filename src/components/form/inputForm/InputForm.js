@@ -45,7 +45,11 @@ const InputForm = ({
             >
                <option value={'null'}>SELECT</option>
                {selectOptions.map((option, idx) => (
-                  <option key={idx} value={option.value}>
+                  <option
+                     key={idx}
+                     selected={option.value === value}
+                     value={option.value}
+                  >
                      {option.text}
                   </option>
                ))}

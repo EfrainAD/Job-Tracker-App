@@ -7,14 +7,27 @@ import JobDetailField from '../../../components/JobDetailField/JobDetailField'
 // import DOMPurify from 'dompurify'
 
 const recruiterFields = [
-   { label: 'name', name: 'name' },
-   { label: 'Company', name: 'company' },
-   { label: 'Accepted Outreach', name: 'acceptedOutreach' },
-   { label: 'Conversation Date', name: 'conversationDate' },
-   { label: 'Outreach Method', name: 'outreachMethod' },
-   { label: 'Notes', name: 'notes' },
-   { label: 'Outreach Date', name: 'outreachDate' },
-   { label: 'URL', name: 'url' },
+   { label: 'name', getvalue: (recruiter) => recruiter.name },
+   { label: 'Company', getvalue: (recruiter) => recruiter.company.companyName },
+   {
+      label: 'Company Size',
+      getvalue: (recruiter) => recruiter.company.companySize,
+   },
+   {
+      label: 'Accepted Outreach',
+      getvalue: (recruiter) => recruiter.acceptedOutreach,
+   },
+   {
+      label: 'Conversation Date',
+      getvalue: (recruiter) => recruiter.conversationDate,
+   },
+   {
+      label: 'Outreach Method',
+      getvalue: (recruiter) => recruiter.outreachMethod,
+   },
+   { label: 'Notes', getvalue: (recruiter) => recruiter.notes },
+   { label: 'Outreach Date', getvalue: (recruiter) => recruiter.outreachDate },
+   { label: 'URL', getvalue: (recruiter) => recruiter.url },
 ]
 
 const RecruiterDetail = () => {
@@ -32,11 +45,11 @@ const RecruiterDetail = () => {
                <div className="detail">
                   {recruiterFields?.map(
                      (field, idx) =>
-                        recruiter[field.name] && (
+                        field.getvalue(recruiter) && (
                            <JobDetailField
                               key={idx}
                               label={field.label}
-                              value={recruiter[field.name]}
+                              value={field.getvalue(recruiter)}
                            />
                         )
                   )}

@@ -101,7 +101,7 @@ const RecruiterList = ({ recruiters, isRecruiterError, isLoadding }) => {
                      const {
                         _id,
                         name,
-                        company,
+                        company: { companyName: company },
                         outreachMethod,
                         outreachDate,
                         acceptedOutreach,

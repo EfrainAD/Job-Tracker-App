@@ -1,10 +1,12 @@
 import './recruiterForm.scss'
 import Card from '../../card/card'
 import InputForm from '../../form/inputForm/InputForm'
+import { getCompanyDataList, isCompanyField } from '../../../utils/form.utils'
 
 const RecruiterForm = ({
    title,
    recruiter,
+   companies,
    setRecruiter,
    onSubmit,
    submitLabelBtn,
@@ -17,40 +19,79 @@ const RecruiterForm = ({
 
       if (type === 'checkbox') {
          setRecruiter({ ...recruiter, [name]: checked })
+      } else if (isCompanyField(name)) {
+         setRecruiter({
+            ...recruiter,
+            company: { ...recruiter.company, [name]: value },
+         })
       } else {
          setRecruiter({ ...recruiter, [name]: value })
       }
-      console.log(recruiter)
    }
 
+   const companyOptons = !companies ? [] : getCompanyDataList(companies)
+
    const fieldAttributes = [
-      { label: 'Name', type: 'text', name: 'name' },
-      { label: 'Company', type: 'text', name: 'company' },
+      {
+         label: 'Name',
+         type: 'text',
+         name: 'name',
+         getValue: (obj) => obj.name,
+      },
+      {
+         label: 'Company',
+         type: 'datalist',
+         name: 'companyName',
+         options: companyOptons,
+         getValue: (obj) => obj.company?.companyName,
+      },
+      // {
+      //    label: 'Company',
+      //    type: 'text',
+      //    name: 'companySize',
+      //    getValue: (obj) => obj.company?.companySize,
+      // },
       {
          label: 'Outreach Method',
          type: 'select',
          name: 'outreachMethod',
+         getValue: (obj) => obj.outreachMethod,
          options: [
             { value: 'linkedin', text: 'linkedIn' },
             { value: 'email', text: 'Email' },
             { value: 'both', text: 'Both' },
          ],
       },
-      { label: 'URL', type: 'text', name: 'url' },
-      { label: 'Outreach Date', type: 'date', name: 'outreachDate' },
-      { label: 'Notes', type: 'textarea', name: 'notes' },
+      { label: 'URL', type: 'text', name: 'url', getValue: (obj) => obj.url },
+      {
+         label: 'Outreach Date',
+         type: 'date',
+         name: 'outreachDate',
+         getValue: (obj) => obj.outreachDate,
+      },
+      {
+         label: 'Notes',
+         type: 'textarea',
+         name: 'notes',
+         getValue: (obj) => obj.notes,
+      },
       {
          label: 'Accepted Outreach',
          type: 'checkbox',
          name: 'acceptedOutreach',
+         getValue: (obj) => obj.acceptedOutreach,
       },
-      { label: 'Conversation Date', type: 'date', name: 'conversationDate' },
+      {
+         label: 'Conversation Date',
+         type: 'date',
+         name: 'conversationDate',
+         getValue: (obj) => obj.conversationDate,
+      },
    ]
 
    const allFields = fieldAttributes.map((field, index) => {
-      const recruiterOjbValue = recruiter[field.name]
-         ? recruiter[field.name]
-         : ''
+      const fieldValue = field.getValue(recruiter)
+      const value = fieldValue ? fieldValue : ''
 
       return (
          <div className="form-field" key={index}>
@@ -59,7 +100,7 @@ const RecruiterForm = ({
                type={field.type}
                placeholder={field.label}
                name={field.name}
-               value={recruiterOjbValue}
+               value={value}
                onChange={handleOnChange}
                {...(field.options ? { selectOptions: field.options } : null)}
             />

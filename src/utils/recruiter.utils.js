@@ -1,18 +1,18 @@
 export const filterRecruiters = (recruiters = [], search = '') => {
    const searchLowerCase = search.toLowerCase()
    const filterByFields = [
-      'name',
-      'company',
-      'outreachMethod',
-      'outreachDate',
-      'conversationDate',
+      (recruiter) => recruiter.name,
+      (recruiter) => recruiter.company.companyName,
+      (recruiter) => recruiter.outreachMethod,
+      (recruiter) => recruiter.outreachDate,
+      (recruiter) => recruiter.conversationDate,
    ]
 
    return recruiters?.filter((recruiter) => {
-      return filterByFields.some((fieldName) => {
-         const field = recruiter[fieldName]
-         if (field) {
-            return field.toLowerCase().includes(searchLowerCase)
+      return filterByFields.some((getFieldValue) => {
+         const value = getFieldValue(recruiter)
+         if (value) {
+            return value.toLowerCase().includes(searchLowerCase)
          }
          return false
       })

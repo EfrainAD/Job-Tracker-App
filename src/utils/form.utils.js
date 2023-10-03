@@ -7,3 +7,8 @@ export const validateEmail = (email) => {
 
 export const isCompanyField = (name) =>
    name === 'companyName' || name === 'peersOutreach' || name === 'companySize'
+
+export const getCompanyDataList = (companies) =>
+   companies.map((company) => ({
+      value: company.companyName,
+   }))

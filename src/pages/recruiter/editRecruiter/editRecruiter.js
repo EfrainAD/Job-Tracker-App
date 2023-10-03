@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import {
+   useGetComanyNamesQuery,
    useGetRecruiterQuery,
    useRemoveRecruiterMutation,
    useUpdateRecruiterMutation,
@@ -22,6 +23,7 @@ const EditRecruiter = () => {
    const [updateRecruiter] = useUpdateRecruiterMutation()
    const [deleteRecruiter, { isSuccess: isDeleteSuccessful }] =
       useRemoveRecruiterMutation()
+   const { data: companies } = useGetComanyNamesQuery()
 
    useEffect(() => {
       if (recruiterFetched) {
@@ -38,7 +40,16 @@ const EditRecruiter = () => {
    const handleUpdateRecruiter = async (e) => {
       e.preventDefault()
 
-      await updateRecruiter({ id, body: recruiter })
+      const find = companies.find((company) => {
+         return company.companyName === recruiter.company.companyName?.trim()
+      })
+
+      if (recruiter.company._id !== find._id)
+         await updateRecruiter({
+            id,
+            body: { ...recruiter, company: find._id },
+         })
+      else await updateRecruiter({ id, body: recruiter })
 
       navigate('/dashboard/recruiter-detail/' + id)
    }
@@ -63,6 +74,7 @@ const EditRecruiter = () => {
             <RecruiterForm
                title={'Edit Recruiter Entry'}
                recruiter={recruiter}
+               companies={companies}
                setRecruiter={setRecruiter}
                onSubmit={handleUpdateRecruiter}
                submitLabelBtn={'Save Changes'}
