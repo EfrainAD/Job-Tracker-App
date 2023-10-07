@@ -1,7 +1,6 @@
 import './jobBoardList.scss'
 import { useEffect, useState } from 'react'
 import { SpinningImg } from '../../loader/loader'
-import Search from '../../search/search'
 import { filterJobBoards } from '../../../utils/jobBoard.utils'
 import MessageBox from '../../messageBox/MessageBox'
 import 'react-confirm-alert/src/react-confirm-alert.css'

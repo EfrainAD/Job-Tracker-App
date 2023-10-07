@@ -16,6 +16,7 @@ import ChangePassword from '../../components/changePassword/ChangePassword'
 const initialState = {
    name: '',
    email: '',
+   roles: [],
    phone: '',
    bio: '',
 }
@@ -56,8 +57,16 @@ const EditProfile = () => {
    }, [error, navigate])
 
    const handleInputChange = (e) => {
-      const { name, value } = e.target
-      setUserForm({ ...userForm, [name]: value })
+      const { name, value, selectedOptions } = e.target
+
+      const selectedValues = selectedOptions
+         ? [...selectedOptions].map((option) => option.value)
+         : null
+
+      setUserForm({
+         ...userForm,
+         [name]: selectedValues ? selectedValues : value,
+      })
    }
    const handleImageChange = (e) => {
       setUserPhoto(e.target.files[0])
@@ -116,6 +125,17 @@ const EditProfile = () => {
                         disabled={true}
                      />
                      <InputField
+                        label="Roles"
+                        type="selectMulti"
+                        name="roles"
+                        value={userForm?.roles}
+                        selectOptions={[
+                           { value: 'couchee', text: 'Coachee' },
+                           { value: 'couch', text: 'Coach' },
+                        ]}
+                        onChange={handleInputChange}
+                     />
+                     <InputField
                         label="Phone"
                         type="text"
                         name="phone"
@@ -124,7 +144,7 @@ const EditProfile = () => {
                      />
                      <InputField
                         label="Bio"
-                        type="textArea"
+                        type="textarea"
                         name="bio"
                         value={userForm?.bio}
                         onChange={handleInputChange}

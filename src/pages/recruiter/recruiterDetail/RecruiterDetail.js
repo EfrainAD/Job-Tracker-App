@@ -34,7 +34,6 @@ const RecruiterDetail = () => {
    const { id } = useParams()
    const { data: recruiter, isLoading } = useGetRecruiterQuery(id)
    const navigate = useNavigate()
-   console.log({ recruiter })
 
    return (
       <div className="recruiter-detail">

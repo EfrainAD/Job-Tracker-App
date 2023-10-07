@@ -1,6 +1,6 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 import { formatDate } from '../utils/general.utils'
-import { setLogin, setLogout } from '../redux/user/user.action'
+import { setLogin, setLogout, setUser } from '../redux/user/user.action'
 import { toast } from 'react-toastify'
 
 const baseUrl = process.env.API_URL || 'http://localhost:8000/api'
@@ -63,7 +63,9 @@ export const apiSlice = createApi({
          }),
          async onQueryStarted(_, { dispatch, queryFulfilled }) {
             try {
-               await queryFulfilled
+               const { data: user } = await queryFulfilled
+
+               dispatch(setUser(user))
             } catch (err) {
                if (err.error.status === 401) {
                   dispatch(setLogout())

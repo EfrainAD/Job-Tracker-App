@@ -18,6 +18,7 @@ export const userReducer = (state = initialState, action) => {
    switch (type) {
       case USER_ACTION_TYPES.SET_LOGIN:
          const setUserObj = createSetUserObj(payload)
+
          setLocalStorage(setUserObj)
 
          return {
@@ -34,6 +35,16 @@ export const userReducer = (state = initialState, action) => {
             roles: [],
          }
 
+      case USER_ACTION_TYPES.SET_USER:
+         const setUpdatedUserObj = createSetUserObj(payload)
+
+         setLocalStorage(setUpdatedUserObj)
+
+         return {
+            ...state,
+            ...setUpdatedUserObj,
+         }
+
       // Set to be Removed
       case USER_ACTION_TYPES.SET_LOGIN_STATUS:
          return { ...state, isLoggedIn: payload }
@@ -41,19 +52,6 @@ export const userReducer = (state = initialState, action) => {
       // Set to be Removed
       case USER_ACTION_TYPES.SET_NAME:
          return { ...state, name: payload }
-
-      // Set to be Removed
-      case USER_ACTION_TYPES.SET_USER:
-         return {
-            ...state,
-            user: {
-               name: payload.name,
-               email: payload.email,
-               phone: payload.phone,
-               bio: payload.bio,
-               photo: payload.photo,
-            },
-         }
 
       default:
          return state

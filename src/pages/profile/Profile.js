@@ -26,6 +26,9 @@ const Profile = () => {
                         <b>Email: </b> {profile?.email}
                      </p>
                      <p>
+                        <b>Roles: </b> {profile?.roles.join(' ')}
+                     </p>
+                     <p>
                         <b>Phone: </b> {profile?.phone}
                      </p>
                      <p>

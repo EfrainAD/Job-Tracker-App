@@ -28,7 +28,6 @@ const InputForm = ({
          return (
             <input
                type={type}
-               placeholder={placeholder}
                name={name}
                checked={value}
                onChange={onChange}
@@ -40,16 +39,29 @@ const InputForm = ({
             <select
                name={name}
                defaultValue={'null'}
+               value={value}
                onChange={onChange}
                {...arg}
             >
                <option value={'null'}>SELECT</option>
                {selectOptions.map((option, idx) => (
-                  <option
-                     key={idx}
-                     selected={option.value === value}
-                     value={option.value}
-                  >
+                  <option key={idx} value={option.value}>
+                     {option.text}
+                  </option>
+               ))}
+            </select>
+         )
+      case 'selectMulti':
+         return (
+            <select
+               name={name}
+               value={value}
+               multiple
+               onChange={onChange}
+               {...arg}
+            >
+               {selectOptions.map((option, idx) => (
+                  <option key={idx} value={option.value}>
                      {option.text}
                   </option>
                ))}
