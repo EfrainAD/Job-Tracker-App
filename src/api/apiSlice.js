@@ -11,7 +11,7 @@ export const apiSlice = createApi({
       baseUrl,
       credentials: 'include',
    }),
-   tagTypes: ['userData', 'Jobs', 'Couches', 'JobBoards', 'Company'],
+   tagTypes: ['userData', 'Jobs', 'Coaches', 'JobBoards', 'Company'],
 
    endpoints: (builder) => ({
       /* User Endpoints */
@@ -573,16 +573,16 @@ export const apiSlice = createApi({
          invalidatesTags: ['Recruiters'],
       }),
 
-      /* Couch Endpoints */
-      getCouches: builder.query({
+      /* Coach Endpoints */
+      getCoaches: builder.query({
          query: () => ({
-            url: '/couch/getUserCouches',
+            url: '/coach/getUserCoaches',
          }),
          transformResponse: (res, meta, arg) => {
-            return res.map((couch, idx) => ({
-               _id: couch._id,
-               name: couch.couch.name,
-               email: couch.couch.email,
+            return res.map((coach, idx) => ({
+               _id: coach._id,
+               name: coach.coach.name,
+               email: coach.coach.email,
             }))
          },
          async onQueryStarted(arg, { dispatch, queryFulfilled }) {
@@ -595,20 +595,20 @@ export const apiSlice = createApi({
                   toast.error("You're not logged in.")
                } else {
                   toast.error(
-                     `Error when getting the list of couches. Returned error message: ${err.error.data.message}`
+                     `Error when getting the list of coaches. Returned error message: ${err.error.data.message}`
                   )
                   console.log(`${err.error.status}: ${err.error.data.message}`)
                }
             }
          },
          providesTags: (result = [], error, arg) => [
-            'Couches',
-            ...result.map(({ _id }) => ({ type: 'Couches', id: _id })),
+            'Coaches',
+            ...result.map(({ _id }) => ({ type: 'Coaches', id: _id })),
          ],
       }),
-      addCouch: builder.mutation({
+      addCoach: builder.mutation({
          query: (body) => ({
-            url: `/couch/addusercouch`,
+            url: `/coach/addusercoach`,
             method: 'Post',
             body,
          }),
@@ -627,11 +627,11 @@ export const apiSlice = createApi({
                }
             }
          },
-         invalidatesTags: ['Couches'],
+         invalidatesTags: ['Coaches'],
       }),
-      removeCouch: builder.mutation({
+      removeCoach: builder.mutation({
          query: (id) => ({
-            url: `/couch/${id}`,
+            url: `/coach/${id}`,
             method: 'Delete',
          }),
          async onQueryStarted(id, { dispatch, queryFulfilled }) {
@@ -649,7 +649,7 @@ export const apiSlice = createApi({
                }
             }
          },
-         invalidatesTags: ['Couches'],
+         invalidatesTags: ['Coaches'],
       }),
 
       /* Company */
@@ -739,10 +739,10 @@ export const {
    useUpdateRecruiterMutation,
    useSaveRecruiterMutation,
    useRemoveRecruiterMutation,
-   /* Couch */
-   useAddCouchMutation,
-   useGetCouchesQuery,
-   useRemoveCouchMutation,
+   /* Coach */
+   useAddCoachMutation,
+   useGetCoachesQuery,
+   useRemoveCoachMutation,
    /* Company */
    useGetComanyNamesQuery,
    useUpdateCompanyMutation,

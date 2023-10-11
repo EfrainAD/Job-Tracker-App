@@ -1,11 +1,11 @@
 import { useState } from 'react'
-import { useAddCouchMutation } from '../../../api/apiSlice'
+import { useAddCoachMutation } from '../../../api/apiSlice'
 import Card from '../../card/card'
 import { SpinningImg } from '../../loader/loader'
-import './addCouchForm.scss'
+import './addCoachForm.scss'
 
-const AddCouchForm = () => {
-   const [addCouch, { isLoading }] = useAddCouchMutation()
+const AddCoachForm = () => {
+   const [addCoach, { isLoading }] = useAddCoachMutation()
    const [formData, setFormData] = useState({ email: '' })
 
    const handleOnChange = (e) => {
@@ -15,17 +15,17 @@ const AddCouchForm = () => {
    const handleSubmit = async (e) => {
       e.preventDefault()
 
-      await addCouch(formData)
+      await addCoach(formData)
 
       setFormData({ email: '' })
    }
 
    return (
-      <div className={'addCouchForm'}>
+      <div className={'addCoachForm'}>
          <Card>
             {isLoading && <SpinningImg />}
             <form onSubmit={handleSubmit}>
-               <h2>Add a Couch</h2>
+               <h2>Add a Coach</h2>
                <input
                   type="email"
                   autoComplete="email"
@@ -38,7 +38,7 @@ const AddCouchForm = () => {
                />
                <div className="--flex-end">
                   <button type="submit" className="--btn --btn-primary">
-                     Add Couch
+                     Add Coach
                   </button>
                </div>
             </form>
@@ -47,4 +47,4 @@ const AddCouchForm = () => {
    )
 }
 
-export default AddCouchForm
+export default AddCoachForm

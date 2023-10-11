@@ -23,10 +23,10 @@ const menu = [
       path: '/dashboard/add-recruiter',
    },
    {
-      title: 'Couch',
+      title: 'Coach',
       icon: <BiImageAdd />,
-      path: '/dashboard/couch',
-      role: 'couchee',
+      path: '/dashboard/coach',
+      role: 'coachee',
    },
    {
       title: 'Account',

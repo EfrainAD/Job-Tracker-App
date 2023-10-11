@@ -1,13 +1,13 @@
 import Card from '../../card/card'
 import { FaTrashAlt } from 'react-icons/fa'
-import './couchList.scss'
+import './coachList.scss'
 import {
-   useGetCouchesQuery,
-   useRemoveCouchMutation,
+   useGetCoachesQuery,
+   useRemoveCoachMutation,
 } from '../../../api/apiSlice'
 import { SpinningImg } from '../../loader/loader'
 import { comfirmAndDelete } from '../../../utils/general.utils'
-import Table from '../../../components/table/Table'
+import Table from '../../table/Table'
 
 const headers = [
    { label: '' },
@@ -16,14 +16,14 @@ const headers = [
    { label: 'Action' },
 ]
 
-const CouchList = () => {
-   const { data: couches, isLoading } = useGetCouchesQuery()
-   const [removeCouch] = useRemoveCouchMutation()
+const CoachList = () => {
+   const { data: coaches, isLoading } = useGetCoachesQuery()
+   const [removeCoach] = useRemoveCoachMutation()
 
-   const handleDeleteCouch = async (id) => {
+   const handleDeleteCoach = async (id) => {
       comfirmAndDelete({
-         title: 'Remove this person as your couch?',
-         deleteFunc: removeCouch,
+         title: 'Remove this person as your coach?',
+         deleteFunc: removeCoach,
          id,
       })
    }
@@ -33,17 +33,17 @@ const CouchList = () => {
          <div className="table">
             <Card>
                {isLoading && <SpinningImg />}
-               {couches?.length === 0 ? (
-                  <p>You have no couch</p>
+               {coaches?.length === 0 ? (
+                  <p>You have no coach</p>
                ) : (
                   <Table headers={headers}>
-                     {couches?.map((couch, idx) => {
-                        const { _id, name: currentCouch, email } = couch
+                     {coaches?.map((coach, idx) => {
+                        const { _id, name: currentCoach, email } = coach
 
                         return (
                            <tr key={_id}>
                               <td>{idx + 1}</td>
-                              <td>{currentCouch}</td>
+                              <td>{currentCoach}</td>
                               <td>{email}</td>
                               {/* Icons */}
                               <td className="icons">
@@ -52,7 +52,7 @@ const CouchList = () => {
                                        size="20"
                                        color="red"
                                        onClick={() =>
-                                          handleDeleteCouch(couch._id)
+                                          handleDeleteCoach(coach._id)
                                        }
                                     />
                                  </span>
@@ -68,4 +68,4 @@ const CouchList = () => {
    )
 }
 
-export default CouchList
+export default CoachList

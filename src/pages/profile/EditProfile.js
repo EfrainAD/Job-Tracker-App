@@ -130,8 +130,8 @@ const EditProfile = () => {
                         name="roles"
                         value={userForm?.roles}
                         selectOptions={[
-                           { value: 'couchee', text: 'Coachee' },
-                           { value: 'couch', text: 'Coach' },
+                           { value: 'coachee', text: 'Coachee' },
+                           { value: 'coach', text: 'Coach' },
                         ]}
                         onChange={handleInputChange}
                      />

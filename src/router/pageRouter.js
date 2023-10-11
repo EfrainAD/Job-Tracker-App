@@ -18,7 +18,7 @@ import AddRecruiter from '../pages/recruiter/addRecruiter/AddRecruiter'
 import RecruiterDashboard from '../pages/dashboard/RecruiterDashboard'
 import RecruiterDetail from '../pages/recruiter/recruiterDetail/RecruiterDetail'
 import EditRecruiter from '../pages/recruiter/editRecruiter/editRecruiter'
-import Couch from '../pages/couch/Couch'
+import Coach from '../pages/coach/Coach'
 import JobBoard from '../pages/jobBoard/JobBoard'
 
 const PageRouter = () => {
@@ -128,13 +128,13 @@ const PageRouter = () => {
                }
             />
 
-            {/* Couch Routes */}
+            {/* Coach Routes */}
             <Route
-               path="/dashboard/couch"
+               path="/dashboard/coach"
                element={
                   <ProtectedPage>
                      <Layout>
-                        <Couch />
+                        <Coach />
                      </Layout>
                   </ProtectedPage>
                }
