@@ -10,7 +10,7 @@ export const apiSlice = createApi({
    reducerPath: 'apiSlice',
    baseQuery: fetchBaseQuery({
       baseUrl,
-      credentials: 'include',
+      credentials: 'same-origin',
    }),
    tagTypes: ['userData', 'Jobs', 'Coaches', 'JobBoards', 'Company'],
 
