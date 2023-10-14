@@ -3,7 +3,8 @@ import { formatDate } from '../utils/general.utils'
 import { setLogin, setLogout, setUser } from '../redux/user/user.action'
 import { toast } from 'react-toastify'
 
-const baseUrl = process.env.API_URL || 'http://localhost:8000/api'
+// const baseUrl = process.env.API_URL || 'http://localhost:8000/api'
+const baseUrl = process.env.API_URL || '/api'
 
 export const apiSlice = createApi({
    reducerPath: 'apiSlice',
