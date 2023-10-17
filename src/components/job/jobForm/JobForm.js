@@ -46,6 +46,7 @@ const JobForm = ({
       { label: 'Job URL', name: 'jobURL', type: 'url' },
       { label: 'Job Source', name: 'jobSource', type: 'text' },
       { label: 'Easy Apply', name: 'easyApply', type: 'checkbox' },
+      { label: 'Notes', name: 'notes', type: 'textarea' },
       { label: 'Pears Outreach', name: 'peersOutreach', type: 'checkbox' },
       {
          label: 'Remote',

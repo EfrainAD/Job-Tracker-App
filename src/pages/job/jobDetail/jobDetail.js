@@ -30,6 +30,10 @@ const JobDetail = () => {
                   {job.jobTitle && (
                      <JobDetailField label={'Job Title'} value={job.jobTitle} />
                   )}
+                  {/* Notes */}
+                  {job.notes && (
+                     <JobDetailField label={'Notes'} value={job.notes} />
+                  )}
                   {/* Company Peers Outreach */}
                   {job.company?.companyName && (
                      <JobDetailField
