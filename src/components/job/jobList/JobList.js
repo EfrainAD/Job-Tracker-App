@@ -25,6 +25,7 @@ const headers = [
    { label: 'Date Applied' },
    { label: 'Rejection' },
    { label: 'Had Interview' },
+   { label: 'Notes' },
    { label: 'Action' },
 ]
 
@@ -103,6 +104,7 @@ const JobList = ({ jobs, isJobError, isLoadding }) => {
                         dateApplied,
                         rejectionDate,
                         hadInterview,
+                        notes,
                      } = job
 
                      return (
@@ -124,6 +126,7 @@ const JobList = ({ jobs, isJobError, isLoadding }) => {
                            <td>{dateApplied}</td>
                            <td>{rejectionDate ? rejectionDate : 'none'}</td>
                            <td>{hadInterview ? 'Yes' : 'No'}</td>
+                           <td>{notes ? 'Yes' : 'No'}</td>
                            {/* Icons */}
                            <td className="icons">
                               <span>
