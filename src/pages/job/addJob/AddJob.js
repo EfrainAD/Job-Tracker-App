@@ -19,7 +19,7 @@ const AddJob = () => {
       // jobLocation: 'myadct',
       // jobSource: 'LinkedIn',
       // jobTitle: 'hi',
-      // jobURL:
+      // jobBoardURL:
       //    'https://www.linkedin.com/jobs/view/3446422410/?alternateChannel=search&refId=h8%2BDzac6dF9Rwo0Vsk821A%3D%3D&trackingId=oGJGoelPr0IsXpU8qDU7zg%3D%3D&trk=d_flagship3_postapply_immediate_modal_add_skill',
       // jobalyticsRating: '22',
       // rejectionDate: '2023-09-14',

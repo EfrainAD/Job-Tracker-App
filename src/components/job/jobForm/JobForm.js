@@ -19,7 +19,7 @@ const JobForm = ({
       const { name, type, checked } = e.target
       const value = type === 'checkbox' ? checked : e.target.value
 
-      if (name === 'jobURL') {
+      if (name === 'jobBoardURL') {
          const host = getUrlHost(value)
          setJob({ ...job, [name]: value, jobSource: host })
       } else if (isCompanyField(name)) {
@@ -43,7 +43,8 @@ const JobForm = ({
          options: companyOptons,
       },
       { label: 'Date Applied', name: 'dateApplied', type: 'date' },
-      { label: 'Job URL', name: 'jobURL', type: 'url' },
+      { label: 'Job Board URL', name: 'jobBoardURL', type: 'url' },
+      { label: 'Comany Job URL', name: 'applicationURL', type: 'url' },
       { label: 'Job Source', name: 'jobSource', type: 'text' },
       { label: 'Easy Apply', name: 'easyApply', type: 'checkbox' },
       { label: 'Notes', name: 'notes', type: 'textarea' },

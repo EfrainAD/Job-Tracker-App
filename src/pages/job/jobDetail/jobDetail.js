@@ -49,9 +49,19 @@ const JobDetail = () => {
                         value={job.jobSource}
                      />
                   )}
-                  {/* Job URL */}
-                  {job.jobURL && (
-                     <JobDetailField label={'Job URL'} value={job.jobURL} />
+                  {/* Job Board URL */}
+                  {job.jobBoardURL && (
+                     <JobDetailField
+                        label={'Job Board URL'}
+                        value={job.jobBoardURL}
+                     />
+                  )}
+                  {/* Company Job URL */}
+                  {job.applicationURL && (
+                     <JobDetailField
+                        label={'Company Job URL'}
+                        value={job.applicationURL}
+                     />
                   )}
                   {/* Easy Apply */}
                   {job.easyApply === true && (
