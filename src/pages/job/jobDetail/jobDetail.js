@@ -32,7 +32,12 @@ const JobDetail = () => {
                   )}
                   {/* Notes */}
                   {job.notes && (
-                     <JobDetailField label={'Notes'} value={job.notes} />
+                     <>
+                        <b>
+                           <span className="badge">&rarr;</span> Notes:
+                        </b>
+                        <div className="text-area">{job.notes}</div>
+                     </>
                   )}
                   {/* Company Peers Outreach */}
                   {job.company?.companyName && (
