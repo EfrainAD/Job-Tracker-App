@@ -20,6 +20,7 @@ import RecruiterDetail from '../pages/recruiter/recruiterDetail/RecruiterDetail'
 import EditRecruiter from '../pages/recruiter/editRecruiter/editRecruiter'
 import Coach from '../pages/coach/Coach'
 import JobBoard from '../pages/jobBoard/JobBoard'
+import Contact from '../pages/contact/Contact'
 
 const PageRouter = () => {
    return (
@@ -169,6 +170,18 @@ const PageRouter = () => {
                   <ProtectedPage>
                      <Layout>
                         <EditProfile />
+                     </Layout>
+                  </ProtectedPage>
+               }
+            />
+
+            {/* Contact Page */}
+            <Route
+               path="/dashboard/contact-us"
+               element={
+                  <ProtectedPage>
+                     <Layout>
+                        <Contact />
                      </Layout>
                   </ProtectedPage>
                }
