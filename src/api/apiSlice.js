@@ -124,6 +124,28 @@ export const apiSlice = createApi({
          },
          invalidatesTags: ['userData'],
       }),
+      sendResetEmail: builder.mutation({
+         query: (body) => ({
+            url: '/users/forgotpassword',
+            method: 'POST',
+            body,
+         }),
+         async onQueryStarted(body, { queryFulfilled }) {
+            try {
+               await queryFulfilled
+               toast.success('Email was successfully sent')
+            } catch ({ error }) {
+               const errorMessage = `Sorry, there was an error while trying to send the email. ${
+                  error.data.message ? error.data.message : ''
+               }`
+
+               toast.error(errorMessage)
+               console.log(errorMessage)
+               console.log({ error })
+            }
+         },
+         invalidatesTags: ['userData'],
+      }),
       updatePassword: builder.mutation({
          query: (body) => ({
             url: '/users/changepassword',
@@ -719,6 +741,7 @@ export const {
    useGetUserQuery,
    useUpdateUserMutation,
    useCreateUserMutation,
+   useSendResetEmailMutation,
    useUpdatePasswordMutation,
    /* Image Storage */
    useGetCloudinarySignatureMutation,

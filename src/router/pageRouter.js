@@ -21,6 +21,7 @@ import EditRecruiter from '../pages/recruiter/editRecruiter/editRecruiter'
 import Coach from '../pages/coach/Coach'
 import JobBoard from '../pages/jobBoard/JobBoard'
 import Contact from '../pages/contact/Contact'
+import Forgot from '../pages/auth/forgot'
 
 const PageRouter = () => {
    return (
@@ -30,6 +31,8 @@ const PageRouter = () => {
             <Route path="/login" element={<Login />} />
 
             <Route path="/register" element={<Register />} />
+
+            <Route path="/forgot" element={<Forgot />} />
 
             {/* Test Home that need be removed */}
             <Route
