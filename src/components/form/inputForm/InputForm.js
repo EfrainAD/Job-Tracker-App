@@ -71,7 +71,7 @@ const InputForm = ({
          return (
             <>
                <input
-                  list="companies"
+                  list={placeholder}
                   type={type}
                   placeholder={placeholder}
                   name={name}
@@ -79,10 +79,10 @@ const InputForm = ({
                   onChange={onChange}
                   {...arg}
                />
-               <datalist id="companies">
+               <datalist id={placeholder}>
                   {selectOptions.map((option, idx) => (
                      <option key={idx} value={option.value}>
-                        Company data you already have.
+                        {placeholder} that you already have.
                      </option>
                   ))}
                </datalist>
