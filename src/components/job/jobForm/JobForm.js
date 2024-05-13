@@ -8,6 +8,7 @@ const JobForm = ({
    title,
    job,
    companies,
+   recruiters,
    setJob,
    onSubmit,
    submitLabelBtn,
@@ -34,6 +35,12 @@ const JobForm = ({
       : companies.map((company) => ({
            value: company.companyName,
         }))
+   const recruiterOptons = !recruiters
+      ? []
+      : recruiters.map((recruiter) => ({
+           value: `${recruiter.name} - ${recruiter.company.companyName}`,
+        }))
+
    const formLabels = [
       { label: 'Job Title', name: 'jobTitle', type: 'text' },
       {
@@ -60,7 +67,12 @@ const JobForm = ({
          ],
       },
       { label: 'Job Location', name: 'jobLocation', type: 'text' },
-      { label: 'Recruiter', name: 'recruiter', type: 'text' },
+      {
+         label: 'Recruiter',
+         name: 'recruiter',
+         type: 'datalist',
+         options: recruiterOptons,
+      },
       {
          label: 'Required Experience',
          name: 'requiredExperience',

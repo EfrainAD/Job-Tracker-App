@@ -3,6 +3,7 @@ import JobForm from '../../../components/job/jobForm/JobForm'
 import {
    useCreateJobMutation,
    useGetComanyNamesQuery,
+   useGetRecruitersQuery,
 } from '../../../api/apiSlice'
 import { SpinningImg } from '../../../components/loader/loader'
 import { useNavigate } from 'react-router-dom'
@@ -33,6 +34,7 @@ const AddJob = () => {
 
    const [postJob, { isLoading, isSuccess, data }] = useCreateJobMutation()
    const { data: companies } = useGetComanyNamesQuery()
+   const { data: recruiters } = useGetRecruitersQuery()
    const navigate = useNavigate()
 
    useEffect(() => {
@@ -46,12 +48,21 @@ const AddJob = () => {
    const saveJob = async (e) => {
       e.preventDefault()
 
-      const find = companies.find((company) => {
-         return company.companyName === job.company.companyName?.trim()
+      const foundCompany = companies.find((company) => {
+         return company?.companyName === job.company?.companyName?.trim()
       })
 
-      if (find) postJob({ ...job, company: find._id })
-      else postJob(job)
+      const foundRecruiter = recruiters.find((recruiter) => {
+         return (
+            `${recruiter.name} - ${recruiter.company.companyName}` ===
+            `${job.recruiter}`
+         )
+      })
+
+      let jobParsed = { ...job }
+      if (foundCompany) jobParsed.company = foundCompany._id
+      if (foundRecruiter) jobParsed.recruiter = foundRecruiter._id
+      postJob(jobParsed)
    }
    return (
       <>
@@ -60,6 +71,7 @@ const AddJob = () => {
             title={'Add Job Entry'}
             job={job}
             companies={companies}
+            recruiters={recruiters}
             setJob={setJob}
             onSubmit={saveJob}
             submitLabelBtn={'Add job'}
