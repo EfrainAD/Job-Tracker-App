@@ -15,6 +15,7 @@ const AddJob = () => {
       // companySize: '234',
       // coverLetter: 'http://localhost:3000/dashboard/add-job',
       dateApplied: getTodaysDate(),
+      recruiters: [],
       // easyApply: true,
       // firstInterviewDate: '2023-09-21',
       // jobLocation: 'myadct',
@@ -52,16 +53,9 @@ const AddJob = () => {
          return company?.companyName === job.company?.companyName?.trim()
       })
 
-      const foundRecruiter = recruiters.find((recruiter) => {
-         return (
-            `${recruiter.name} - ${recruiter.company.companyName}` ===
-            `${job.recruiter}`
-         )
-      })
-
       let jobParsed = { ...job }
       if (foundCompany) jobParsed.company = foundCompany._id
-      if (foundRecruiter) jobParsed.recruiter = foundRecruiter._id
+
       postJob(jobParsed)
    }
    return (

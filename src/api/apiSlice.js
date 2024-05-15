@@ -12,7 +12,14 @@ export const apiSlice = createApi({
       baseUrl,
       credentials: 'same-origin',
    }),
-   tagTypes: ['userData', 'Jobs', 'Coaches', 'JobBoards', 'Company'],
+   tagTypes: [
+      'userData',
+      'Jobs',
+      'Coaches',
+      'JobBoards',
+      'Company',
+      'Recruiters',
+   ],
 
    endpoints: (builder) => ({
       /* User Endpoints */
@@ -316,13 +323,13 @@ export const apiSlice = createApi({
                   toast.error("You're not logged in.")
                } else {
                   toast.error(
-                     `Sorry, there was an error while creating your Job.`
+                     `Sorry, there was an error while creating your Job. ${err.error.data.message}`
                   )
                   console.log(err.error.data.message)
                }
             }
          },
-         invalidatesTags: ['Jobs'],
+         invalidatesTags: ['Jobs', 'Recruiters'],
       }),
       removeJob: builder.mutation({
          query: (id) => ({

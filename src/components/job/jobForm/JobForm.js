@@ -17,14 +17,29 @@ const JobForm = ({
 }) => {
    const handleSubmit = (e) => onSubmit(e)
    const handleOnChange = (e) => {
-      const { name, type, checked } = e.target
-      const value = type === 'checkbox' ? checked : e.target.value
+      const { name, type, checked } = e.target ? e.target : {}
+      const { recruiter } = e
+      const { index: recruiterIndex } = e
+      const value = type === 'checkbox' ? checked : e?.target?.value
+      const { removeRecruiterIdx } = e
 
       if (name === 'jobBoardURL') {
          const host = getUrlHost(value)
          setJob({ ...job, [name]: value, jobSource: host })
       } else if (isCompanyField(name)) {
-         setJob({ ...job, company: { ...job.company, [name]: value } })
+         setJob({ ...job, company: { ...job.company, [name]: value.trim() } })
+      } else if (recruiter) {
+         const updatedJob = { ...job }
+
+         updatedJob.recruiters[recruiterIndex] = { ...recruiter }
+
+         setJob(updatedJob)
+      } else if (typeof removeRecruiterIdx === 'number') {
+         const updatedJob = { ...job }
+
+         updatedJob.recruiters.splice(removeRecruiterIdx, 1)
+
+         setJob(updatedJob)
       } else {
          setJob({ ...job, [name]: value })
       }
@@ -37,9 +52,17 @@ const JobForm = ({
         }))
    const recruiterOptons = !recruiters
       ? []
-      : recruiters.map((recruiter) => ({
-           value: `${recruiter.name} - ${recruiter.company.companyName}`,
-        }))
+      : recruiters
+           .filter((recruiter) => {
+              if (!job.company?.companyName) return recruiter
+              else if (
+                 recruiter.company?.companyName === job.company?.companyName
+              )
+                 return recruiter
+           })
+           .map((recruiter) => ({
+              value: `${recruiter.name}, ${recruiter.company.companyName}`,
+           }))
 
    const formLabels = [
       { label: 'Job Title', name: 'jobTitle', type: 'text' },
@@ -69,8 +92,8 @@ const JobForm = ({
       { label: 'Job Location', name: 'jobLocation', type: 'text' },
       {
          label: 'Recruiter',
-         name: 'recruiter',
-         type: 'datalist',
+         name: 'recruiters',
+         type: 'recruiter',
          options: recruiterOptons,
       },
       {
@@ -109,7 +132,7 @@ const JobForm = ({
          jobOjbValue = job.company && job.company[name] ? job.company[name] : ''
       } else jobOjbValue = job[name] ? job[name] : ''
 
-      return (
+      return type !== 'recruiter' ? (
          <div className="form-field" key={index}>
             <label>{label}:</label>
             <InputForm
@@ -117,6 +140,21 @@ const JobForm = ({
                placeholder={label}
                name={name}
                value={jobOjbValue}
+               onChange={handleOnChange}
+               {...(formLabel.options
+                  ? { selectOptions: formLabel.options }
+                  : null)}
+            />
+         </div>
+      ) : (
+         <div className="form-field" key={index}>
+            <label>{label}:</label>
+            <InputForm
+               type={type}
+               placeholder={label}
+               name={name}
+               value={jobOjbValue}
+               companyName={job.company?.companyName}
                onChange={handleOnChange}
                {...(formLabel.options
                   ? { selectOptions: formLabel.options }
@@ -138,7 +176,7 @@ const JobForm = ({
                <div className="btn-container --my">
                   {secondSubmit && (
                      <button
-                        type="button"
+                        type="submit"
                         className="--btn --btn-danger"
                         onClick={secondSubmit}
                      >

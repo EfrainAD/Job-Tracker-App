@@ -1,3 +1,5 @@
+import RecruiterEmbeddedFormInterface from '../../recruiter/recruiterForm/RecruiterEmbeddedFormInterface.js'
+
 const InputForm = ({
    type,
    placeholder,
@@ -5,6 +7,7 @@ const InputForm = ({
    value,
    onChange,
    selectOptions,
+   companyName,
    ...arg
 }) => {
    switch (type) {
@@ -87,6 +90,16 @@ const InputForm = ({
                   ))}
                </datalist>
             </>
+         )
+      case 'recruiter':
+         return (
+            <RecruiterEmbeddedFormInterface
+               name={name}
+               recruiters={value}
+               currentRecruiters={selectOptions}
+               companyName={companyName}
+               onChange={onChange}
+            />
          )
       case 'textarea':
          return (
